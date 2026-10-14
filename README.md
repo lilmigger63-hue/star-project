@@ -1,0 +1,2 @@
+# star-project
+to mods
