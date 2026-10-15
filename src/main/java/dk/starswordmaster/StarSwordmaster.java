@@ -34,26 +34,27 @@ public final class StarSwordmaster implements ModInitializer {
  @Override public void onInitialize(){
   PayloadTypeRegistry.playC2S().register(ActionPayload.ID,ActionPayload.CODEC);
   PayloadTypeRegistry.playS2C().register(SnapshotPayload.ID,SnapshotPayload.CODEC);
-  ServerLifecycleEvents.SERVER_STARTED.register(server->{store=new PlayerStore(server.getSavePath(WorldSavePath.ROOT).resolve("data/starswordmaster"));ticks=0;combatUntil.clear();practiceAt.clear();requests.clear();LOG.info("Star Swordmaster ready: 5 skill slots, permanent classes at level 10");});
+  PayloadTypeRegistry.playS2C().register(AbilityPresentationPayload.ID,AbilityPresentationPayload.CODEC);
+  ServerLifecycleEvents.SERVER_STARTED.register(server->{store=new PlayerStore(server.getSavePath(WorldSavePath.ROOT).resolve("data/starswordmaster"));ticks=0;AbilityPresentationEvents.clear();combatUntil.clear();practiceAt.clear();requests.clear();LOG.info("Star Swordmaster ready: 5 skill slots, permanent classes at level 10");});
   ServerLifecycleEvents.SERVER_STOPPING.register(server->{if(store!=null)store.saveAll();});
   ServerPlayConnectionEvents.JOIN.register((handler,sender,server)->{StatAttributes.apply(handler.player,progress(handler.player));sync(handler.player);});
-  ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer,newPlayer,alive)->{StatAttributes.apply(newPlayer,progress(newPlayer));if(!alive)newPlayer.setHealth(newPlayer.getMaxHealth());});
-  ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->{if(store!=null)store.forget(handler.player.getUuid());combatUntil.remove(handler.player.getUuid());practiceAt.remove(handler.player.getUuid());requests.remove(handler.player.getUuid());});
+  ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer,newPlayer,alive)->{AbilityPresentationEvents.cancel(oldPlayer);StatAttributes.apply(newPlayer,progress(newPlayer));if(!alive)newPlayer.setHealth(newPlayer.getMaxHealth());});
+  ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->{AbilityPresentationEvents.forget(handler.player.getUuid());if(store!=null)store.forget(handler.player.getUuid());combatUntil.remove(handler.player.getUuid());practiceAt.remove(handler.player.getUuid());requests.remove(handler.player.getUuid());});
   ServerPlayNetworking.registerGlobalReceiver(ActionPayload.ID,(payload,context)->context.server().execute(()->handle(context.player(),payload)));
   ServerTickEvents.END_SERVER_TICK.register(server->{
    ticks++;if(ticks%20==0)requests.clear();
    for(var p:server.getPlayerManager().getPlayerList()){
-    var data=progress(p);StatAttributes.apply(p,data);
+    AbilityPresentationEvents.tick(p);var data=progress(p);StatAttributes.apply(p,data);
     if(p.isAlive())data.tick(ticks<combatUntil.getOrDefault(p.getUuid(),0L));
     if(ticks%5==0)sync(p);
    }
    if(ticks%200==0&&store!=null)store.saveAll();
   });
   ServerLivingEntityEvents.AFTER_DAMAGE.register((entity,source,base,actual,blocked)->{
-   if(entity instanceof ServerPlayerEntity p&&actual>0)combat(p);
+   if(entity instanceof ServerPlayerEntity p&&actual>0){combat(p);AbilityPresentationEvents.cancel(p);}
    if(entity instanceof HostileEntity&&source.getAttacker() instanceof ServerPlayerEntity p&&actual>0){combat(p);if(source.isOf(DamageTypes.PLAYER_ATTACK)&&p.getMainHandStack().isIn(ItemTags.SWORDS))practice(p,Skill.SWORD,10);}
   });
-  ServerLivingEntityEvents.AFTER_DEATH.register((entity,source)->{if(entity instanceof HostileEntity&&source.getAttacker() instanceof ServerPlayerEntity p){combat(p);if(source.isOf(DamageTypes.PLAYER_ATTACK)&&p.getMainHandStack().isIn(ItemTags.SWORDS))practice(p,Skill.SWORD,20);}});
+  ServerLivingEntityEvents.AFTER_DEATH.register((entity,source)->{if(entity instanceof ServerPlayerEntity p)AbilityPresentationEvents.cancel(p);if(entity instanceof HostileEntity&&source.getAttacker() instanceof ServerPlayerEntity p){combat(p);if(source.isOf(DamageTypes.PLAYER_ATTACK)&&p.getMainHandStack().isIn(ItemTags.SWORDS))practice(p,Skill.SWORD,20);}});
   CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("starswordmaster").executes(c->{var p=c.getSource().getPlayerOrThrow();var d=progress(p);p.sendMessage(Text.literal("Star Swordmaster | Level "+d.level()+" | "+d.playerClass()+" | Rank "+d.rank()+" | K: færdighedstræ"),false);return 1;})));
  }
  private static void handle(ServerPlayerEntity player,ActionPayload request){

@@ -4,7 +4,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.effect.*;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.*;
 import net.minecraft.util.math.Vec3d;
 import java.util.*;
@@ -74,7 +73,7 @@ public final class AbilityEffects {
   if(!id.equals("quick_dash")&&!id.equals("arcane_step")&&!id.equals("light"))StarSwordmaster.practice(player,a.skill(),10);
   if(target!=null||Set.of("heavy_sweep","frost_nova","fire_burst","crushing_edge","glacier_sweep","seismic_cut","ember_ring").contains(id))StarSwordmaster.combat(player);
   var world=player.getEntityWorld();Vec3d at=target==null?player.getEntityPos().add(0,1,0):target.getEntityPos().add(0,1,0);
-  world.spawnParticles(a.skill()==Skill.FIRE?ParticleTypes.FLAME:a.skill()==Skill.FROST?ParticleTypes.SNOWFLAKE:a.skill()==Skill.SUPPORT?ParticleTypes.HAPPY_VILLAGER:ParticleTypes.ENCHANT,at.x,at.y,at.z,20,0.4,0.5,0.4,0.03);
+  AbilityPresentationEvents.start(player,id,at);
   world.playSound(null,player.getX(),player.getY(),player.getZ(),a.stamina()>0?SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP:SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,SoundCategory.PLAYERS,0.7f,1.1f);
   return true;
  }

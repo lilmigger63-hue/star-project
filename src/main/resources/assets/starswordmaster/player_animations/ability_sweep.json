@@ -1,0 +1,124 @@
+{
+  "version": 3,
+  "name": "ability_sweep",
+  "author": "Star Swordmaster",
+  "description": "Original upper-body ability action.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 15,
+    "stopTick": 18,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -95,
+          "yaw": -15,
+          "roll": 65
+        }
+      },
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "leftArm": {
+          "pitch": -40,
+          "yaw": 0,
+          "roll": -25
+        }
+      },
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "torso": {
+          "pitch": 0,
+          "yaw": -30,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -65,
+          "yaw": 20,
+          "roll": -65
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "leftArm": {
+          "pitch": -35,
+          "yaw": 0,
+          "roll": -20
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "torso": {
+          "pitch": 4,
+          "yaw": 30,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -45,
+          "yaw": 10,
+          "roll": -40
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "leftArm": {
+          "pitch": -25,
+          "yaw": 0,
+          "roll": -15
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "torso": {
+          "pitch": 0,
+          "yaw": 20,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

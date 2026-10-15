@@ -1,6 +1,9 @@
 plugins { id 'fabric-loom' version '1.14.10' }
 group='dk.starswordmaster'
-repositories { mavenCentral() }
+repositories {
+ mavenCentral()
+ maven { url 'https://api.modrinth.com/maven'; content { includeGroup 'maven.modrinth' } }
+}
 loom {
  splitEnvironmentSourceSets()
  mods { starswordmaster { sourceSet sourceSets.main; sourceSet sourceSets.client } }
@@ -10,6 +13,9 @@ dependencies {
  mappings 'net.fabricmc:yarn:1.21.10+build.3:v2'
  modImplementation 'net.fabricmc:fabric-loader:0.19.5'
  modImplementation 'net.fabricmc.fabric-api:fabric-api:0.138.4+1.21.10'
+ // Compile against the existing required runtime mods; do not bundle or add duplicate run/mods jars.
+ modCompileOnly('maven.modrinth:player-animation-library:p8nawkdm') { transitive=false }
+ modCompileOnly('maven.modrinth:better-combat:qaOWa2t6') { transitive=false }
 }
 processResources { inputs.property 'version',project.version; filesMatching('fabric.mod.json'){ expand version:project.version } }
 java { withSourcesJar(); sourceCompatibility=JavaVersion.VERSION_21; targetCompatibility=JavaVersion.VERSION_21 }
@@ -61,4 +67,11 @@ loom.runs {
  smokeResourcesA { client(); source sourceSets.smoke; runDir 'run/resources-a'; programArg '--username'; programArg 'ResourceSmokeA'; vmArg '-Dstarsmoke.resources=true'; vmArg '-Dstarsmoke.resources.role=A' }
  smokeResourcesB { client(); source sourceSets.smoke; runDir 'run/resources-b'; programArg '--username'; programArg 'ResourceSmokeB'; vmArg '-Dstarsmoke.resources=true'; vmArg '-Dstarsmoke.resources.role=B' }
  smokeResourcesSingleplayer { client(); source sourceSets.smoke; runDir 'run/resources-sp'; programArg '--username'; programArg 'ResourceSmokeA'; vmArg '-Dstarsmoke.resources=true'; vmArg '-Dstarsmoke.resources.singleplayer=true' }
+}
+
+loom.runs {
+ smokeAnimationsServer { server(); source sourceSets.smoke; runDir 'run/animations-server'; vmArg '-Dstarsmoke.animations=true' }
+ smokeAnimationsA { client(); source sourceSets.smoke; runDir 'run/animations-a'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true' }
+ smokeAnimationsB { client(); source sourceSets.smoke; runDir 'run/animations-b'; programArg '--username'; programArg 'AnimationSmokeB'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.role=B' }
+ smokeAnimationsSingleplayer { client(); source sourceSets.smoke; runDir 'run/animations-sp'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true' }
 }

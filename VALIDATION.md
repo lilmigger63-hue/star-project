@@ -1,4 +1,18 @@
-# Validering — Star Swordmaster 0.3.5
+# Validering — Star Swordmaster 0.3.6
+
+## Animationer og effekter i version 0.3.6
+
+Verificeret 15. oktober 2026:
+- Java 21, Minecraft 1.21.10, Fabric Loader 0.19.5/API 0.138.4+1.21.10, Better Combat 3.0.0+1.21.10 og PAL 1.1.3. Compile-only-versionerne har samme SHA-256 som de faktisk installerede runtime-JAR'er. Ingen nye runtime-afhængigheder eller kopieret Better Combat-kode.
+- `./gradlew --offline build smokeClasses` består med **81 JUnit-tests**, ingen fejl eller springede tests, og **37 selvstændige progressionskontroller**. Den afsluttende kørsel genkørte JUnit-testtasken. Seks nye tests dækker præcis alle 32 aktive evner/udeladelse af passiver, passende animationstyper, tidsbegrænsede forsinkede hændelser, dubletter/rækkefølge, begrænset endelig partikelgeometri og alle originale animationsressourcer.
+- Rigtig singleplayer med integreret server gennemfører **334 kontroller**. Alle 32 evner aktiveres via den eksisterende C2S-handling, viser et serverbekræftet event, afspiller et faktisk indlæst PAL-klip, ændrer armens pose og udsender partikler til Minecrafts ParticleManager. Der kontrolleres naturligt stop, dynamisk venstrehåndsspejling og dubletbeskyttelse ved genlevering af samme event.
+- Dedikeret lokal Fabric-server og to samtidige klienter gennemfører **335 kontroller for A og 36 for B**. Observatøren ser alle 32 evners faktiske PAL-afspilning, ser serverens skadeafbrydelse før naturligt udløb og kan selv kaste en evne, som A ser. Begge klienters kortvarige tilstand udløber korrekt.
+- Begge A-forløb tester almindelige Better Combat-angreb/efterfølgende slag og faktisk skade før og efter evneforløbet. PAL-laget har prioritet 1999 under Better Combats 2000. Ugyldige kast med utilstrækkelig mana/stamina, cooldown, forkert våben, intet mål og fuldt liv udsender ingen præsentationshændelse. Skade, våbenskift, Better Combat-angreb, et faktisk vanilla-slag uden våben og død afbryder tidligt. Et fjernet klip giver partikler uden crash; klippet gendannes efter testen. Død/respawn, disconnect og genforbindelse efterlader ingen fastlåst animation. Singleplayer lukker og genstarter den integrerede verden ved genindlæsning.
+- Serveraudits bekræfter fuldt helbred hos de tamme testulve efter evneforløbet. Skadekode og målvalg er uændret; VFX opretter ingen gameplay-entities og udfører ingen skade. Skade/healing er fortsat øjeblikkelig, og den gamle generiske partikelklump er erstattet.
+- Hele forløbet bruger isolerede smoke-profiler. Reproducerede fejl i testopsætningen blev rettet: tidligere testkørslers gemte mål ryddes kun i testbanen; partikler kontrolleres i både ventende og aktive renderere; vanilla-slag simulerer et faktisk klik frem for kun en holdt tast. Disse testrettelser ændrer ikke gameplay.
+- Uafhængig kodegennemgang fandt og verificerede rettelser for PAL-formatversion 3/overkropsrotation, dynamisk håndspejling, vanilla-slag og forsinkede hændelsers levetid. Alle 32 præsentationer har nu forskellige parametre. Der er ingen resterende væsentlige reviewfund.
+- Release-JAR'ens ZIP-integritet og version 0.3.6 er kontrolleret; den indeholder 11 originale klip og ingen smoke-kilder. 22 progression-, stat-, gemme-, eksisterende netværks- og UI-klasser er byte-identiske med 0.3.5. Stats/point, H/K, ressource-HUD og gemmeformat er uændrede. Den komplette evneoversigt findes i [ABILITY_PRESENTATION.md](ABILITY_PRESENTATION.md).
+- Testmiljøet bruger lokal offline-login og en virtuel skærm. Billeder af ild, frost, stjerne, healing og sværdspor er gemt; lydoutput og offentlige online-servere er ikke verificeret. Minecrafts kendte auth-/lydservicebeskeder i cloudmiljøet er adskilt fra de beståede spilkontroller.
 
 ## Ressource-HUD i version 0.3.5
 

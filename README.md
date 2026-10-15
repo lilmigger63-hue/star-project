@@ -1,13 +1,17 @@
 # star-project
 to mods
 
-## Star Swordmaster 0.3.5 downloads
+## Star Swordmaster 0.3.6 downloads
 
-- [Download the mod (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.5/star-swordmaster-0.3.5.jar)
-- [Checksums](releases/0.3.5/SHA256SUMS.txt)
+- [Download the mod (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.6/star-swordmaster-0.3.6.jar)
+- [Checksums](releases/0.3.6/SHA256SUMS.txt)
 - [Validation and limitations](VALIDATION.md)
 
-Version **0.3.5** giver en rund skin-/levelmarkør og tre ressourcebjælker: **blå mana, rødt liv og grøn stamina**, alle med aktuelle værdier og maksimum. HUD'en tilpasser sig GUI-skalaen og bevarer evnebjælken, H/K, statbonusserne fra 0.3.4 og de separate pointtyper. Kræver Minecraft **1.21.10** og samme Fabric-/Better Combat-afhængigheder som nedenfor. Udskift den gamle Star Swordmaster-JAR; behold kun én version.
+Version **0.3.6** tilføjer animationer og visuelle effekter til **alle 32 aktive evner** med 11 originale Player Animation Library-klip. Sværdhug, stik, fejninger, parader, dash, ild, frost, stjerneaura og healing har passende udtryk; andre spillere ser de serverbekræftede aktiveringer. [Komplet oversigt over evner, animationer og effekter](ABILITY_PRESENTATION.md). Den runde markør og blå mana/rødt liv/grøn stamina fra 0.3.5 bevares sammen med H/K, Better Combat-angreb og separate stat-/perkpoint. Kræver Minecraft **1.21.10**, Better Combat **3.0.0+1.21.10** og PAL **1.1.3** samt de øvrige eksisterende afhængigheder nedenfor. Udskift den gamle Star Swordmaster-JAR på klient og server; behold kun én version.
+
+### Previous version 0.3.5
+
+- [Download 0.3.5 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.5/star-swordmaster-0.3.5.jar)
 
 ### Previous version 0.3.4
 
@@ -131,3 +135,5 @@ Pointtesten bruger tre separate terminaler: `./gradlew runSmokePointsServer`, `.
 Stat-effekttesten bruger `./gradlew runSmokeEffectsServer`, `./gradlew runSmokeEffectsA` og `./gradlew runSmokeEffectsB` i tre terminaler. Klargør en isoleret testverden `run/effects-server/EffectsSmoke`, accepteret EULA, server.properties bundet til `127.0.0.1:25568` i offline-mode og runtime-mods under hver af `run/effects-server`, `run/effects-a` og `run/effects-b`. Serveropgaven nulstiller kun testprofilerne PointsSmokeA/B med lave/høje stats og eksisterende perks. `./gradlew runSmokeEffectsSingleplayer` bruger i stedet `run/effects-sp/saves/EffectsSmoke` og mods under `run/effects-sp/mods`; denne opgave bevarer profilen ved genindlæsning. Brug kun testverdener. Scenarierne tester rigtige attributter, værktøjs-/potioninteraktioner, serverens regeneration, H/K, separat spillerdata, død og levende respawn, delvist helbred over 20 ved genindlæsning samt GUI-skalering. Testkommandoerne og testkilderne medfølger ikke i release-JAR'en.
 
 Ressource-HUD-testen bruger `./gradlew runSmokeResourcesServer`, `./gradlew runSmokeResourcesA` og `./gradlew runSmokeResourcesB` i tre terminaler. Klargør en isoleret testverden `run/resources-server/ResourceSmoke`, accepteret EULA, server.properties bundet til `127.0.0.1:25569` i offline-mode og runtime-mods under hver af `run/resources-server`, `run/resources-a` og `run/resources-b`. Serveropgaven nulstiller kun testprofilerne ResourceSmokeA/B (level 10 og 100). `./gradlew runSmokeResourcesSingleplayer` bruger i stedet `run/resources-sp/saves/ResourceSmoke` og mods under `run/resources-sp/mods`. Singleplayer-opgaven bevarer profilen ved genindlæsning, så gentagne friske testforløb kræver en ny testprofil/testverden. Brug kun testverdener. Testene dækker rigtige serverhandlinger, ressourceopdateringer, F1, manglende snapshots, GUI-skalering, H/K, respawn og genindlæsning. Testkommandoer og testkilder indgår ikke i release-JAR'en.
+
+Animationstesten bruger `./gradlew runSmokeAnimationsServer`, `./gradlew runSmokeAnimationsA` og `./gradlew runSmokeAnimationsB` med hver sin `run/animations-*`-mappe. Serveren skal have en isoleret `AnimationSmoke`-testverden, accepteret EULA, `127.0.0.1:25570`, offline-mode, `allow-flight=true`, difficulty easy og OP til AnimationSmokeA/B. Alle tre mapper skal have de sædvanlige runtime-mods i `mods/`. `./gradlew runSmokeAnimationsSingleplayer` bruger `run/animations-sp/saves/AnimationSmoke` med cheats aktiveret. Scenarierne erstatter testspillernes progression og klargør/skaber/fjerner testmobs, så brug kun testverdener. De tester alle 32 aktive evner, PAL-klip og partikler, Better Combat før/efter, afvist brug, afbrydelser, manglende klip, multiplayer-observation og genindlæsning. Testkoden og testkommandoerne indgår ikke i den almindelige JAR.
