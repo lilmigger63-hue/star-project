@@ -1,7 +1,12 @@
 {
- "required":true,
- "package":"dk.starswordmaster.client.mixin",
- "compatibilityLevel":"JAVA_21",
- "client":["HudBarAddonsMixin"],
- "injectors":{"defaultRequire":1}
+ "required": true,
+ "package": "dk.starswordmaster.client.mixin",
+ "compatibilityLevel": "JAVA_21",
+ "client": [
+  "HudBarAddonsMixin",
+  "HudHealthAccessor"
+ ],
+ "injectors": {
+  "defaultRequire": 1
+ }
 }

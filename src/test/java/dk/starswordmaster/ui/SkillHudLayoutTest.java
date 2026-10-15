@@ -22,12 +22,9 @@ public class SkillHudLayoutTest {
   var a=SkillHudLayout.forScreen(640,360);var b=SkillHudLayout.forScreen(427,240);
   assertEquals(427/2-640/2,b.x()-a.x());assertEquals(-120,b.y()-a.y());
  }
- @Test public void resourcesAndLiftedVanillaIndicatorsDoNotOverlapEitherBar(){
-  var l=SkillHudLayout.forScreen(320,240);
-  assertTrue(l.manaY()+4<=l.staminaY());assertTrue(l.staminaY()+4<l.y());
-  // Vanilla XP occupies y=height-29 .. height-24; lifting keeps it above resources.
-  assertTrue(240-24-SkillHudLayout.VANILLA_LIFT<l.manaY());
-  assertTrue(l.manaY()<l.y());assertTrue(l.y()+SkillHudLayout.HEIGHT<240-22);
+ @Test public void liftedVanillaIndicatorsClearBothBars(){
+  var l=SkillHudLayout.forScreen(320,240);var resources=ResourceHudLayout.forScreen(320,240);
+  assertTrue(240-24-resources.vanillaLift()<resources.y());assertTrue(resources.y()+ResourceHudLayout.HEIGHT<l.y());assertTrue(l.y()+SkillHudLayout.HEIGHT<240-22);
  }
- @Test public void locatorDownArrowClearsManaStrip(){var l=SkillHudLayout.forScreen(320,240);assertTrue(240-18-SkillHudLayout.VANILLA_LIFT<=l.manaY()-2);}
+ @Test public void locatorDownArrowClearsResourcePanel(){var l=ResourceHudLayout.forScreen(320,240);assertTrue(240-18-l.vanillaLift()<=l.y()-2);}
 }

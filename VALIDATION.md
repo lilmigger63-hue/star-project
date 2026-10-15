@@ -1,4 +1,18 @@
-# Validering — Star Swordmaster 0.3.4
+# Validering — Star Swordmaster 0.3.5
+
+## Ressource-HUD i version 0.3.5
+
+Verificeret 15. oktober 2026:
+- `./gradlew --offline build smokeClasses` med Java 21 består med 75 JUnit-tests og 37 selvstændige progressionskontroller. 13 nye tests dækker brede/smale layouts, GUI-skala/resize, afstand til hotbar og locator, faktiske ressourceværdier og maksimum, nul/ufuldstændige data, live opdateringer, absorption samt uændrede spillerdata ved visning og genindlæsning.
+- `ResourceHudData` bygger kun visningen fra eksisterende `PlayerProgress`-snapshots og Minecrafts health/max-health/absorption. Serverkode, netværk, XP, stats, point, ressourcer, skader, healing og gemmeformat ændres ikke. Der tilføjes ingen afhængigheder.
+- Panelet bruger Minecrafts egen skin-renderer med rund scissor-beskæring; vanilla leverer en standardskin, mens en ekstern skin indlæses. Bjælkerne står i rækkefølgen blå mana, rødt liv, grøn stamina og viser aktuelle tal/maksimum. Absorption vises separat som et +tal og en gylden stribe; gift/Wither/frysning bruger de korrekte vanilla-hjerteikoner.
+- Sidelayout: 176×40 GUI-enheder med 8 enheders afstand til den uændrede 182×22-evnebjælke. Ved GUI-bredde under 562 centreres panelet 4 enheder over evnebjælken. Vanilla-indikatorer løftes henholdsvis 44/76 enheder, inklusive locator-markørerne via den eksisterende mixin. Vanilla-hjerterne skjules kun, mens erstatnings-HUD'en er tilgængelig; F1/spectator og manglende snapshots bevarer den forventede native visning.
+- Den eksisterende `runSmokeHud`-test består sine 16 kontroller med det nye layout: 1280×720/skala 2, 960×720/skala 3, 853×481/skala 1 og 640×480/skala 2, eksisterende cooldown/taster, read-only rendering, F1 samt H/K. Billeder af rund skinmarkør og både side-/stablet layout er visuelt kontrolleret.
+- Det nye `runSmokeResources`-forløb består i både singleplayer og multiplayer med to samtidige klienter og Better Combat: 53 klientkontroller pr. klient/forløb. De dækker faktisk serverskade, Lægende lys, Stjerneparade, begge ressourceomkostninger, regeneration, XP-baseret levelændring/maksimum, absorption og gift/Wither, rustning/sult/luft, resize/GUI-skala, F1, H/K, manglende/forsinkede snapshots samt død/respawn og genforbindelse samt faktisk Health Boost-udløb og bevaret visningshelbred. Singleplayer gennemfører fuld gemning, serverstop og genstart af verdenen. Klienterne bevarer deres egne level- og max-health-værdier (11/21 og 100/30). Rendering ændrer ingen gemte modfelter.
+- Testopsætningen er rettet efter reproducerede fejl: fallback kontrolleres i renderfasen frem for mellem render og et nyt snapshot; testspillere beskyttes igen ved JOIN, så slimes ikke ændrer helbredet under persistenskontrollen; skade afventer vanillas `isLoaded()` i stedet for at antage, at første modsnapshot betyder færdig indlæsning. Disse rettelser findes kun i smoke-kilderne og ændrer ingen gameplayregler.
+- En faktisk visuel overlapning mellem genstandsnavn og rustning ved ekstra liv blev rettet. To regressionstests dækker vanillas helbredsrækker, absorption og midlertidigt bevaret health efter en buff udløber. En lille client-only accessor læser udelukkende vanillas `renderHealthValue` til layout; selve livsbjælken bruger fortsat aktuel synkroniseret health. Genstandsnavn og actionbar-beskeder placeres over indikatorerne med samme ekstra forskydning.
+- Release-kontrollen bekræfter, at server-, progressions-, evne-, lagrings- og netværksklasser er byte-identiske med 0.3.4. JAR-metadata er 0.3.5; ZIP-integritet er kontrolleret, og testklasser medfølger ikke.
+- Uafhængig kodegennemgang fandt ingen væsentlige problemer. Minecraft/Fabric-bytecode bekræfter de anvendte HUD-betingelser, bevaret scissor pr. skin-quad og gyldige statusteksturer.
 
 ## Udvidede stateffekter i version 0.3.4
 
