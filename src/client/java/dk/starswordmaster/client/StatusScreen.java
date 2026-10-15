@@ -25,6 +25,15 @@ public final class StatusScreen extends Screen {
  private static final int GOLD=0xFFE8CB88,WHITE=0xFFDAE5EF,MUTED=0xFF99AEC3;
  public StatusScreen(){super(label("title"));}
  private static Text label(String key,Object... args){return Text.translatable("status.starswordmaster."+key,args);}
+ private static String number(double value){return String.format(Locale.ROOT,"%.1f",value).replaceFirst("\\.0$","");}
+ private static Text effects(PlayerProgress.Stat stat,StatBonuses b){
+  return switch(stat){
+   case STRENGTH->label("effect.strength",number(b.abilityDamage()*100),number(b.miningSpeed()*100));
+   case AGILITY->label("effect.agility",number(b.cooldownReduction()*100),number(b.movementSpeed()*100));
+   case ENDURANCE->label("effect.endurance",b.stamina(),number(b.health()));
+   case SPIRIT->label("effect.spirit",b.mana(),number(b.manaRegeneration()*100));
+  };
+ }
  @Override protected void init(){
   layout=StatusLayout.forScreen(width,height);
   statButtons.clear();
@@ -84,8 +93,8 @@ public final class StatusScreen extends Screen {
   for(var stat:PlayerProgress.Stat.values()){
    String key=stat.name().toLowerCase(Locale.ROOT);int rowY=y+38+26*i++;
    row(c,"stat."+key,Text.literal(Integer.toString(d.stats().get(stat))),x,rowY,w-28);
-   Text effect=label("effect."+key);text(c,effect,x+8,rowY+11,w-42,MUTED);
-   if(pointerX>=x+8&&pointerX<x+w-28&&pointerY>=rowY&&pointerY<rowY+22&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(label("stat."+key),effect);
+   Text effect=effects(stat,d.bonuses());text(c,effect,x+8,rowY+11,w-42,MUTED);
+   if(pointerX>=x+8&&pointerX<x+w-28&&pointerY>=rowY&&pointerY<rowY+22&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(label("stat."+key),effect,label("rule.old."+key),label("rule.new."+key));
   }
  }
  private void resources(DrawContext c,StatusData d,int x,int y,int w){

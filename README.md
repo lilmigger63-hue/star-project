@@ -1,13 +1,17 @@
 # star-project
 to mods
 
-## Star Swordmaster 0.3.3 downloads
+## Star Swordmaster 0.3.4 downloads
 
-- [Download the mod (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.3/star-swordmaster-0.3.3.jar)
-- [Checksums](releases/0.3.3/SHA256SUMS.txt)
+- [Download the mod (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.4/star-swordmaster-0.3.4.jar)
+- [Checksums](releases/0.3.4/SHA256SUMS.txt)
 - [Validation and limitations](VALIDATION.md)
 
-Version **0.3.3** gives **5 stat points per character level gained**, allocated only through **H**. **K** spends the separate perk points on skills, using the existing perk rules. Existing allocated stats and learned perks are preserved. Requires Minecraft **1.21.10** and the same Fabric/Better Combat dependencies listed below. Replace the previous Star Swordmaster JAR; keep only one version installed.
+Version **0.3.4** udvider de fire stats med mining speed, movement speed, ekstra liv og manaregenerering. H viser de aktuelle bonusser og deres grænser i tooltips. De eksisterende stateffekter, **5 statpoint pr. opnået level** til H og separate perkpoint til K bevares. Kræver Minecraft **1.21.10** og samme Fabric-/Better Combat-afhængigheder som nedenfor. Udskift den gamle Star Swordmaster-JAR; behold kun én version.
+
+### Previous version 0.3.3
+
+- [Download 0.3.3 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.3/star-swordmaster-0.3.3.jar)
 
 ### Previous version 0.3.2
 
@@ -33,7 +37,7 @@ Selvstændig Fabric-mod til Minecraft **1.21.10**. Din egen karakter udvikler si
    - [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat)
    - [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config)
    - [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). Den kompatible fil hedder `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; udgiverens metadata angiver også Minecraft 1.21.10.
-3. Læg **star-swordmaster-0.3.3.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
+3. Læg **star-swordmaster-0.3.4.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
 4. Start Minecraft. I co-op skal alle klienter og serveren have samme version af modden og dens afhængigheder.
 
 Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker er ikke kompatibilitetstestet; Better Combat og afhængighederne ovenfor er testet sammen med denne mod.
@@ -63,7 +67,20 @@ Sværdkæmper: Auraopvågning, Aurabølge, Sværdets vilje, Sværdmester, Lynpre
 Magiker: Manakontrol, Flammeudbrud, Islanse, Helligdom, Frostnova, Magimester, Flammelanse og Frostværn.
 Magisk sværdkæmper: Elementbinding, Flammesværd, Frostsværd, Stjernesværdmester, Magisk sværdskridt og Gletsjerfejning.
 
-Styrke øger aktive evners skade, Smidighed mindsker cooldowns, Udholdenhed øger stamina og Ånd øger mana. Rangperks giver ekstra ressourcer; Mester-rang giver yderligere evneskade.
+### Stats i version 0.3.4
+
+| Stat | Eksisterende effekt pr. point | Ny effekt pr. point | Maksimal ny bonus |
+| --- | --- | --- | --- |
+| Styrke | +2,5% evneskade | +1% normal mining-hastighed | +50% ved 50 point |
+| Smidighed | −1% cooldown, maks. −40% | +0,2% movement speed | +20% ved 100 point |
+| Udholdenhed | +5 maksimal stamina | +0,1 maksimalt liv | +10 liv / 5 hjerter ved 100 point |
+| Ånd | +5 maksimal mana | +1% manaregenerering | +100% ved 100 point |
+
+Grænserne gælder de nye statbidrag; de gamle effekter og rang-/klasse-/stilperks ændres ikke. H viser aktuelle statbidrag, mens tooltips forklarer effekten pr. point og grænserne. Movement speed og mining speed bruger Minecrafts bonus til attributbasen og kombineres med blandt andet sprint, Speed og Haste. Health Boost og andre livsbonusser bevares. Mining kræver fortsat det rigtige værktøj og ændrer hverken blokke eller loot.
+
+Manaregenerering er fortsat langsommere i kamp: grundraten er 3 mana/sekund uden kamp og 0,8 i kamp ved 20 ticks/sekund; Ånd kan højst fordoble dem til 6 og 1,6. Regeneration stopper ved maksimal mana. Ekstra liv fra Udholdenhed øger kapaciteten uden at hele ved pointfordeling. Normal død/respawn giver fuldt nyt maksimalt liv; levende respawn og genindlæsning bevarer aktuelt liv.
+
+Rangperks giver ekstra ressourcer; Mester-rang giver yderligere evneskade.
 
 Ingen nye mobs, bosser eller dimensioner. Nye skadesområder rammer kun fjendtlige mobs og rammer ikke co-op-spillere eller deres husdyr.
 
@@ -86,6 +103,8 @@ Progression gemmes pr. spiller i verdensmappen under `data/starswordmaster/<UUID
 
 Version 0.3.3 bruger fortsat samme gemmeformat. Ubrugte statpoint beregnes som `5 × (level − 1) − allerede fordelte statpoint`; gamle karakterer beholder deres stats og får differencen til det nye budget til rådighed. Eksempel: level 10 med 8 fordelte point har 37 ubrugte statpoint. Gentagen indlæsning eller død tilføjer ikke budgettet igen. Alle 495 optjente statpoint ved level 100 kan samles i én stat og bevares ved lagring. Perkberegningen er fortsat `level − 1 − antal lærte noder`.
 
+Version 0.3.4 ændrer ikke moddens schema-1-data. Serveren anvender én modifier pr. attribut med faste ID'er; mining og movement er midlertidige attributbonusser. Maksimalt liv gemmes som en almindelig vedvarende Minecraft-attribut, så vanilla indlæser den før aktuelt liv. Gentagne opdateringer, respawn og genforbindelse lægger ikke bonusserne sammen igen.
+
 ## Validering og begrænsninger
 Bygningen, automatiske progression-/persistens-/viewporttests og rigtig Fabric-opstart med Better Combat er verificeret. En lokal Minecraft-klient bruges også til at teste klassevalg, rang, evnetildeling, evner og heling mod en rigtig server. Se `VALIDATION.md` for endelige resultater.
 Grafikken er original, foreløbig pixelgrafik. Balanceværdier og XP-kurver er fastlagt i kildekoden i denne version. Lydafspilning kunne ikke verificeres i cloudmiljøet. Der er endnu ingen historiequests eller NPC'er fra universet.
@@ -101,3 +120,5 @@ Statusskærmen tilføjer ingen afhængigheder og bevarer gemmeformatet. Dens mod
 Evnebjælkens separate klienttest køres med `./gradlew runSmokeHud`. Den bruger testverdenen `HudSmoke` og spillernavnet `StatusSmoke` med Gnister, Frostgreb, Stjernelys og Lægende lys tildelt plads 1–4; plads 5 er tom. Testen beskytter testspilleren og sætter helbredet fire point under maksimum for at afprøve den eksisterende Lægende lys-cooldown, og gemmer billeder i `run/screenshots/`. Brug kun en lokal testverden til dette scenarie. Testverdenen og testklasserne indgår ikke i mod-JAR'en.
 
 Pointtesten bruger tre separate terminaler: `./gradlew runSmokePointsServer`, `./gradlew runSmokePointsA` og `./gradlew runSmokePointsB`. Klargør en lokal Minecraft-testverden `run/points-server/PointsSmoke`, serverens EULA/server.properties (offline, bundet til 127.0.0.1:25567) og de sædvanlige runtime-mods i `mods` under hver af `run/points-server`, `run/points-a` og `run/points-b`. Serveropgaven nulstiller kun testprofilerne PointsSmokeA/B til gamle schema-1-data ved opstart; brug derfor altid testmappen. De to klienter tester H/K-køb, flere levels, separate spillere, død/respawn, genforbindelse, scroll/tastatur og forsinkede data. Testkommandoerne findes kun i smoke-kilderne og indgår ikke i mod-JAR'en.
+
+Stat-effekttesten bruger `./gradlew runSmokeEffectsServer`, `./gradlew runSmokeEffectsA` og `./gradlew runSmokeEffectsB` i tre terminaler. Klargør en isoleret testverden `run/effects-server/EffectsSmoke`, accepteret EULA, server.properties bundet til `127.0.0.1:25568` i offline-mode og runtime-mods under hver af `run/effects-server`, `run/effects-a` og `run/effects-b`. Serveropgaven nulstiller kun testprofilerne PointsSmokeA/B med lave/høje stats og eksisterende perks. `./gradlew runSmokeEffectsSingleplayer` bruger i stedet `run/effects-sp/saves/EffectsSmoke` og mods under `run/effects-sp/mods`; denne opgave bevarer profilen ved genindlæsning. Brug kun testverdener. Scenarierne tester rigtige attributter, værktøjs-/potioninteraktioner, serverens regeneration, H/K, separat spillerdata, død og levende respawn, delvist helbred over 20 ved genindlæsning samt GUI-skalering. Testkommandoerne og testkilderne medfølger ikke i release-JAR'en.

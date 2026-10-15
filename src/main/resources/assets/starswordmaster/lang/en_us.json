@@ -126,10 +126,18 @@
   "status.starswordmaster.style.heavy": "Heavy",
   "status.starswordmaster.style.defensive": "Defensive",
   "status.starswordmaster.increase_stat": "Add 1 %s (1 stat point)",
-  "status.starswordmaster.effect.strength": "+2.5% ability damage per point",
-  "status.starswordmaster.effect.agility": "Cooldown −1%/point (max. 40%)",
-  "status.starswordmaster.effect.endurance": "+5 max stamina per point",
-  "status.starswordmaster.effect.spirit": "+5 max mana per point",
+  "status.starswordmaster.effect.strength": "Damage +%s%% · Mining +%s%%",
+  "status.starswordmaster.effect.agility": "Cooldown −%s%% · Speed +%s%%",
+  "status.starswordmaster.effect.endurance": "Stamina +%s · Health +%s",
+  "status.starswordmaster.effect.spirit": "Mana +%s · Regen +%s%%",
   "screen.starswordmaster.learn_perk": "Learn skill · 1 perk point",
-  "message.starswordmaster.level_up": "Level %s! +%s stat points · +%s perk points"
+  "message.starswordmaster.level_up": "Level %s! +%s stat points · +%s perk points",
+  "status.starswordmaster.rule.old.strength": "Ability damage: +2.5% per point.",
+  "status.starswordmaster.rule.new.strength": "Mining: +1%/point (max. +50%).",
+  "status.starswordmaster.rule.old.agility": "Cooldown: −1%/point (max. −40%).",
+  "status.starswordmaster.rule.new.agility": "Speed: +0.2%/point (max. +20%).",
+  "status.starswordmaster.rule.old.endurance": "Maximum stamina: +5 per point.",
+  "status.starswordmaster.rule.new.endurance": "Health: +0.1/point (max. +10 = 5 hearts).",
+  "status.starswordmaster.rule.old.spirit": "Maximum mana: +5 per point.",
+  "status.starswordmaster.rule.new.spirit": "Mana regen: +1%/point (max. +100%)."
 }

@@ -16,7 +16,12 @@ public final class PlayerProgress {
  // Derived entitlement makes old saves and repeated snapshots idempotent: allocated stats are never re-awarded.
  public int statPoints(){return Math.max(0,STAT_POINTS_PER_LEVEL*(level()-1)-stats.values().stream().mapToInt(Integer::intValue).sum());}
  public boolean spendStat(Stat s){if(s==null||statPoints()==0)return false;stats.put(s,stat(s)+1);return true;}
- public double damageMultiplier(){return 1+0.025*stat(Stat.STRENGTH)+(rank()==3?0.15:0);}
+ public double strengthDamageBonus(){return 0.025*stat(Stat.STRENGTH);}
+ public double agilityCooldownReduction(){return Math.min(0.4,stat(Stat.AGILITY)*0.01);}
+ public int enduranceStaminaBonus(){return 5*stat(Stat.ENDURANCE);}
+ public int spiritManaBonus(){return 5*stat(Stat.SPIRIT);}
+ public StatBonuses bonuses(){return StatBonuses.from(this);}
+ public double damageMultiplier(){return 1+strengthDamageBonus()+(rank()==3?0.15:0);}
  private PlayerClass playerClass=PlayerClass.UNINITIATED;
  private SwordStyle style=SwordStyle.QUICK;
  private double mana=100,stamina=100;
@@ -63,8 +68,8 @@ public final class PlayerProgress {
  public int cooldownDuration(String id){return cooldownDurations.getOrDefault(id,0);}
  public double mana(){return mana;}
  public double stamina(){return stamina;}
- public double maxMana(){return 100+2*(level()-1)+5*stat(Stat.SPIRIT)+(learned.contains("mana_control")?20:0)+(learned.contains("arcane_mastery")?20:0);}
- public double maxStamina(){return 100+level()-1+5*stat(Stat.ENDURANCE)+(learned.contains("aura_awaken")?15:0)+(learned.contains("element_binding")?10:0);}
+ public double maxMana(){return 100+2*(level()-1)+spiritManaBonus()+(learned.contains("mana_control")?20:0)+(learned.contains("arcane_mastery")?20:0);}
+ public double maxStamina(){return 100+level()-1+enduranceStaminaBonus()+(learned.contains("aura_awaken")?15:0)+(learned.contains("element_binding")?10:0);}
  public double manaCost(Ability a){
   double cost=a.mana();if(a.skill()==Skill.FIRE&&learned.contains("fire_affinity"))cost*=0.9;
   if(a.stamina()>0&&style==SwordStyle.QUICK&&learned.contains("flow_training"))cost*=0.9;return cost;
@@ -74,7 +79,7 @@ public final class PlayerProgress {
   else if(style==SwordStyle.QUICK&&learned.contains("flow_training"))cost*=0.9;return cost;
  }
  public int cooldownTicks(Ability a){
-  double factor=1-Math.min(0.4,stat(Stat.AGILITY)*0.01);
+  double factor=1-agilityCooldownReduction();
   if(a.stamina()>0&&style==SwordStyle.QUICK&&learned.contains("flow_training"))factor*=0.9;
   if(a.skill()==Skill.FROST&&learned.contains("frost_affinity"))factor*=0.8;
   return a.active()?Math.max(10,(int)Math.round(a.cooldownTicks()*factor)):0;
@@ -92,9 +97,10 @@ public final class PlayerProgress {
  public PlayerClass playerClass(){return playerClass;}
  public SwordStyle style(){return style;}
  public void setStyle(SwordStyle style){if(style!=null)this.style=style;}
+ public double manaRegenPerTick(boolean combat){return (combat?0.04:0.15)*(1+bonuses().manaRegeneration());}
  public void tick(boolean combat){
   cooldowns.replaceAll((id,t)->Math.max(0,t-1));
-  mana=Math.min(maxMana(),mana+(combat?0.04:0.15));
+  mana=Math.min(maxMana(),mana+manaRegenPerTick(combat));
   stamina=Math.min(maxStamina(),stamina+(combat?0.08:0.30));
  }
  public Properties toProperties(){

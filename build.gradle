@@ -48,3 +48,10 @@ loom.runs {
  smokePointsA { client(); source sourceSets.smoke; runDir 'run/points-a'; programArg '--username'; programArg 'PointsSmokeA'; vmArg '-Dstarsmoke.points=true'; vmArg '-Dstarsmoke.points.role=A' }
  smokePointsB { client(); source sourceSets.smoke; runDir 'run/points-b'; programArg '--username'; programArg 'PointsSmokeB'; vmArg '-Dstarsmoke.points=true'; vmArg '-Dstarsmoke.points.role=B' }
 }
+
+loom.runs {
+ smokeEffectsServer { server(); source sourceSets.smoke; runDir 'run/effects-server'; vmArg '-Dstarsmoke.effects=true'; vmArg '-Dstarsmoke.effects.reset=true' }
+ smokeEffectsA { client(); source sourceSets.smoke; runDir 'run/effects-a'; programArg '--username'; programArg 'PointsSmokeA'; vmArg '-Dstarsmoke.effects=true'; vmArg '-Dstarsmoke.effects.role=A' }
+ smokeEffectsB { client(); source sourceSets.smoke; runDir 'run/effects-b'; programArg '--username'; programArg 'PointsSmokeB'; vmArg '-Dstarsmoke.effects=true'; vmArg '-Dstarsmoke.effects.role=B' }
+ smokeEffectsSingleplayer { client(); source sourceSets.smoke; runDir 'run/effects-sp'; programArg '--username'; programArg 'PointsSmokeA'; vmArg '-Dstarsmoke.effects=true'; vmArg '-Dstarsmoke.effects.singleplayer=true' }
+}

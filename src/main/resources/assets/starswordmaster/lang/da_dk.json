@@ -126,10 +126,18 @@
   "status.starswordmaster.style.heavy": "Tung",
   "status.starswordmaster.style.defensive": "Defensiv",
   "status.starswordmaster.increase_stat": "%s +1 (1 statpoint)",
-  "status.starswordmaster.effect.strength": "Evneskade +2,5% pr. point",
-  "status.starswordmaster.effect.agility": "Cooldown −1%/point (maks. 40%)",
-  "status.starswordmaster.effect.endurance": "+5 maks. stamina pr. point",
-  "status.starswordmaster.effect.spirit": "+5 maks. mana pr. point",
+  "status.starswordmaster.effect.strength": "Skade +%s%% · Mining +%s%%",
+  "status.starswordmaster.effect.agility": "Cooldown −%s%% · Fart +%s%%",
+  "status.starswordmaster.effect.endurance": "Stamina +%s · Liv +%s",
+  "status.starswordmaster.effect.spirit": "Mana +%s · Regen +%s%%",
   "screen.starswordmaster.learn_perk": "Lær evne · 1 perkpoint",
-  "message.starswordmaster.level_up": "Level %s! +%s statpoint · +%s perkpoint"
+  "message.starswordmaster.level_up": "Level %s! +%s statpoint · +%s perkpoint",
+  "status.starswordmaster.rule.old.strength": "Evneskade: +2,5% pr. point.",
+  "status.starswordmaster.rule.new.strength": "Mining: +1%/point (maks. +50%).",
+  "status.starswordmaster.rule.old.agility": "Cooldown: −1%/point (maks. −40%).",
+  "status.starswordmaster.rule.new.agility": "Fart: +0,2%/point (maks. +20%).",
+  "status.starswordmaster.rule.old.endurance": "Maksimal stamina: +5 pr. point.",
+  "status.starswordmaster.rule.new.endurance": "Liv: +0,1/point (maks. +10 = 5 hjerter).",
+  "status.starswordmaster.rule.old.spirit": "Maksimal mana: +5 pr. point.",
+  "status.starswordmaster.rule.new.spirit": "Manaregen: +1%/point (maks. +100%)."
 }

@@ -9,7 +9,7 @@ import net.minecraft.client.network.*;
 public class SmokeClient implements ClientModInitializer {
  int ticks,stage,wait;boolean connecting;double beforeMana,beforeStamina;int beforeFire,beforeSword;
  void check(boolean condition,String message){if(!condition)throw new AssertionError("STAR_SMOKE FAIL: "+message);System.out.println("STAR_SMOKE PASS: "+message);}
- public void onInitializeClient(){if(Boolean.getBoolean("starsmoke.status")||Boolean.getBoolean("starsmoke.hud")||Boolean.getBoolean("starsmoke.points"))return;ClientTickEvents.END_CLIENT_TICK.register(client->{
+ public void onInitializeClient(){if(Boolean.getBoolean("starsmoke.effects")||Boolean.getBoolean("starsmoke.status")||Boolean.getBoolean("starsmoke.hud")||Boolean.getBoolean("starsmoke.points"))return;ClientTickEvents.END_CLIENT_TICK.register(client->{
   ticks++;
   if(!connecting&&ticks>100&&client.currentScreen!=null){connecting=true;if(Boolean.getBoolean("starsmoke.singleplayer")){client.createIntegratedServerLoader().start(System.getProperty("starsmoke.world","StarSmokeSP"),()->client.setScreen(new TitleScreen()));return;}ConnectScreen.connect(new TitleScreen(),client,ServerAddress.parse("127.0.0.1:"+Integer.getInteger("starsmoke.port",25565)),new ServerInfo("Local smoke test","127.0.0.1:"+Integer.getInteger("starsmoke.port",25565),ServerInfo.ServerType.OTHER),false,null);}
   if(!StarSwordmasterClient.ready||client.player==null)return;

@@ -1,4 +1,19 @@
-# Validering — Star Swordmaster 0.3.3
+# Validering — Star Swordmaster 0.3.4
+
+## Udvidede stateffekter i version 0.3.4
+
+Verificeret 15. oktober 2026:
+- `./gradlew --offline build smokeClasses` med Java 21 består: 62 JUnit-tests, ingen fejl eller springede tests, og 37 selvstændige progressionskontroller. Ni nye tests dækker nul/lave/høje stats, grænserne lige før/ved/over loftet, kampregeneration, maksimal mana, eksisterende rang-/klasse-/stilperks og uændrede gamle gemmefelter. Statusmodellen testes også mod de beregnede statbonusser.
+- Nye bonusser: Styrke +1% mining/point, maks. +50%; Smidighed +0,2% movement speed/point, maks. +20%; Udholdenhed +0,1 maksimalt liv/point, maks. +10 liv; Ånd +1% manaregenerering/point, maks. +100%. De eksisterende evneskade-, cooldown-, stamina- og manabonusser er uændrede. De nye grænser gælder statbidraget og erstatter ikke andre mods' attributter.
+- Serveren ejer tre attributmodifiers med faste ID'er. Minecraft synkroniserer dem til klienterne. Mining og movement er midlertidige; ekstra maksimalt liv er vedvarende, så vanilla kan indlæse det før aktuelt liv og kopiere det ved levende respawn. Ingen ændringer i moddens schema-1-data, fordelte stats, XP-kilder, lærte evner eller protokol. Plusknapperne i H og separate perkpoint i K bevares; hvert opnået karakterlevel giver fortsat præcis fem statpoint.
+- En rigtig dedikeret Fabric-server med Better Combat og to samtidige Minecraft 1.21.10-klienter består 59 klientkontroller for A, 57 for B og 54 serverkontroller. A starter med 10 i hver stat, B med 100; begge har 14 eksisterende evner/perks og Mester-rang. Der testes faktisk mining med jernhakke og Haste, værktøjskrav for diamantmalm, ubrudelig bedrock, sprint + Speed, Health Boost, eksisterende ressource-/skade-/healingperks samt præcis 20 ticks manaregenerering både i og uden kamp.
+- Fire yderligere attributkontroller køres efter rigtig Minecraft-bootstrap: 100 ens opdateringer giver ingen duplikater/ekstra ændringscallbacks, andre modifiers og attributbaser bevares, ændrede/nulstillede stats erstatter/fjerner kun eget ID, og manglende attributter håndteres sikkert. Klient-server-scenariet anvender desuden bonusserne 200 gange og kontrollerer én modifier pr. attribut samt uændrede progressionsdata.
+- Rigtige H-klik opdaterer Udholdenhed og maksimalt liv uden heling eller ændrede perkpoint. K har fortsat ingen statkontroller. Død giver fuldt udvidet maksimalt liv; levende respawn bevarer delvist helbred over 20. Genforbindelse genindlæser både moddata og Minecraft-spillerdata uden duplikation: 20,6/21,1 og 29,5/30 liv bevares. Spillernes værdier forbliver separate.
+- Det samme scenario består i rigtig singleplayer: 59 klientkontroller og 27 serverkontroller, inklusive normal gem-og-afslut, fuld nedlukning/genstart af den integrerede server og genindlæsning med 20,6/21,1 liv og den købte Udholdenhed bevaret. Attributkontrollerne består igen efter begge serverstarter.
+- H er visuelt kontrolleret ved 1280×800/skala 1 og 640×480/skala 2, inklusive aktuelle gamle/nye bonusser, caps, plusknapper, scroll og tooltips. Dansk og engelsk har opdaterede statbeskrivelser; generatorens stattekster matcher ressourcefilerne.
+- Release-JAR'en har korrekt 0.3.4-metadata, gyldig ZIP-integritet og ingen smoke-testklasser. Ingen nye eksterne afhængigheder. Testprocesser lukkes efter de eksplicitte COMPLETE-markører; Gradles afsluttende exit 130 ved denne manuelle lukning er ikke et fejlet gameplay-assert.
+
+Begrænsning: langvarig balance og vilkårlige andre modpakker er ikke gennemspillet. Cloudmiljøets manglende lydenhed og onlineprofiladgang er uændrede; testserveren er kun bundet til localhost.
 
 ## Separate statpoint og perkpoint i version 0.3.3
 
