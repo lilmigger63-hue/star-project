@@ -1,0 +1,7 @@
+.gradle/
+build/
+run/
+production-test/
+dist/
+*.log
+*-current.png

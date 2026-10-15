@@ -1,0 +1,43 @@
+plugins { id 'fabric-loom' version '1.14.10' }
+group='dk.starswordmaster'
+repositories { mavenCentral() }
+loom {
+ splitEnvironmentSourceSets()
+ mods { starswordmaster { sourceSet sourceSets.main; sourceSet sourceSets.client } }
+}
+dependencies {
+ minecraft 'com.mojang:minecraft:1.21.10'
+ mappings 'net.fabricmc:yarn:1.21.10+build.3:v2'
+ modImplementation 'net.fabricmc:fabric-loader:0.19.5'
+ modImplementation 'net.fabricmc.fabric-api:fabric-api:0.138.4+1.21.10'
+}
+processResources { inputs.property 'version',project.version; filesMatching('fabric.mod.json'){ expand version:project.version } }
+java { withSourcesJar(); sourceCompatibility=JavaVersion.VERSION_21; targetCompatibility=JavaVersion.VERSION_21 }
+tasks.withType(JavaCompile).configureEach { options.release=21 }
+tasks.register('progressionTest',JavaExec) { dependsOn testClasses; classpath=sourceSets.test.runtimeClasspath; mainClass='dk.starswordmaster.progression.ProgressionTest' }
+check.dependsOn progressionTest
+dependencies { testImplementation 'junit:junit:4.13.2' }
+test { useJUnit() }
+sourceSets {
+ smoke {
+  compileClasspath += sourceSets.main.output + sourceSets.client.output + sourceSets.client.compileClasspath
+  runtimeClasspath += sourceSets.main.output + sourceSets.client.output + sourceSets.client.runtimeClasspath
+ }
+}
+loom {
+ mods { starsmoke { sourceSet sourceSets.smoke } }
+ runs {
+  smokeClient { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StarSmoke' }
+  smokeServer { server(); source sourceSets.smoke; runDir 'run' }
+ }
+}
+tasks.register('smokeJar',Jar) { dependsOn smokeClasses; archiveClassifier='smoke'; from sourceSets.smoke.output }
+tasks.register('remapSmokeJar',net.fabricmc.loom.task.RemapJarTask) { dependsOn smokeJar; inputFile=tasks.smokeJar.archiveFile; archiveClassifier='smoke-remapped'; addNestedDependencies=false }
+loom.runs.smokeClient.vmArg '-Dstarsmoke.port=25566'
+loom.runs {
+ smokeSingleplayer { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StarSmoke'; vmArg '-Dstarsmoke.singleplayer=true' }
+}
+loom.runs {
+ smokeSwordV3 { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StarSmoke'; vmArg '-Dstarsmoke.singleplayer=true'; vmArg '-Dstarsmoke.world=StarSmokeSP-v0.3-sword' }
+ smokeMagicV3 { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StarSmoke'; vmArg '-Dstarsmoke.singleplayer=true'; vmArg '-Dstarsmoke.magic=true'; vmArg '-Dstarsmoke.world=StarSmokeSP-v0.3-magic' }
+}

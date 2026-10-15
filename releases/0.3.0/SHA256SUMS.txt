@@ -1,0 +1,3 @@
+cf0e4b9d561c359b6c346141250edc480c5041f039af7fdaac54dd0e822ae80c  star-swordmaster-0.3.0-install.zip
+4045bd035448584f83e4402325107b2da5e7a7c90339d7d4fcd6c8d8d5b10e29  star-swordmaster-0.3.0-source.zip
+bc9305282e87c705790501eb4e47cd56f579d79836896ba915dcdcc671517b8c  star-swordmaster-0.3.0.jar

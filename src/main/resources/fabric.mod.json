@@ -1,0 +1,5 @@
+{
+ "schemaVersion":1,"id":"starswordmaster","version":"${version}","name":"Star Swordmaster","description":"Permanent classes, sword styles, magic and a branching skill tree.","authors":["lilmigger63-hue"],"license":"All Rights Reserved","environment":"*",
+ "entrypoints":{"main":["dk.starswordmaster.StarSwordmaster"],"client":["dk.starswordmaster.client.StarSwordmasterClient"]},
+ "depends":{"fabricloader":">=0.19.5","minecraft":"1.21.10","java":">=21","fabric-api":"*","bettercombat":">=3.0.0"}
+}
