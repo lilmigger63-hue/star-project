@@ -1,8 +1,8 @@
-# Validering — Star Swordmaster 0.3.0
+# Validering — Star Swordmaster 0.3.1
 
-## Statusskærm i den aktuelle kildekode
+## Statusskærm i version 0.3.1
 
-Verificeret 15. oktober 2026; de eksisterende downloadpakker for 0.3.0 er ikke erstattet:
+Verificeret 15. oktober 2026; version 0.3.1 indeholder statusskærmen, mens downloadpakker for 0.3.0 bevares:
 - `./gradlew --offline build` med Java 21: 34 JUnit-tests og de eksisterende 37 selvstændige progressionskontroller består. De nye tests dækker XP-grænser/levelmaksimum, ufuldstændige data, uforanderlig statusvisning, aktuelle snapshots samt layout og rulning ved forskellige GUI-størrelser.
 - Den separate Fabric-klienttest består alle 17 kontroller i Minecraft 1.21.10 med Better Combat og de eksisterende afhængigheder: H, bevaret K, ombinding til J, Escape, manglende/forsinkede data, korrekt XP og evnegruppering, levende ressourceopdateringer samt rullebjælkens klik/træk ved smal GUI-skala. Layoutet er visuelt kontrolleret med én og to kolonner.
 - Statusskærmen genbruger eksisterende spillerdata og synkronisering. Den sender ingen handlinger, og gemmeformat, progression og Better Combat-integration er uændrede. Testkilderne indgår ikke i mod-JAR'en. Ingen ny test med to samtidige co-op-spillere er udført for denne skærm.
