@@ -5,7 +5,6 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.*;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.rendering.v1.hud.*;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
@@ -34,6 +33,6 @@ public final class StarSwordmasterClient implements ClientModInitializer {
    while(menu.wasPressed())if(ready&&client.player!=null&&client.currentScreen==null)client.setScreen(new SkillTreeScreen());
    for(int i=0;i<5;i++)while(keys[i].wasPressed())if(ready&&client.player!=null&&client.currentScreen==null)send("cast","",i);
   });
-  HudElementRegistry.attachElementAfter(VanillaHudElements.HOTBAR,Identifier.of("starswordmaster","skills"),(context,tick)->SkillHud.render(context));
+  SkillHud.register();
  }
 }

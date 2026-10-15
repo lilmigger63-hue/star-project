@@ -1,0 +1,7 @@
+{
+ "required":true,
+ "package":"dk.starswordmaster.client.mixin",
+ "compatibilityLevel":"JAVA_21",
+ "client":["HudBarAddonsMixin"],
+ "injectors":{"defaultRequire":1}
+}

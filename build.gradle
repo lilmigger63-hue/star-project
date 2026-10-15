@@ -43,4 +43,5 @@ loom.runs {
 }
 loom.runs {
  smokeStatus { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StatusSmoke'; vmArg '-Dstarsmoke.status=true' }
+ smokeHud { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StatusSmoke'; vmArg '-Dstarsmoke.hud=true' }
 }

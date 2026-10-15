@@ -1,4 +1,12 @@
-# Validering — Star Swordmaster 0.3.1
+# Validering — Star Swordmaster 0.3.2
+
+## Evnebjælke i version 0.3.2
+
+Verificeret 15. oktober 2026:
+- `./gradlew --offline build` med Java 21: 39 JUnit-tests og 37 selvstændige progressionskontroller består. Fem nye layouttests dækker vanilla-mål, fem centrerede slots, GUI-skala/resize og afstand til både XP og locator-pilens yderste kant.
+- Klientscenariet `./gradlew runSmokeHud` er kørt med Minecraft 1.21.10, Better Combat og de eksisterende afhængigheder. Billeder er kontrolleret ved 1280×720/skala 2, 960×720/skala 3, 853×481/skala 1 og 640×480/skala 2 samt skjult HUD (F1).
+- Alle 16 klientkontroller består: rækkefølgen Z/X/C/V/B, eksisterende cooldown, uændrede data efter rendering, placering efter resize samt bevaret H-status og K-færdighedstræ. Skærmbilleder viser en lokal testkarakter med fire tildelte evner og en tom femte plads.
+- Vanilla-indikatorerne forskydes kun, mens evnebjælken vises. Locator-markører bruger samme forskydning som locator-bjælken via en lille klient-mixin, fordi Fabric 1.21.10 tegner dem separat. Ingen nye eksterne afhængigheder, ændrede evneberegninger eller ændringer i gemmeformatet. Locator-pilens afstand har en regressionstest; ingen ny samtidig co-op-session er gennemført.
 
 ## Statusskærm i version 0.3.1
 
