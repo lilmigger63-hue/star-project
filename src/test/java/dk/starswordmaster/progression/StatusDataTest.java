@@ -1,0 +1,15 @@
+package dk.starswordmaster.progression;
+import dk.starswordmaster.ui.StatusData;
+import org.junit.Test;
+import static org.junit.Assert.*;
+import java.util.*;
+public class StatusDataTest {
+ private PlayerProgress atXp(int xp){Properties p=new Properties();p.setProperty("xp",Integer.toString(xp));return PlayerProgress.fromProperties(p);}
+ @Test public void xpProgressUsesExistingLevelThresholds(){var fresh=atXp(0);assertEquals(0,fresh.totalXp());assertEquals(0,fresh.xpInLevel());assertEquals(70,fresh.xpForNextLevel());var last=atXp(69);assertEquals(1,last.level());assertEquals(69,last.xpInLevel());var next=atXp(70);assertEquals(2,next.level());assertEquals(0,next.xpInLevel());assertEquals(90,next.xpForNextLevel());var ten=atXp(1355);assertEquals(10,ten.level());assertEquals(5,ten.xpInLevel());assertEquals(250,ten.xpForNextLevel());}
+ @Test public void maximumLevelHasNoInventedNextLevel(){var p=atXp(200000);assertEquals(100,p.level());assertEquals(0,p.xpForNextLevel());assertEquals(0,p.xpInLevel());assertEquals(200000,p.totalXp());}
+ @Test public void missingSnapshotIsNotDisplayedAsDefaultCharacter(){assertTrue(StatusData.from(null,true).isEmpty());assertTrue(StatusData.from(new PlayerProgress(),false).isEmpty());}
+ @Test public void viewingProgressDoesNotModifyAnySavedFields(){var p=atXp(5000);p.chooseClass(PlayerProgress.PlayerClass.MAGE);p.unlock("spark");p.spendStat(PlayerProgress.Stat.SPIRIT);var before=p.toProperties();for(int i=0;i<20;i++)StatusData.from(p,true);assertEquals(before,p.toProperties());}
+ @Test public void viewUsesRealStatsAndResourcesAndSeparatesAbilities(){var p=atXp(5000);for(int i=0;i<100;i++)p.awardPractice(Skill.FIRE,20);p.chooseClass(PlayerProgress.PlayerClass.MAGE);assertTrue(p.unlock("spark"));assertTrue(p.unlock("mana_control"));p.spendStat(PlayerProgress.Stat.SPIRIT);p.assign(0,"spark");p.cast(0);var d=StatusData.from(p,true).orElseThrow();assertEquals(p.level(),d.level());assertEquals(p.totalXp(),d.totalXp());assertEquals(p.stat(PlayerProgress.Stat.SPIRIT),d.stats().get(PlayerProgress.Stat.SPIRIT).intValue());assertEquals(p.mana(),d.mana(),0);assertEquals(p.maxMana(),d.maxMana(),0);assertEquals(p.stamina(),d.stamina(),0);assertEquals(p.maxStamina(),d.maxStamina(),0);assertEquals(p.playerClass(),d.playerClass());assertEquals(p.rank(),d.rank());assertEquals(p.style(),d.style());assertEquals(p.points(),d.perkPoints());assertEquals(p.statPoints(),d.statPoints());assertEquals(List.of("spark"),d.active());assertEquals(List.of("mana_control"),d.passive());}
+ @Test public void emptyAndIncompleteExistingSaveRemainSafe(){var p=PlayerProgress.fromProperties(new Properties());var d=StatusData.from(p,true).orElseThrow();assertEquals(1,d.level());assertTrue(d.active().isEmpty());assertTrue(d.passive().isEmpty());assertEquals(100,d.maxMana(),0);}
+ @Test public void snapshotRefreshUsesNewResourcesAndSkills(){var p=atXp(1000);var a=StatusData.from(p,true).orElseThrow();p.unlock("spark");p.assign(0,"spark");p.cast(0);var b=StatusData.from(p,true).orElseThrow();assertTrue(a.active().isEmpty());assertEquals(List.of("spark"),b.active());assertTrue(b.mana()<a.mana());}
+}

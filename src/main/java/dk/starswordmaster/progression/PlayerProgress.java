@@ -19,6 +19,9 @@ public final class PlayerProgress {
  private SwordStyle style=SwordStyle.QUICK;
  private double mana=100,stamina=100;
  public int level(){int xp=characterXp,level=1;while(level<100&&xp>=threshold(level)){xp-=threshold(level++);}return level;}
+ public int totalXp(){return characterXp;}
+ public int xpInLevel(){int current=level();if(current>=100)return 0;int xp=characterXp;for(int i=1;i<current;i++)xp-=threshold(i);return xp;}
+ public int xpForNextLevel(){return level()>=100?0:threshold(level());}
  private static int threshold(int level){return 50+20*level;}
  public int skillLevel(Skill s){return Math.min(100,1+(int)Math.sqrt(practice.getOrDefault(s,0)/25.0));}
  public int points(){return Math.max(0,level()-1-learned.size());}

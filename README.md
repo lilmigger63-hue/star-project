@@ -24,6 +24,7 @@ Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker 
 
 ## Kom i gang
 - **K** åbner træet. Alle moddens taster kan ændres under Minecrafts Kontrol-indstillinger.
+- **H** åbner den separate statusskærm i den aktuelle kildekode. Den viser karakterens level/XP, klasse, rang, kampstil, stats, point, mana/stamina og lærte aktive/passive evner. Værdierne opdateres fra serverens eksisterende snapshots; visningen bruger ingen point og ændrer ikke progression. Luk med Escape eller Færdig. Den udgivne 0.3.0-download ovenfor indeholder endnu ikke denne ændring.
 - **Z, X, C, V, B** aktiverer evneplads 1–5. Bjælken ligger over den normale hotbar.
 - Start som Uindviet. Slå eksisterende fjendtlige mobs med et sværd for at træne sværdfærdigheden. Der gives ikke erfaring for at slå i luften.
 - Færdigheder forbedres gennem brug. Når en færdighed stiger, får karakteren XP; karakterlevels giver perkpoint og statpoint. Dette er separat fra Minecrafts almindelige XP.
@@ -74,3 +75,5 @@ Engelske evnenavne findes, men effektbeskrivelserne er foreløbig på dansk.
 ## Byg fra kildekoden
 Brug Java 21. På Linux/macOS: `./gradlew build`. På Windows: `gradlew.bat build`.
 JAR'en findes derefter i `build/libs/`. Installer den almindelige JAR, ikke `-sources.jar` eller lokale smoke-testfiler. De særskilte smoke-testkilder inkluderes ikke i den almindelige mod-JAR.
+
+Statusskærmen tilføjer ingen afhængigheder og bevarer gemmeformatet. Dens model- og layouttests køres af `build`. Den separate klienttest kan køres med `./gradlew runSmokeStatus`, når en lokal testverden `StatusSmoke` og de normale runtime-afhængigheder er klargjort; scenariet forventer en testkarakter med level 10, 1355 XP, fire aktive evner og én passiv evne.

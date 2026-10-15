@@ -41,3 +41,6 @@ loom.runs {
  smokeSwordV3 { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StarSmoke'; vmArg '-Dstarsmoke.singleplayer=true'; vmArg '-Dstarsmoke.world=StarSmokeSP-v0.3-sword' }
  smokeMagicV3 { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StarSmoke'; vmArg '-Dstarsmoke.singleplayer=true'; vmArg '-Dstarsmoke.magic=true'; vmArg '-Dstarsmoke.world=StarSmokeSP-v0.3-magic' }
 }
+loom.runs {
+ smokeStatus { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StatusSmoke'; vmArg '-Dstarsmoke.status=true' }
+}

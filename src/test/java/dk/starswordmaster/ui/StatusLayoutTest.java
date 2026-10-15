@@ -1,0 +1,10 @@
+package dk.starswordmaster.ui;
+import org.junit.Test;
+import static org.junit.Assert.*;
+public class StatusLayoutTest {
+ @Test public void panelAndBodyFitDifferentGuiScales(){for(int[] size:new int[][]{{1280,720},{640,360},{427,240},{320,180},{213,120}}){var l=StatusLayout.forScreen(size[0],size[1]);assertTrue(l.x()>=0);assertTrue(l.y()>=0);assertTrue(l.x()+l.width()<=size[0]);assertTrue(l.y()+l.height()<=size[1]);assertTrue(l.bodyHeight()>0);assertTrue(l.bodyTop()<l.bodyBottom());}}
+ @Test public void narrowWindowsUseOneColumn(){assertFalse(StatusLayout.forScreen(320,240).twoColumns());assertTrue(StatusLayout.forScreen(1280,720).twoColumns());}
+ @Test public void scrollingCannotHideAllContent(){var l=StatusLayout.forScreen(320,180);assertEquals(0,l.clampScroll(-100,600),0);assertEquals(600-l.bodyHeight(),l.clampScroll(900,600),0);assertEquals(0,l.clampScroll(900,10),0);}
+ @Test public void scrollbarMapsBothEndsAndPreservesGrabOffset(){var l=StatusLayout.forScreen(320,180);int content=600,grab=4;assertEquals(l.bodyTop(),l.thumbTop(0,content));assertEquals(l.bodyBottom()-l.thumbHeight(content),l.thumbTop(999,content));for(double scroll:new double[]{0,120,content-l.bodyHeight()})assertEquals(scroll,l.scrollForThumb(l.thumbTop(scroll,content)+grab,content,grab),6);assertEquals(0,l.scrollForThumb(-100,content,grab),0);assertEquals(content-l.bodyHeight(),l.scrollForThumb(1000,content,grab),0);}
+ @Test public void scrollbarWithNoOverflowDoesNotMove(){var l=StatusLayout.forScreen(320,180);assertEquals(l.bodyHeight(),l.thumbHeight(10));assertEquals(l.bodyTop(),l.thumbTop(100,10));assertEquals(0,l.scrollForThumb(100,10,0),0);}
+}
