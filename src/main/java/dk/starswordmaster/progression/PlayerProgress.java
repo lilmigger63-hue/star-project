@@ -1,6 +1,7 @@
 package dk.starswordmaster.progression;
 import java.util.*;
 public final class PlayerProgress {
+ public static final int STAT_POINTS_PER_LEVEL=5;
  public enum PlayerClass { UNINITIATED, SWORDSMAN, MAGE, SPELLBLADE }
  public enum Stat { STRENGTH, AGILITY, ENDURANCE, SPIRIT }
  public enum SwordStyle { QUICK, HEAVY, DEFENSIVE }
@@ -12,7 +13,8 @@ public final class PlayerProgress {
  private int characterXp;
  private final EnumMap<Stat,Integer> stats=new EnumMap<>(Stat.class);
  public int stat(Stat s){return stats.getOrDefault(s,0);}
- public int statPoints(){return Math.max(0,level()-1-stats.values().stream().mapToInt(Integer::intValue).sum());}
+ // Derived entitlement makes old saves and repeated snapshots idempotent: allocated stats are never re-awarded.
+ public int statPoints(){return Math.max(0,STAT_POINTS_PER_LEVEL*(level()-1)-stats.values().stream().mapToInt(Integer::intValue).sum());}
  public boolean spendStat(Stat s){if(s==null||statPoints()==0)return false;stats.put(s,stat(s)+1);return true;}
  public double damageMultiplier(){return 1+0.025*stat(Stat.STRENGTH)+(rank()==3?0.15:0);}
  private PlayerClass playerClass=PlayerClass.UNINITIATED;
@@ -111,7 +113,7 @@ public final class PlayerProgress {
   try{q.playerClass=PlayerClass.valueOf(p.getProperty("class","UNINITIATED"));}catch(IllegalArgumentException ignored){}
   if(q.level()<10)q.playerClass=PlayerClass.UNINITIATED;
   try{q.style=SwordStyle.valueOf(p.getProperty("style","QUICK"));}catch(IllegalArgumentException ignored){}
-  for(Stat s:Stat.values()){int n=integer(p,"stat."+s,99);q.stats.put(s,Math.min(n,q.statPoints()));}
+  for(Stat s:Stat.values()){int n=integer(p,"stat."+s,99*STAT_POINTS_PER_LEVEL);q.stats.put(s,Math.min(n,q.statPoints()));}
     Set<String> requested=new LinkedHashSet<>(Arrays.asList(p.getProperty("learned","").split(",")));
   for(int pass=0;pass<Ability.ALL.size();pass++)for(Ability a:Ability.ALL.values())if(requested.contains(a.id())&&!q.learned.contains(a.id()))q.unlock(a.id());
   q.mana=number(p,"mana",q.maxMana());q.stamina=number(p,"stamina",q.maxStamina());

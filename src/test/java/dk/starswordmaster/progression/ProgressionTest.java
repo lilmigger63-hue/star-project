@@ -41,7 +41,7 @@ public class ProgressionTest {
   var stats=veteran();double oldMax=stats.maxMana();
   check(stats.spendStat(PlayerProgress.Stat.SPIRIT),"spend statpoint");
   check(stats.maxMana()>oldMax,"spirit increases mana");
-  check(stats.statPoints()==stats.level()-2,"stat point accounting");
+  check(stats.statPoints()==5*(stats.level()-1)-1,"stat point accounting");
   check(PlayerProgress.fromProperties(stats.toProperties()).stat(PlayerProgress.Stat.SPIRIT)==1,"stats persist");
   check(!new PlayerProgress().spendStat(PlayerProgress.Stat.STRENGTH),"no free stats");
   var exhausted=veteran();exhausted.unlock("spark");exhausted.assign(0,"spark");

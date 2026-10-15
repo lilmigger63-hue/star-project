@@ -110,8 +110,8 @@
   "status.starswordmaster.stat.agility": "Smidighed",
   "status.starswordmaster.stat.endurance": "Udholdenhed",
   "status.starswordmaster.stat.spirit": "Ånd",
-  "status.starswordmaster.stat_points": "Statpoint",
-  "status.starswordmaster.perk_points": "Perkpoint",
+  "status.starswordmaster.stat_points": "Ubrugte statpoint",
+  "status.starswordmaster.perk_points": "Perkpoint (evner)",
   "status.starswordmaster.mana": "Mana",
   "status.starswordmaster.stamina": "Stamina",
   "status.starswordmaster.active": "Aktive evner",
@@ -124,5 +124,12 @@
   "status.starswordmaster.class.spellblade": "Magisk sværdkæmper",
   "status.starswordmaster.style.quick": "Hurtig",
   "status.starswordmaster.style.heavy": "Tung",
-  "status.starswordmaster.style.defensive": "Defensiv"
+  "status.starswordmaster.style.defensive": "Defensiv",
+  "status.starswordmaster.increase_stat": "%s +1 (1 statpoint)",
+  "status.starswordmaster.effect.strength": "Evneskade +2,5% pr. point",
+  "status.starswordmaster.effect.agility": "Cooldown −1%/point (maks. 40%)",
+  "status.starswordmaster.effect.endurance": "+5 maks. stamina pr. point",
+  "status.starswordmaster.effect.spirit": "+5 maks. mana pr. point",
+  "screen.starswordmaster.learn_perk": "Lær evne · 1 perkpoint",
+  "message.starswordmaster.level_up": "Level %s! +%s statpoint · +%s perkpoint"
 }

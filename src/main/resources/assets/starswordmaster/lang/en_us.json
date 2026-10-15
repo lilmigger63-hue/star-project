@@ -110,8 +110,8 @@
   "status.starswordmaster.stat.agility": "Agility",
   "status.starswordmaster.stat.endurance": "Endurance",
   "status.starswordmaster.stat.spirit": "Spirit",
-  "status.starswordmaster.stat_points": "Stat points",
-  "status.starswordmaster.perk_points": "Perk points",
+  "status.starswordmaster.stat_points": "Unspent stat points",
+  "status.starswordmaster.perk_points": "Perk points (skills)",
   "status.starswordmaster.mana": "Mana",
   "status.starswordmaster.stamina": "Stamina",
   "status.starswordmaster.active": "Active skills",
@@ -124,5 +124,12 @@
   "status.starswordmaster.class.spellblade": "Spellblade",
   "status.starswordmaster.style.quick": "Quick",
   "status.starswordmaster.style.heavy": "Heavy",
-  "status.starswordmaster.style.defensive": "Defensive"
+  "status.starswordmaster.style.defensive": "Defensive",
+  "status.starswordmaster.increase_stat": "Add 1 %s (1 stat point)",
+  "status.starswordmaster.effect.strength": "+2.5% ability damage per point",
+  "status.starswordmaster.effect.agility": "Cooldown −1%/point (max. 40%)",
+  "status.starswordmaster.effect.endurance": "+5 max stamina per point",
+  "status.starswordmaster.effect.spirit": "+5 max mana per point",
+  "screen.starswordmaster.learn_perk": "Learn skill · 1 perk point",
+  "message.starswordmaster.level_up": "Level %s! +%s stat points · +%s perk points"
 }

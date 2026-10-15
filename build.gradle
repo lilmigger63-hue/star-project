@@ -44,4 +44,7 @@ loom.runs {
 loom.runs {
  smokeStatus { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StatusSmoke'; vmArg '-Dstarsmoke.status=true' }
  smokeHud { client(); source sourceSets.smoke; runDir 'run'; programArg '--username'; programArg 'StatusSmoke'; vmArg '-Dstarsmoke.hud=true' }
+ smokePointsServer { server(); source sourceSets.smoke; runDir 'run/points-server'; vmArg '-Dstarsmoke.points=true'; vmArg '-Dstarsmoke.points.reset=true' }
+ smokePointsA { client(); source sourceSets.smoke; runDir 'run/points-a'; programArg '--username'; programArg 'PointsSmokeA'; vmArg '-Dstarsmoke.points=true'; vmArg '-Dstarsmoke.points.role=A' }
+ smokePointsB { client(); source sourceSets.smoke; runDir 'run/points-b'; programArg '--username'; programArg 'PointsSmokeB'; vmArg '-Dstarsmoke.points=true'; vmArg '-Dstarsmoke.points.role=B' }
 }

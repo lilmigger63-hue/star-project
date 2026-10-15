@@ -1,4 +1,13 @@
-# Validering — Star Swordmaster 0.3.2
+# Validering — Star Swordmaster 0.3.3
+
+## Separate statpoint og perkpoint i version 0.3.3
+
+Verificeret 15. oktober 2026:
+- `./gradlew --offline build smokeClasses` med Java 21: 53 JUnit-tests og 37 selvstændige progressionskontroller består. Nye tests dækker alle 100 levels, to levels fra én XP-tildeling, adskilte pointbeholdninger, gamle fordelte stats, gentagne indlæsninger, persistens for forskellige UUID'er, levelmaksimum og op til 495 point i én stat.
+- Statbudgettet udledes af level og gemte stats uden nye felter: `5 × (level − 1) − fordelte point`. Gamle stats og perkregler bevares; differencen til det nye budget er til rådighed uden gentagen tildeling. Gemmeformatet er fortsat schema 1.
+- H viser fire plusknapper, særskilte pointtal og de eksisterende stateffekter. K har kun perk-køb. Serveren validerer, gemmer og synkroniserer via den eksisterende protokol. Minecraft-XP og moddens XP-kilder er uændrede.
+- Begge klientscenarier består på en rigtig Fabric-server med Better Combat og to samtidige klienter: 46 kontroller for A og 43 for B. De dækker gamle profiler, H-køb i alle fire stats, K-oplåsning, afvisning af overforbrug og udskiftning af pointtype, flere levels, ubrugte point, død/respawn og genforbindelse. Klient B overvåger, at klient A ikke påvirker dens point. Testprofiler og helperkommandoer indgår ikke i mod-JAR'en.
+- Kodegennemgangens scroll/Enter-kanttilfælde blev reproduceret med en fejlet klienttest før rettelsen. Input opdaterer nu knappernes synlighed før tastaturaktivering. Layouttests dækker knappernes placering og fravær af klikbare knapper uden for udsnittet. H er visuelt kontrolleret i bredt og smalt layout; manglende data/forsinkede snapshots er også dækket af klienttesten.
 
 ## Evnebjælke i version 0.3.2
 
