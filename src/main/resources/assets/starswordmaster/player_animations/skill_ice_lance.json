@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "name": "skill_ice_lance",
+  "author": "Star Swordmaster",
+  "description": "Original anime fantasy choreography. Shape a narrow lance above the left palm and spear it forward from the shoulder.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 10,
+    "stopTick": 12,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -58,
+          "yaw": -22,
+          "roll": 14
+        },
+        "leftArm": {
+          "pitch": -72,
+          "yaw": 20,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": -3,
+          "yaw": -7,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 4,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -124,
+          "yaw": -30,
+          "roll": 24
+        },
+        "leftArm": {
+          "pitch": -88,
+          "yaw": 26,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": -6,
+          "yaw": -13,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -94,
+          "yaw": 3,
+          "roll": -6
+        },
+        "leftArm": {
+          "pitch": -65,
+          "yaw": 8,
+          "roll": -28
+        },
+        "torso": {
+          "pitch": 8,
+          "yaw": 8,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -99,
+          "yaw": 6,
+          "roll": -12
+        },
+        "leftArm": {
+          "pitch": -44,
+          "yaw": -4,
+          "roll": -22
+        },
+        "torso": {
+          "pitch": 9,
+          "yaw": 12,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -44,
+          "yaw": -8,
+          "roll": 10
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": 6,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": -2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

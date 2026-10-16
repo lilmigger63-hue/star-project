@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "name": "skill_mend",
+  "author": "Star Swordmaster",
+  "description": "Original anime fantasy choreography. Cup a wound, gather both hands close and release a gentle healing pulse.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 17,
+    "stopTick": 20,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -42,
+          "yaw": 32,
+          "roll": 10
+        },
+        "leftArm": {
+          "pitch": -44,
+          "yaw": -30,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 5,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -76,
+          "yaw": 38,
+          "roll": 22
+        },
+        "leftArm": {
+          "pitch": -74,
+          "yaw": -36,
+          "roll": -24
+        },
+        "torso": {
+          "pitch": 7,
+          "yaw": -2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -88,
+          "yaw": 12,
+          "roll": 32
+        },
+        "leftArm": {
+          "pitch": -86,
+          "yaw": -10,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 13,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -66,
+          "yaw": -5,
+          "roll": 35
+        },
+        "leftArm": {
+          "pitch": -70,
+          "yaw": 7,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": -2,
+          "yaw": 2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 17,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -27,
+          "yaw": 0,
+          "roll": 12
+        },
+        "leftArm": {
+          "pitch": -29,
+          "yaw": 0,
+          "roll": -14
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

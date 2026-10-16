@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "name": "skill_ice_prison",
+  "author": "Star Swordmaster",
+  "description": "Original anime fantasy choreography. Mark two frozen pillars, raise them with offset hands and close the cage across the chest.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 18,
+    "stopTick": 20,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -56,
+          "yaw": -28,
+          "roll": 46
+        },
+        "leftArm": {
+          "pitch": -42,
+          "yaw": 24,
+          "roll": -52
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": -5,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -112,
+          "yaw": -32,
+          "roll": 54
+        },
+        "leftArm": {
+          "pitch": -92,
+          "yaw": 28,
+          "roll": -60
+        },
+        "torso": {
+          "pitch": -3,
+          "yaw": -8,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -144,
+          "yaw": -12,
+          "roll": 34
+        },
+        "leftArm": {
+          "pitch": -132,
+          "yaw": 10,
+          "roll": -42
+        },
+        "torso": {
+          "pitch": -7,
+          "yaw": -3,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -96,
+          "yaw": 42,
+          "roll": 56
+        },
+        "leftArm": {
+          "pitch": -108,
+          "yaw": -40,
+          "roll": -52
+        },
+        "torso": {
+          "pitch": 3,
+          "yaw": 7,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -42,
+          "yaw": 16,
+          "roll": 24
+        },
+        "leftArm": {
+          "pitch": -50,
+          "yaw": -16,
+          "roll": -28
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

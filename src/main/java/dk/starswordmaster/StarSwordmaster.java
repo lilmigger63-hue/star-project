@@ -32,6 +32,7 @@ public final class StarSwordmaster implements ModInitializer {
   if(gained.signum()>0)p.sendMessage(Text.translatable("message.starswordmaster.level_up",data.level().toString(),gained.multiply(java.math.BigInteger.valueOf(PlayerProgress.STAT_POINTS_PER_LEVEL)).toString(),gained.toString()),true);
  }
  @Override public void onInitialize(){
+  dk.starswordmaster.presentation.PresentationParticleTypes.register();
   PayloadTypeRegistry.playC2S().register(ActionPayload.ID,ActionPayload.CODEC);
   PayloadTypeRegistry.playS2C().register(SnapshotPayload.ID,SnapshotPayload.CODEC);
   PayloadTypeRegistry.playS2C().register(AbilityPresentationPayload.ID,AbilityPresentationPayload.CODEC);

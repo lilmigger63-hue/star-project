@@ -1,4 +1,15 @@
-# Validering — Star Swordmaster 0.3.10
+# Validering — Star Swordmaster 0.4.0
+
+## Udbyggede animationer og effekter i version 0.4.0
+
+Verificeret 16. oktober 2026:
+- `./gradlew --offline build smokeClasses test --rerun` med Java 21 består: **118 JUnit-tests**, nul fejl/spring og **37 selvstændige progressionskontroller**. Minecraft 1.21.10, Fabric, Better Combat 3.0.0+1.21.10 og PAL 1.1.3 er uændrede; ingen nye afhængigheder.
+- Alle **32 aktive evner** har et særskilt indlæseligt originalt PAL-klip og en unik rumlig koreografi. Testene sammenligner geometri uden farver/spritevalg og validerer tid, neutrale slutposer, sikre torso-/armrotationer, 43 samlede klip og seks forskellige originale sprites med nærmeste-nabo-filter. De 12 passive noder animeres ikke.
+- En rigtig Minecraft-klient med integreret server gennemfører **374 kontroller**. Alle 32 evner viser faktisk PAL-armbevægelse og de nye atlaspartikler. Better Combat-angreb giver fortsat skade før/efter evner. Manglende mana/stamina, cooldown, forkert våben, manglende mål og fuldt liv giver ingen præsentation. Venstrehånd, dubletter, forsinkede hændelser, skade, våbenskift, Better Combat-angreb, vanilla-slag, død/respawn, disconnect og genindlæst verden kontrolleres. Manglende nyt PAL-klip efterlader en fungerende partikel-fallback.
+- En dedikeret Fabric-server med to samtidige rigtige klienter gennemfører **376 kontroller på A og 68 på B**. Observatøren ser PAL-animation og faktiske nye pixelpartikler for samtlige 32 aktive evner, kan selv kaste, og begge klienter modtager hinandens hændelser. Serverafbrydelse, udløb, genforbindelse og Better Combat-angreb består. Serverens audits bekræfter uændret helbred på spillerens tamme ulv for begge spillere.
+- Den rigtige klient begrænser 1.000 emissionsanmodninger til præcis **256 faktiske nye partikler** og udsender ingen ved MINIMAL. En separat budgettest stresser 64 samtidige kastere. Mønstre er fortsat højst 12 punkter/opdatering, op til otte træfaccents, 64 blokkes visningsafstand og seks blokkes radius; nye quads lever højst 12 ticks. Screenshots af stål, ild, frost, stjerne og healing er gemt; udvalgte er visuelt kontrolleret.
+- Release-JAR har version 0.4.0, gyldig ZIP-integritet og ingen smoke-klasser. **37 af 48 eksisterende klasser** og alle **58 eksisterende assets** er byte-identiske med 0.3.10. Alle gameplay-, progression-, stat-, lagrings-, eksisterende netværks- og HUD-klasser er uændrede. Fælles init tilføjer alene seks native partikelregistreringer; klientens præsentationskode og kosmetiske katalog/mønstre er udbygget. Gemmeformat, XP, point, målvalg, evnetiming, skade og priser ændres ikke.
+- Spiltestene bruger lokal offline-login og virtuel skærm. Offentlige online-servere og lydoutput er ikke verificeret. Smoke-observatøren afventer nu første animationstick før PAL-kontrollen; dedikerede testforløb starter med en frisk server-session, da sekvensnumre med vilje bevares på serveren mellem genforbindelser. Testkilder medfølger ikke i mod-JAR'en. [Alle evners faktiske animationer/effekter](ABILITY_PRESENTATION.md).
 
 ## XP og sult uden mellemrum over hotbaren i version 0.3.10
 

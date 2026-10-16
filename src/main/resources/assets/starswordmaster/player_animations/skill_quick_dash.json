@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "name": "skill_quick_dash",
+  "author": "Star Swordmaster",
+  "description": "Original anime fantasy choreography. Tuck the blade beside the ribs, drive the shoulders and catch the exit.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 8,
+    "stopTick": 10,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -42,
+          "yaw": -24,
+          "roll": 22
+        },
+        "leftArm": {
+          "pitch": -38,
+          "yaw": 20,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": 9,
+          "yaw": -8,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -62,
+          "yaw": -38,
+          "roll": 38
+        },
+        "leftArm": {
+          "pitch": -56,
+          "yaw": 28,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 15,
+          "yaw": -14,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 4,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -28,
+          "yaw": 12,
+          "roll": -16
+        },
+        "leftArm": {
+          "pitch": -20,
+          "yaw": -12,
+          "roll": -28
+        },
+        "torso": {
+          "pitch": 19,
+          "yaw": 6,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -48,
+          "yaw": 6,
+          "roll": -26
+        },
+        "leftArm": {
+          "pitch": -28,
+          "yaw": -6,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 8,
+          "yaw": 8,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -20,
+          "yaw": -4,
+          "roll": 8
+        },
+        "leftArm": {
+          "pitch": -12,
+          "yaw": 4,
+          "roll": -6
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": -2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

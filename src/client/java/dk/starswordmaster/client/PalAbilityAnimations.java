@@ -36,7 +36,7 @@ final class PalAbilityAnimations {
  }
  static boolean play(PlayerEntity player,AbilityPresentation p,int elapsed){
   try{
-   var clip=Identifier.of("starswordmaster",p.clip().id());
+   var clip=Identifier.of("starswordmaster",p.animationId());
    if(!PlayerAnimResources.hasAnimation(clip)||attackActive(player))return false;
    if(PlayerAnimationAccess.getPlayerAnimationLayer(player,LAYER) instanceof PlayerAnimationController c){
     for(var modifier:c.getModifiers())if(modifier instanceof MirrorModifier mirror)mirror.enabled=player.getMainArm()==Arm.LEFT;

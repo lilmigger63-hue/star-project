@@ -1,7 +1,9 @@
 package dk.starswordmaster.presentation;
 import java.util.*;
 /** Cosmetic catalogue only: no costs, damage, cooldowns or progression. */
-public record AbilityPresentation(Clip clip,Element element,Pattern pattern,double radius,int samples) {
+public record AbilityPresentation(Clip clip,Element element,Pattern pattern,double radius,int samples,String abilityId) {
+ public AbilityPresentation(Clip clip,Element element,Pattern pattern,double radius,int samples){this(clip,element,pattern,radius,samples,"");}
+ public String animationId(){return abilityId.isEmpty()?clip.id():"skill_"+abilityId;}
  public enum Clip { SLASH(12),SWEEP(18),RAPID(12),HEAVY(18),THRUST(12),GUARD(16),DASH(10),CAST(14),CHANNEL(20),AURA(18),HEAL(20);
   private final int ticks;Clip(int ticks){this.ticks=ticks;}public int ticks(){return ticks;}
   public String id(){return "ability_"+name().toLowerCase(Locale.ROOT);}
@@ -48,6 +50,6 @@ public record AbilityPresentation(Clip clip,Element element,Pattern pattern,doub
   ALL=Collections.unmodifiableMap(map);
  }
  private static void put(Map<String,AbilityPresentation> map,Clip clip,Element element,Pattern pattern,double radius,int samples,String...ids){
-  for(String id:ids)if(map.put(id,new AbilityPresentation(clip,element,pattern,radius,samples))!=null)throw new IllegalStateException("Duplicate presentation: "+id);
+  for(String id:ids)if(map.put(id,new AbilityPresentation(clip,element,pattern,radius,samples,id))!=null)throw new IllegalStateException("Duplicate presentation: "+id);
  }
 }

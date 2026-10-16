@@ -1,0 +1,168 @@
+{
+  "version": 3,
+  "name": "skill_seismic_cut",
+  "author": "Star Swordmaster",
+  "description": "Original anime fantasy choreography. Lift the blade above the crown, strike low and brace through a ground-shock recoil.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 16,
+    "stopTick": 18,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -82,
+          "yaw": -8,
+          "roll": 24
+        },
+        "leftArm": {
+          "pitch": -70,
+          "yaw": 12,
+          "roll": -28
+        },
+        "torso": {
+          "pitch": -3,
+          "yaw": -3,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -151,
+          "yaw": -18,
+          "roll": 34
+        },
+        "leftArm": {
+          "pitch": -138,
+          "yaw": 22,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": -10,
+          "yaw": -10,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -24,
+          "yaw": 12,
+          "roll": -18
+        },
+        "leftArm": {
+          "pitch": -34,
+          "yaw": -8,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": 24,
+          "yaw": 12,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 11,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -40,
+          "yaw": 18,
+          "roll": -30
+        },
+        "leftArm": {
+          "pitch": -46,
+          "yaw": -14,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": 17,
+          "yaw": 16,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -70,
+          "yaw": -8,
+          "roll": 22
+        },
+        "leftArm": {
+          "pitch": -62,
+          "yaw": 10,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": 5,
+          "yaw": -4,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -38,
+          "yaw": 0,
+          "roll": 8
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": 2,
+          "roll": -14
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

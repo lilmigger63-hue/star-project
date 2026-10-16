@@ -1,0 +1,168 @@
+{
+  "version": 3,
+  "name": "skill_glacier_sweep",
+  "author": "Star Swordmaster",
+  "description": "Original anime fantasy choreography. Hold a cold high side guard, draw a broad level arc and finish with the off palm spread.",
+  "emote": {
+    "isLoop": false,
+    "returnTick": 0,
+    "beginTick": 0,
+    "endTick": 17,
+    "stopTick": 18,
+    "degrees": true,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -110,
+          "yaw": -34,
+          "roll": 54
+        },
+        "leftArm": {
+          "pitch": -65,
+          "yaw": 22,
+          "roll": -36
+        },
+        "torso": {
+          "pitch": -5,
+          "yaw": -14,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -130,
+          "yaw": -48,
+          "roll": 74
+        },
+        "leftArm": {
+          "pitch": -82,
+          "yaw": 30,
+          "roll": -44
+        },
+        "torso": {
+          "pitch": -7,
+          "yaw": -24,
+          "roll": 3
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -94,
+          "yaw": 10,
+          "roll": -18
+        },
+        "leftArm": {
+          "pitch": -76,
+          "yaw": -12,
+          "roll": -54
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 5,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -72,
+          "yaw": 48,
+          "roll": -88
+        },
+        "leftArm": {
+          "pitch": -92,
+          "yaw": 24,
+          "roll": -78
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 25,
+          "roll": -3
+        }
+      },
+      {
+        "tick": 15,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -84,
+          "yaw": 24,
+          "roll": -42
+        },
+        "leftArm": {
+          "pitch": -56,
+          "yaw": 12,
+          "roll": -48
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 13,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 17,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -26,
+          "yaw": 4,
+          "roll": -8
+        },
+        "leftArm": {
+          "pitch": -26,
+          "yaw": 4,
+          "roll": -18
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

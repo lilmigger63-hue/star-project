@@ -1,11 +1,13 @@
 # star-project
 to mods
 
-## Star Swordmaster 0.3.10 downloads
+## Star Swordmaster 0.4.0 downloads
 
-- [Download the mod (.jar)](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.3.10/star-swordmaster-0.3.10.jar)
-- [Checksums](releases/0.3.10/SHA256SUMS.txt)
+- [Download the mod (.jar)](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.4.0/star-swordmaster-0.4.0.jar)
+- [Checksums](releases/0.4.0/SHA256SUMS.txt)
 - [Validation and limitations](VALIDATION.md)
+
+Version **0.4.0** udbygger alle **32 aktive evner** med hver sit originale PAL-klip, forskellige effektbaner og seks skarpe pixelpartikler. Klinge-efterbilleder, buer, fartstreger, håndsegl, lanser, frostskår og helingsmønstre bruger stadig samme Better Combat-/serverbekræftede system og de tidligere partikelgrænser. Skade, priser, timing, progression og HUD bevares. [Komplet animation-/effektoversigt](ABILITY_PRESENTATION.md).
 
 Version **0.3.10** placerer vanilla-XP, leveltal og sult direkte over hotbaren: XP-bjælkens nederste kant møder hotbarens yderkant med **0 GUI-enheders afstand** og uden overlap. Ressourcepanelet og evnebjælken under stamina bevarer deres placeringer. [HUD-layout](HUD_LAYOUT.md).
 
@@ -24,7 +26,7 @@ Selvstændig Fabric-mod til Minecraft **1.21.10**. Din egen karakter udvikler si
    - [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat)
    - [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config)
    - [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). Den kompatible fil hedder `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; udgiverens metadata angiver også Minecraft 1.21.10.
-3. Læg **star-swordmaster-0.3.10.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
+3. Læg **star-swordmaster-0.4.0.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
 4. Start Minecraft. I co-op skal alle klienter og serveren have samme version af modden og dens afhængigheder.
 
 Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker er ikke kompatibilitetstestet; Better Combat og afhængighederne ovenfor er testet sammen med denne mod.
