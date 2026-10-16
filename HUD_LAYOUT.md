@@ -1,4 +1,4 @@
-# HUD-layout — 0.3.9
+# HUD-layout — 0.3.10
 
 Ressourcepanelet bevarer sine 176 × 40 GUI-enheder, hoved/levelmarkør og blå mana/rødt liv/grøn stamina med faktiske synkroniserede værdier. Evnebjælken ligger nu under stamina; vanilla-hotbaren er fortsat centreret nederst.
 
@@ -15,7 +15,9 @@ Alle mål er GUI-enheder beregnet fra det aktuelle skalerede vindue. Ved GUI-bre
 
 Under 630 GUI-enheder flyttes hele venstre gruppe op over de native rustnings-/luftindikatorer. Ressourcepanelets normale top er `h−151`; evnebjælken følger med direkte under stamina og slutter mindst 4 enheder over indikatorerne. Gruppen reserverer 19 ekstra enheder i forhold til 0.3.8: 2 i mellemrum og 17 som den afrundede pladsreservation for den 16,5-høje bjælke. Selve renderingen er fortsat præcis 16,5. Ekstra native livsrækker, absorption, kortvarigt bevaret liv og luft over ridedyr indgår fortsat i pladsreservationen.
 
-**Vanilla-hotbar, XP og sult flyttes ikke fra 0.3.8.** Hotbarens baggrund ligger ved `h−22`, valgt slots yderkant ved `h−23`. Den native indikatorgruppe har fortsat løft 29: XP-bjælke ved `h−58`, sult over XP, uændrede leveltekst-/locator-/ridehopfunktioner. Evnebjælken har ingen tilknytning til hotbarens overkant længere.
+**Vanilla-hotbaren flyttes ikke.** Baggrunden ligger ved `h−22`, valgt slots yderkant ved `h−23`. XP-bjælken ligger nu ved **`h−28`**, er 5 enheder høj og slutter præcis ved **`h−23`**: **0 GUI-enheders afstand til hotbarens faktiske yderkant**, uden overlap. Leveltallet følger med ved `h−34`. Sult tegnes over XP ved `h−38` med vanillas sædvanlige rystelse bevaret. Hele XP-/level-/sultgruppen er flyttet 30 enheder ned fra 0.3.9; der er ingen tom række under gruppen.
+
+Kun XP-, XP-level- og sultlagene får den nye forskydning. Native rustning, luft, ridedyrshelbred, locator-markører og ride-hopbjælke beholder det tidligere løft på 29. Minecrafts eksisterende valg mellem XP, locator og ride-hop ændres ikke; locator-/ridevisning og tilhørende leveltekst flyttes ikke. Evnebjælke, ressourcepanel, chat, genstandsnavne og øvrige ankre er uændrede fra 0.3.9.
 
 ## Chat, synlighed og data
 

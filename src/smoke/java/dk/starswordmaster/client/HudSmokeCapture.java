@@ -7,7 +7,7 @@ import java.util.*;
 public final class HudSmokeCapture {
  public record Rect(float x,float y,float width,float height){}
  public static final Map<String,List<Rect>> textures=new HashMap<>();
- public static Rect itemName,skillBar;
+ public static Rect itemName,skillBar,experienceLevel;
  public static void text(DrawContext c,int x,int y,int width){var point=c.getMatrices().transformPosition(x,y,new Vector2f());itemName=new Rect(point.x,point.y,width,9);}
  public static void capture(DrawContext c,Identifier texture,int x,int y,int width,int height){
   if(!Boolean.getBoolean("starsmoke.hud"))return;
@@ -19,4 +19,5 @@ public final class HudSmokeCapture {
   if(!Boolean.getBoolean("starsmoke.hud")||x2-x1!=182||y2-y1!=22||color!=0xFF536273)return;
   var start=c.getMatrices().transformPosition(x1,y1,new Vector2f());var end=c.getMatrices().transformPosition(x2,y2,new Vector2f());skillBar=new Rect(start.x,start.y,end.x-start.x,end.y-start.y);
  }
+ public static void experience(DrawContext c,int x,int y,int width){var point=c.getMatrices().transformPosition(x,y,new Vector2f());experienceLevel=new Rect(point.x,point.y,width,9);}
 }

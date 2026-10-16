@@ -21,15 +21,17 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import org.lwjgl.glfw.GLFW;
 /** Actual native geometry, read-only rendering, chat hit targets and visibility on a local test world. */
 public class HudSmokeClient implements ClientModInitializer {
- private int ticks,stage,wait,checks;private boolean started,finished,checkedRender,forceFallback,lastVisible,sawFallback;private Properties before;private double mana,stamina,health;
+ private int ticks,stage,wait,checks;private boolean started,finished,checkedRender,forceFallback,lastVisible,sawFallback;private Properties before;private double mana,stamina,health;private volatile boolean fixtureLoaded;
  private void check(boolean value,String name){if(!value)throw new AssertionError("HUD_SMOKE FAIL: "+name+" stage="+stage);checks++;System.out.println("HUD_SMOKE PASS: "+name);}
  private void size(MinecraftClient c,int w,int h,int scale){c.getWindow().setWindowedSize(w,h);GLFW.glfwSetWindowPos(c.getWindow().getHandle(),0,0);c.options.getGuiScale().setValue(scale);c.onResolutionChanged();}
- private void screenshot(MinecraftClient c,String name){ScreenshotRecorder.saveScreenshot(c.runDirectory,"hud-039-"+name+".png",c.getFramebuffer(),1,message->{});}
+ private void screenshot(MinecraftClient c,String name){ScreenshotRecorder.saveScreenshot(c.runDirectory,"hud-0310-"+name+".png",c.getFramebuffer(),1,message->{});}
  private void player(MinecraftClient c,Consumer<ServerPlayerEntity> action){var id=c.player.getUuid();c.getServer().execute(()->action.accept(c.getServer().getPlayerManager().getPlayer(id)));}
  private HudSmokeCapture.Rect texture(String id){var matches=HudSmokeCapture.textures.get(id);if(matches==null||matches.isEmpty())throw new AssertionError("HUD_SMOKE missing native texture "+id+" captured="+HudSmokeCapture.textures.keySet());return matches.getFirst();}
  private void bounds(MinecraftClient c){
   int w=c.getWindow().getScaledWidth(),h=c.getWindow().getScaledHeight();var r=SkillHud.resourceLayout(w,h);var s=SkillHudLayout.forResources(r);var bar=HudSmokeCapture.skillBar;var hotbar=texture("hud/hotbar");var selected=texture("hud/hotbar_selection");var xp=texture("hud/experience_bar_background");
   check(hotbar.x()==w/2-91&&hotbar.y()==h-22&&selected.y()==h-23,"native hotbar stays centered and unchanged at "+w+"x"+h);
+  check(xp.y()+xp.height()==selected.y(),"native XP touches hotbar outer edge with zero GUI gap");
+  var level=HudSmokeCapture.experienceLevel;check(level!=null&&level.y()==xp.y()-6&&level.y()+level.height()+1<=selected.y(),"actual XP level stays with XP bar and clears hotbar");
   check(bar!=null&&bar.width()==136.5f&&bar.height()==16.5f,"actual entire ability bar is scaled to 75 percent");
   check(bar.x()==r.barX()&&bar.y()==r.barY(2)+ResourceHudLayout.BAR_HEIGHT+2,"actual ability bar left aligns two units below stamina");
   check(r.x()==6&&r.y()>=6&&bar.y()+bar.height()<=h-6,"resource and ability group fits left edge and bottom");
@@ -39,7 +41,6 @@ public class HudSmokeClient implements ClientModInitializer {
   check(icons.size()==4&&icons.stream().allMatch(i->i.width()==12&&i.height()==12),"all assigned HUD icons use uniform 75 percent scale");
   var food=HudSmokeCapture.textures.entrySet().stream().filter(e->e.getKey().startsWith("hud/food_")).flatMap(e->e.getValue().stream()).toList();
   check(!food.isEmpty()&&food.stream().allMatch(f->f.y()+f.height()<=xp.y()),"actual hunger textures remain above native XP");
-  check(xp.y()==h-58,"native XP retains its 0.3.8 position");
  }
  private void open(MinecraftClient c,String id){var key=Arrays.stream(c.options.allKeys).filter(k->k.getId().equals("key.starswordmaster."+id)).findFirst().orElseThrow();KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(key));}
  private void chat(MinecraftClient c,double scale){
@@ -56,7 +57,7 @@ public class HudSmokeClient implements ClientModInitializer {
  @Override public void onInitializeClient(){
   if(!Boolean.getBoolean("starsmoke.hud"))return;
   ClientLifecycleEvents.CLIENT_STARTED.register(c->{c.options.pauseOnLostFocus=false;c.getTutorialManager().setStep(TutorialStep.NONE);
-   HudElementRegistry.attachElementBefore(VanillaHudElements.HOTBAR,Identifier.of("starsmoke","hud_capture"),(context,tick)->{HudSmokeCapture.textures.clear();if(forceFallback)StarSwordmasterClient.ready=false;});
+   HudElementRegistry.attachElementBefore(VanillaHudElements.HOTBAR,Identifier.of("starsmoke","hud_capture"),(context,tick)->{HudSmokeCapture.textures.clear();HudSmokeCapture.experienceLevel=null;if(forceFallback)StarSwordmasterClient.ready=false;});
    var skills=Identifier.of("starswordmaster","skills");
    HudElementRegistry.attachElementBefore(skills,Identifier.of("starsmoke","before_skills"),(context,tick)->before=StarSwordmasterClient.ready?StarSwordmasterClient.data.toProperties():null);
    HudElementRegistry.attachElementAfter(skills,Identifier.of("starsmoke","after_skills"),(context,tick)->{lastVisible=SkillHud.visible(c);if(forceFallback&&!lastVisible&&SkillHud.chatLift()==0)sawFallback=true;if(before!=null){if(!before.equals(StarSwordmasterClient.data.toProperties()))throw new AssertionError("HUD_SMOKE FAIL: rendering changed player data");checkedRender=true;}});
@@ -65,6 +66,7 @@ public class HudSmokeClient implements ClientModInitializer {
    if(!finished&&++ticks>5000)throw new AssertionError("HUD_SMOKE timeout at stage "+stage);
    if(!started&&ticks>100&&c.currentScreen!=null){started=true;c.createIntegratedServerLoader().start("HudSmoke",()->c.setScreen(new TitleScreen()));}
    if(finished||c.player==null||(!StarSwordmasterClient.ready&&!forceFallback)||(stage!=3&&wait++<20))return;if(stage==3&&StarSwordmasterClient.data.cooldown("guard")==0)return;wait=0;
+   if(stage==0&&!fixtureLoaded){player(c,p->{fixtureLoaded=p.isLoaded();System.out.println("HUD_SMOKE fixture vanillaLoaded="+fixtureLoaded);});return;}
    switch(stage++){
     case 0->{c.setScreen(null);size(c,1280,720,2);player(c,p->{p.clearStatusEffects();p.setHealth(p.getMaxHealth()-4);p.getAbilities().invulnerable=true;p.equipStack(EquipmentSlot.MAINHAND,new ItemStack(Items.IRON_SWORD));p.equipStack(EquipmentSlot.CHEST,new ItemStack(Items.IRON_CHESTPLATE));p.equipStack(EquipmentSlot.OFFHAND,new ItemStack(Items.SHIELD));p.setExperienceLevel(6);p.setExperiencePoints(10);p.getHungerManager().setFoodLevel(6);});int[] keys={GLFW.GLFW_KEY_Z,GLFW.GLFW_KEY_X,GLFW.GLFW_KEY_C,GLFW.GLFW_KEY_V,GLFW.GLFW_KEY_B};for(int i=0;i<5;i++)check(StarSwordmasterClient.keys[i].getDefaultKey().getCode()==keys[i],"slot key "+i+" preserved");}
     case 1->{bounds(c);check(StarSwordmasterClient.data.canCast(3),"existing Mending Light can cast");mana=StarSwordmasterClient.data.mana();health=c.player.getHealth();KeyBinding.onKeyPressed(KeyBindingHelper.getBoundKeyOf(StarSwordmasterClient.keys[3]));}

@@ -22,13 +22,16 @@ public final class SkillHud {
    var mc=MinecraftClient.getInstance();boolean nativeStatus=!id.equals(VanillaHudElements.HELD_ITEM_TOOLTIP)||mc.interactionManager==null||mc.interactionManager.hasStatusBars();
    renderVanilla(context,()->original.render(context,tick),layout.tooltipLift(context.getScaledWindowHeight(),indicatorExtra(),nativeStatus));
   });
-  // Keep native XP/food/armor/air at their existing positions; abilities are a separate left-side group.
+  // Only XP, its level and food meet the hotbar. Other native indicators keep their existing lift.
   for(var id:new Identifier[]{VanillaHudElements.ARMOR_BAR,VanillaHudElements.FOOD_BAR,VanillaHudElements.AIR_BAR,VanillaHudElements.MOUNT_HEALTH,VanillaHudElements.INFO_BAR,VanillaHudElements.EXPERIENCE_LEVEL}){
    HudElementRegistry.replaceElement(id,original->(context,tick)->{
-    renderVanillaIndicator(context,()->original.render(context,tick));
+    int lift=id.equals(VanillaHudElements.FOOD_BAR)?SkillHudLayout.EXPERIENCE_LIFT:
+     id.equals(VanillaHudElements.INFO_BAR)||id.equals(VanillaHudElements.EXPERIENCE_LEVEL)?SkillHudLayout.infoBarLift(experienceBar()):SkillHudLayout.VANILLA_LIFT;
+    renderVanilla(context,()->original.render(context,tick),lift);
    });
   }
  }
+ private static boolean experienceBar(){return ((HudHealthAccessor)MinecraftClient.getInstance().inGameHud).starswordmaster$getCurrentBar().getValue() instanceof net.minecraft.client.gui.hud.bar.ExperienceBar;}
  public static ResourceHudLayout resourceLayout(int width,int height){return ResourceHudLayout.forScreen(width,height,indicatorExtra());}
  private static int indicatorExtra(){
   var mc=MinecraftClient.getInstance();var p=mc.player;if(p==null)return 0;

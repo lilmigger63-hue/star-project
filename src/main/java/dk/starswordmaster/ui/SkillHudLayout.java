@@ -5,6 +5,9 @@ public record SkillHudLayout(int x,int y) {
  public static final float SCALE=0.75f,SCALED_WIDTH=WIDTH*SCALE,SCALED_HEIGHT=HEIGHT*SCALE;
  public static final int VANILLA_WIDTH=182,VANILLA_HEIGHT=22,VANILLA_OFFHAND_WIDTH=29,VANILLA_TOP_OFFSET=23;
  public static final int VANILLA_LIFT=29;
+ // Native XP ends at h-24; its bottom must meet the hotbar selection's outer top at h-23.
+ public static final int EXPERIENCE_LIFT=VANILLA_TOP_OFFSET-(29-5);
+ public static int infoBarLift(boolean experienceBar){return experienceBar?EXPERIENCE_LIFT:VANILLA_LIFT;}
  public static SkillHudLayout forScreen(int scaledWidth,int scaledHeight){return forResources(ResourceHudLayout.forScreen(scaledWidth,scaledHeight));}
  public static SkillHudLayout forResources(ResourceHudLayout resources){return new SkillHudLayout(resources.barX(),resources.barY(2)+ResourceHudLayout.BAR_HEIGHT+GAP);}
  public int slotX(int slot){return x+1+(2+slot)*SLOT_PITCH;}

@@ -8,8 +8,8 @@ public class BottomLeftHudLayoutTest {
  @Test public void narrowPanelStacksAtLeftAboveCompactIndicators(){
   for(int w:new int[]{320,321,427,561,629}){var r=ResourceHudLayout.forScreen(w,240);assertTrue(r.stacked());assertEquals(6,r.x());assertTrue(r.y()+40<=240-49-r.vanillaLift()-4);}
  }
- @Test public void hungerAndExperienceKeepTheirExistingPositions(){
-  for(int w:new int[]{320,640,853}){var r=ResourceHudLayout.forScreen(w,240);int xpTop=240-29-r.vanillaLift(),foodTop=240-39-r.vanillaLift();assertEquals(182,xpTop);assertEquals(172,foodTop);assertEquals(1,xpTop-(foodTop+9));}
+ @Test public void hungerAndExperienceMeetHotbarWithoutMovingOtherIndicators(){
+  for(int w:new int[]{320,640,853}){var r=ResourceHudLayout.forScreen(w,240);int xpTop=240-29-SkillHudLayout.EXPERIENCE_LIFT,foodTop=240-39-SkillHudLayout.EXPERIENCE_LIFT;assertEquals(212,xpTop);assertEquals(202,foodTop);assertEquals(29,r.vanillaLift());assertEquals(1,xpTop-(foodTop+9));}
  }
  @Test public void stackedPanelAndTooltipsClearExtraArmorAndAirRows(){
   for(int extra:new int[]{0,10,18,24}){var r=ResourceHudLayout.forScreen(320,240,extra);int nativeTop=240-59-r.vanillaLift()-extra;assertTrue(r.y()>=6);assertTrue(r.y()+40<=nativeTop-4);int tooltipBottom=240-59-r.tooltipLift(240,extra)+9;assertTrue(tooltipBottom<=r.y()-4);}

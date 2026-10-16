@@ -16,4 +16,6 @@ abstract class HudDrawCaptureMixin {
  private void fill(int x1,int y1,int x2,int y2,int color,CallbackInfo ci){HudSmokeCapture.fill((DrawContext)(Object)this,x1,y1,x2,y2,color);}
  @Inject(method="drawTexture(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/util/Identifier;IIFFIIIIII)V",at=@At("HEAD"))
  private void icon(RenderPipeline pipeline,Identifier texture,int x,int y,float u,float v,int width,int height,int regionWidth,int regionHeight,int textureWidth,int textureHeight,CallbackInfo ci){HudSmokeCapture.capture((DrawContext)(Object)this,texture,x,y,width,height);}
+ @Inject(method="drawText(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;IIIZ)V",at=@At("HEAD"))
+ private void experience(net.minecraft.client.font.TextRenderer renderer,net.minecraft.text.Text text,int x,int y,int color,boolean shadow,CallbackInfo ci){if(Boolean.getBoolean("starsmoke.hud")&&color==0xFF80FF20)HudSmokeCapture.experience((DrawContext)(Object)this,x,y,renderer.getWidth(text));}
 }
