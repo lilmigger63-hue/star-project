@@ -24,7 +24,7 @@ public class SkillHudLayoutTest {
  }
  @Test public void liftedVanillaIndicatorsClearBothBars(){
   var l=SkillHudLayout.forScreen(320,240);var resources=ResourceHudLayout.forScreen(320,240);
-  assertTrue(240-24-resources.vanillaLift()<resources.y());assertTrue(resources.y()+ResourceHudLayout.HEIGHT<l.y());assertTrue(l.y()+SkillHudLayout.HEIGHT<240-22);
+  assertTrue(resources.y()+ResourceHudLayout.HEIGHT<=240-59-resources.vanillaLift()-4);assertTrue(resources.y()+ResourceHudLayout.HEIGHT<l.y());assertTrue(l.y()+SkillHudLayout.HEIGHT<240-22);
  }
- @Test public void locatorDownArrowClearsResourcePanel(){var l=ResourceHudLayout.forScreen(320,240);assertTrue(240-18-l.vanillaLift()<=l.y()-2);}
+ @Test public void locatorDownArrowClearsSkillBar(){var l=ResourceHudLayout.forScreen(320,240);assertTrue(240-18-l.vanillaLift()<=SkillHudLayout.forScreen(320,240).y()-2);}
 }

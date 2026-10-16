@@ -25,7 +25,9 @@ Eksisterende mana, stamina, liv, skader, klasse-/rang-/stilbonusser og fordelte 
 
 Installer samme nye version på klient og server. Behold en kopi af verdenen ved opdatering; ældre modversioner forstår ikke de nye store XP-tal og må ikke bruges til at skrive opdaterede data tilbage.
 
-## HUD-geometri
+## HUD-geometri i 0.3.7
+
+Placeringerne nedenfor beskriver 0.3.7. Se [HUD_LAYOUT.md](HUD_LAYOUT.md) for den nye venstre forankring og kompakte XP-/sultgruppe i 0.3.8; XP-reglen og migrationen ovenfor er uændrede.
 
 Evnebjælken er stadig **182 × 22 GUI-enheder**, med de samme fem slots, ikoner, rækkefølge og **Z/X/C/V/B**. Begge bjælker er centreret på `GUI-bredde / 2`.
 

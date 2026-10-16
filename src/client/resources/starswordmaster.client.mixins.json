@@ -4,7 +4,8 @@
  "compatibilityLevel": "JAVA_21",
  "client": [
   "HudBarAddonsMixin",
-  "HudHealthAccessor"
+  "HudHealthAccessor",
+  "ChatHudLayoutMixin"
  ],
  "injectors": {
   "defaultRequire": 1

@@ -21,7 +21,7 @@ public class LevelingSmokeClient implements ClientModInitializer {
  private void connect(MinecraftClient c){if(single){c.createIntegratedServerLoader().start("LevelSmoke",()->c.setScreen(new TitleScreen()));return;}ConnectScreen.connect(new TitleScreen(),c,ServerAddress.parse("127.0.0.1:25571"),new ServerInfo("Leveling test","127.0.0.1:25571",ServerInfo.ServerType.OTHER),false,null);}
  private void size(MinecraftClient c,int w,int h,int scale){c.getWindow().setWindowedSize(w,h);GLFW.glfwSetWindowPos(c.getWindow().getHandle(),0,0);c.options.getGuiScale().setValue(scale);c.onResolutionChanged();}
  private void bounds(MinecraftClient c,String name){int w=c.getWindow().getScaledWidth(),h=c.getWindow().getScaledHeight();var s=SkillHudLayout.forScreen(w,h);var r=ResourceHudLayout.forScreen(w,h);
-  check(s.x()==w/2-91&&s.y()+22==h-23,"zero GUI gap to native selection/offhand outer edge at "+w+"x"+h);check(SkillHudLayout.GAP==0&&SkillHudLayout.WIDTH==182&&SkillHudLayout.HEIGHT==22,"bar size/slots remain native sized");check(r.y()==h-(r.stacked()?92:66)&&r.vanillaLift()==(r.stacked()?76:44),"resource HUD and XP/vanilla lift remain unchanged");
+  check(s.x()==w/2-91&&s.y()+22==h-23,"zero GUI gap to native selection/offhand outer edge at "+w+"x"+h);check(SkillHudLayout.GAP==0&&SkillHudLayout.WIDTH==182&&SkillHudLayout.HEIGHT==22,"bar size/slots remain native sized");check(r.x()==6&&r.y()==h-(r.stacked()?132:66)&&r.vanillaLift()==29,"resources dock left and native group clears skills");
   ScreenshotRecorder.saveScreenshot(c.runDirectory,"level-"+role+"-"+name+".png",c.getFramebuffer(),1,m->{});
  }
  @Override public void onInitializeClient(){

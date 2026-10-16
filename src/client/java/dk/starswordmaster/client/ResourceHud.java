@@ -11,7 +11,7 @@ public final class ResourceHud {
  public static void render(DrawContext c){
   var mc=MinecraftClient.getInstance();if(!SkillHud.visible(mc))return;
   var d=ResourceHudData.from(StarSwordmasterClient.data,StarSwordmasterClient.ready,mc.player.getHealth(),mc.player.getMaxHealth(),mc.player.getAbsorptionAmount()).orElseThrow();
-  var l=ResourceHudLayout.forScreen(c.getScaledWindowWidth(),c.getScaledWindowHeight());
+  var l=SkillHud.resourceLayout(c.getScaledWindowWidth(),c.getScaledWindowHeight());
   portrait(c,mc,l,d.level());
   meter(c,l,0,d.mana(),d.mana().text(),0xFF2675BF,0xFF5CBAEF,0);
   meter(c,l,1,d.health(),d.healthText(),0xFFB52F3F,0xFFF06069,d.absorption());

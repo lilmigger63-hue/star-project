@@ -1,17 +1,23 @@
 package dk.starswordmaster.ui;
-/** Resource portrait and meters in scaled GUI units, beside the existing skill bar when space permits. */
+/** Bottom-left resources; narrow windows stack above the compact native indicators. All units are scaled GUI units. */
 public record ResourceHudLayout(int x,int y,boolean stacked,int vanillaLift) {
  public static final int WIDTH=176,HEIGHT=40,PORTRAIT_SIZE=40,BAR_WIDTH=132,BAR_HEIGHT=12;
- public static ResourceHudLayout forScreen(int scaledWidth,int scaledHeight){
-  var skills=SkillHudLayout.forScreen(scaledWidth,scaledHeight);boolean stacked=skills.x()<WIDTH+8+6;
-  int x=stacked?scaledWidth/2-WIDTH/2:skills.x()-8-WIDTH;
-  // Resource portrait stays at its existing screen position as only the ability bar moves down.
-  int resourceAnchor=scaledHeight-2*SkillHudLayout.HEIGHT-4;
-  int y=stacked?resourceAnchor-4-HEIGHT:resourceAnchor+SkillHudLayout.HEIGHT-HEIGHT;
-  // The locator's lowest arrow reaches height - 18; leave two units above the stacked panel.
-  int lift=stacked?scaledHeight-18-y+2:SkillHudLayout.VANILLA_LIFT;
-  return new ResourceHudLayout(x,y,stacked,lift);
+ public static final int MARGIN=6,SIDE_GAP=8,STACK_GAP=4;
+ public static ResourceHudLayout forScreen(int scaledWidth,int scaledHeight){return forScreen(scaledWidth,scaledHeight,0);}
+ public static ResourceHudLayout forScreen(int scaledWidth,int scaledHeight,int indicatorExtra){
+  var skills=SkillHudLayout.forScreen(scaledWidth,scaledHeight);
+  boolean stacked=skills.x()<MARGIN+WIDTH+SIDE_GAP;
+  int lift=SkillHudLayout.VANILLA_LIFT;
+  // Reserve armor and air above the compact hunger/XP group, including extra native rows.
+  int y=stacked?scaledHeight-59-lift-Math.max(0,indicatorExtra)-STACK_GAP-HEIGHT:scaledHeight-SkillHudLayout.HEIGHT-4-HEIGHT;
+  return new ResourceHudLayout(MARGIN,Math.max(MARGIN,y),stacked,lift);
  }
+ public int reservedTop(int height,int indicatorExtra){return Math.min(y,height-59-vanillaLift-Math.max(0,indicatorExtra));}
+ public int tooltipLift(int height,int indicatorExtra){return tooltipLift(height,indicatorExtra,true);}
+ public int tooltipLift(int height,int indicatorExtra,boolean statusBars){return (statusBars?0:14)+ Math.max(vanillaLift,height-50-reservedTop(height,indicatorExtra)+STACK_GAP);}
+ // Reserve the queued-message button below chat and native item/actionbar text above the HUD.
+ public int chatLift(int height,int indicatorExtra){return Math.max(0,height-28-reservedTop(height,indicatorExtra)+30);}
+ public int chatHeight(int height,int requested,double scale,int indicatorExtra){return Math.min(requested,Math.max(9,(int)Math.floor((height-40-chatLift(height,indicatorExtra)-MARGIN)/scale)));}
  /** Vanilla puts armor above its health rows; the selected item label otherwise stays at height - 59. */
  public static int tooltipExtraLift(double maxHealth,double absorption){
   return tooltipExtraLift(maxHealth,0,0,absorption);

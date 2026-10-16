@@ -9,6 +9,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.util.Identifier;
 import net.minecraft.text.Text;
+import net.minecraft.entity.LivingEntity;
 public final class SkillHud {
  public static void register(){
   HudElementRegistry.attachElementAfter(VanillaHudElements.HOTBAR,Identifier.of("starswordmaster","skills"),(context,tick)->render(context));
@@ -17,22 +18,38 @@ public final class SkillHud {
    if(!visible(MinecraftClient.getInstance()))original.render(context,tick);
   });
   for(var id:new Identifier[]{VanillaHudElements.HELD_ITEM_TOOLTIP,VanillaHudElements.OVERLAY_MESSAGE})HudElementRegistry.replaceElement(id,original->(context,tick)->{
-   var mc=MinecraftClient.getInstance();var player=mc.player;
-   int extra=player==null?0:ResourceHudLayout.tooltipExtraLift(player.getMaxHealth(),player.getHealth(),((HudHealthAccessor)mc.inGameHud).starswordmaster$getRenderHealthValue(),player.getAbsorptionAmount());
-   renderVanillaIndicator(context,()->original.render(context,tick),extra);
+   var layout=resourceLayout(context.getScaledWindowWidth(),context.getScaledWindowHeight());
+   var mc=MinecraftClient.getInstance();boolean nativeStatus=!id.equals(VanillaHudElements.HELD_ITEM_TOOLTIP)||mc.interactionManager==null||mc.interactionManager.hasStatusBars();
+   renderVanilla(context,()->original.render(context,tick),layout.tooltipLift(context.getScaledWindowHeight(),indicatorExtra(),nativeStatus));
   });
-  // Reserve room above the hotbar; resource layout chooses the offset at the current GUI size.
+  // Keep the native XP/food/armor/air group compact above the unchanged ability bar.
   for(var id:new Identifier[]{VanillaHudElements.ARMOR_BAR,VanillaHudElements.FOOD_BAR,VanillaHudElements.AIR_BAR,VanillaHudElements.MOUNT_HEALTH,VanillaHudElements.INFO_BAR,VanillaHudElements.EXPERIENCE_LEVEL}){
    HudElementRegistry.replaceElement(id,original->(context,tick)->{
     renderVanillaIndicator(context,()->original.render(context,tick));
    });
   }
  }
- public static void renderVanillaIndicator(DrawContext context,Runnable draw){renderVanillaIndicator(context,draw,0);}
- private static void renderVanillaIndicator(DrawContext context,Runnable draw,int extra){
+ public static ResourceHudLayout resourceLayout(int width,int height){return ResourceHudLayout.forScreen(width,height,indicatorExtra());}
+ private static int indicatorExtra(){
+  var mc=MinecraftClient.getInstance();var p=mc.player;if(p==null)return 0;
+  int armor=ResourceHudLayout.tooltipExtraLift(p.getMaxHealth(),p.getHealth(),((HudHealthAccessor)mc.inGameHud).starswordmaster$getRenderHealthValue(),p.getAbsorptionAmount());
+  int hearts=p.getVehicle() instanceof LivingEntity mount&&mount.isLiving()?Math.min(30,(int)(mount.getMaxHealth()+0.5F)/2):0;
+  int air=Math.max(0,(hearts+9)/10-2)*10;
+  return Math.max(armor,air);
+ }
+ public static int chatLift(){
+  var mc=MinecraftClient.getInstance();if(!visible(mc))return 0;
+  int h=mc.getWindow().getScaledHeight();return resourceLayout(mc.getWindow().getScaledWidth(),h).chatLift(h,indicatorExtra());
+ }
+ public static int chatHeight(int requested,double scale){
+  var mc=MinecraftClient.getInstance();if(!visible(mc))return requested;
+  int h=mc.getWindow().getScaledHeight();return resourceLayout(mc.getWindow().getScaledWidth(),h).chatHeight(h,requested,scale,indicatorExtra());
+ }
+ public static void renderVanillaIndicator(DrawContext context,Runnable draw){renderVanilla(context,draw,SkillHudLayout.VANILLA_LIFT);}
+ private static void renderVanilla(DrawContext context,Runnable draw,int lift){
   if(!visible(MinecraftClient.getInstance())){draw.run();return;}
   var matrices=context.getMatrices();matrices.pushMatrix();
-  try{matrices.translate(0,-ResourceHudLayout.forScreen(context.getScaledWindowWidth(),context.getScaledWindowHeight()).vanillaLift()-extra);draw.run();}finally{matrices.popMatrix();}
+  try{matrices.translate(0,-lift);draw.run();}finally{matrices.popMatrix();}
  }
  static boolean visible(MinecraftClient mc){return StarSwordmasterClient.ready&&StarSwordmasterClient.data!=null&&mc.player!=null&&!mc.player.isSpectator()&&!mc.options.hudHidden;}
  public static Text name(String id){return Text.translatable("ability.starswordmaster."+id);}
