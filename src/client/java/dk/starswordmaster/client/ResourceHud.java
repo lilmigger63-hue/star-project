@@ -45,7 +45,7 @@ public final class ResourceHud {
  }
  private static int inset(int diameter,int row){double radius=diameter/2.0,dy=row+0.5-radius;return (int)Math.ceil(radius-Math.sqrt(Math.max(0,radius*radius-dy*dy)));}
  private static void disc(DrawContext c,int x,int y,int diameter,int top,int bottom){for(int row=0;row<diameter;row++){int left=inset(diameter,row);c.fill(x+left,y+row,x+diameter-left,y+row+1,row<diameter/2?top:bottom);}}
- private static void portrait(DrawContext c,MinecraftClient mc,ResourceHudLayout l,int level){
+ private static void portrait(DrawContext c,MinecraftClient mc,ResourceHudLayout l,java.math.BigInteger level){
   int x=l.x(),y=l.y();disc(c,x,y,40,0xFF090E18,0xFF090E18);disc(c,x+1,y+1,38,0xFFB1B8C6,0xFF3E4C61);disc(c,x+3,y+3,34,0xFF182433,0xFF182433);
   // Vanilla provides a default skin while remote textures load. Clip its normal face/hat draw to a circle.
   var skin=mc.player.getSkin();
@@ -53,7 +53,7 @@ public final class ResourceHud {
    int left=inset(32,row);c.enableScissor(x+4+left,y+4+row,x+36-left,y+5+row);
    try{PlayerSkinDrawer.draw(c,skin,x+4,y+4,32);}finally{c.disableScissor();}
   }
-  String text="Lv "+level;int w=Math.max(30,mc.textRenderer.getWidth(text)+4),bx=x+(40-w)/2;
+  String full="Lv "+level;String text=mc.textRenderer.getWidth(full)<=36?full:mc.textRenderer.trimToWidth(full,30)+"…";int w=Math.max(30,mc.textRenderer.getWidth(text)+4),bx=x+(40-w)/2;
   c.fill(bx,y+30,bx+w,y+40,0xFF080D17);c.fill(bx+1,y+31,bx+w-1,y+39,0xFF263348);
   c.drawTextWithShadow(mc.textRenderer,text,x+(40-mc.textRenderer.getWidth(text))/2,y+31,0xFFFFDC93);
  }

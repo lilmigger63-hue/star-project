@@ -75,3 +75,10 @@ loom.runs {
  smokeAnimationsB { client(); source sourceSets.smoke; runDir 'run/animations-b'; programArg '--username'; programArg 'AnimationSmokeB'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.role=B' }
  smokeAnimationsSingleplayer { client(); source sourceSets.smoke; runDir 'run/animations-sp'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true' }
 }
+
+loom.runs {
+ smokeLevelingServer { server(); source sourceSets.smoke; runDir 'run/leveling-server'; vmArg '-Dstarsmoke.leveling=true' }
+ smokeLevelingA { client(); source sourceSets.smoke; runDir 'run/leveling-a'; programArg '--username'; programArg 'LevelSmokeA'; vmArg '-Dstarsmoke.leveling=true' }
+ smokeLevelingB { client(); source sourceSets.smoke; runDir 'run/leveling-b'; programArg '--username'; programArg 'LevelSmokeB'; vmArg '-Dstarsmoke.leveling=true'; vmArg '-Dstarsmoke.leveling.role=B' }
+ smokeLevelingSingleplayer { client(); source sourceSets.smoke; runDir 'run/leveling-sp'; programArg '--username'; programArg 'LevelSmokeA'; vmArg '-Dstarsmoke.leveling=true'; vmArg '-Dstarsmoke.leveling.singleplayer=true' }
+}

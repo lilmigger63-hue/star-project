@@ -47,7 +47,7 @@ public final class StatusScreen extends Screen {
  }
  private void spendStat(PlayerProgress.Stat stat){
   var data=StarSwordmasterClient.data;
-  if(!StarSwordmasterClient.ready||client==null||client.player==null||data==null||data.statPoints()==0||pendingStatSnapshot==data)return;
+  if(!StarSwordmasterClient.ready||client==null||client.player==null||data==null||data.statPoints().signum()==0||pendingStatSnapshot==data)return;
   pendingStatSnapshot=data;StarSwordmasterClient.send("stat",stat.name(),0);updateStatButtons();
  }
  private void updateStatButtons(){
@@ -57,7 +57,7 @@ public final class StatusScreen extends Screen {
   for(int i=0;i<statButtons.size();i++){
    var button=statButtons.get(i);int y=layout.statButtonY(i,scroll);
    button.setX(layout.statButtonX());button.setY(y);button.visible=ready&&layout.statButtonInView(y);
-   button.active=ready&&data.statPoints()>0&&pendingStatSnapshot==null;
+   button.active=ready&&data.statPoints().signum()>0&&data.stat(PlayerProgress.Stat.values()[i])<Integer.MAX_VALUE&&pendingStatSnapshot==null;
   }
  }
  @Override public void tick(){updateStatButtons();}
@@ -79,17 +79,17 @@ public final class StatusScreen extends Screen {
  }
  private void character(DrawContext c,StatusData d,int x,int y,int w){
   card(c,"character",x,y,w,StatusLayout.CHARACTER_HEIGHT);
-  row(c,"level",Text.literal(Integer.toString(d.level())),x,y+20,w);
+  row(c,"level",Text.literal(d.level().toString()),x,y+20,w);
   row(c,"class",label("class."+d.playerClass().name().toLowerCase(Locale.ROOT)),x,y+31,w);
   row(c,"rank",Text.literal(Integer.toString(d.rank())),x,y+42,w);
   row(c,"style",label("style."+d.style().name().toLowerCase(Locale.ROOT)),x,y+53,w);
-  row(c,"total_xp",Text.literal(Integer.toString(d.totalXp())),x,y+64,w);
-  text(c,d.xpForNextLevel()==0?label("max_level"):label("next_xp",d.xpInLevel(),d.xpForNextLevel()),x+8,y+77,w-16,MUTED);
+  row(c,"total_xp",Text.literal(d.totalXp().toString()),x,y+64,w);
+  text(c,label("next_xp",d.xpInLevel().toString(),d.xpForNextLevel().toString()),x+8,y+77,w-16,MUTED);
   bar(c,x+8,y+90,w-16,d.xpProgress(),0xFFBDA268);
-  row(c,"perk_points",Text.literal(Integer.toString(d.perkPoints())),x,y+103,w);
+  row(c,"perk_points",Text.literal(d.perkPoints().toString()),x,y+103,w);
  }
  private void stats(DrawContext c,StatusData d,int x,int y,int w){
-  card(c,"stats",x,y,w,StatusLayout.STATS_HEIGHT);row(c,"stat_points",Text.literal(Integer.toString(d.statPoints())),x,y+20,w);int i=0;
+  card(c,"stats",x,y,w,StatusLayout.STATS_HEIGHT);row(c,"stat_points",Text.literal(d.statPoints().toString()),x,y+20,w);int i=0;
   for(var stat:PlayerProgress.Stat.values()){
    String key=stat.name().toLowerCase(Locale.ROOT);int rowY=y+38+26*i++;
    row(c,"stat."+key,Text.literal(Integer.toString(d.stats().get(stat))),x,rowY,w-28);

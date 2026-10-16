@@ -5,7 +5,9 @@ public record ResourceHudLayout(int x,int y,boolean stacked,int vanillaLift) {
  public static ResourceHudLayout forScreen(int scaledWidth,int scaledHeight){
   var skills=SkillHudLayout.forScreen(scaledWidth,scaledHeight);boolean stacked=skills.x()<WIDTH+8+6;
   int x=stacked?scaledWidth/2-WIDTH/2:skills.x()-8-WIDTH;
-  int y=stacked?skills.y()-4-HEIGHT:skills.y()+SkillHudLayout.HEIGHT-HEIGHT;
+  // Resource portrait stays at its existing screen position as only the ability bar moves down.
+  int resourceAnchor=scaledHeight-2*SkillHudLayout.HEIGHT-4;
+  int y=stacked?resourceAnchor-4-HEIGHT:resourceAnchor+SkillHudLayout.HEIGHT-HEIGHT;
   // The locator's lowest arrow reaches height - 18; leave two units above the stacked panel.
   int lift=stacked?scaledHeight-18-y+2:SkillHudLayout.VANILLA_LIFT;
   return new ResourceHudLayout(x,y,stacked,lift);

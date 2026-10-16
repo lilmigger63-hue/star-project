@@ -27,9 +27,9 @@ public final class StarSwordmaster implements ModInitializer {
  public static void combat(ServerPlayerEntity p){combatUntil.put(p.getUuid(),ticks+160);}
  public static void practice(ServerPlayerEntity p,Skill skill,int amount){
   if(ticks-practiceAt.getOrDefault(p.getUuid(),-100L)<10)return;
-  var data=progress(p);int old=data.level();data.awardPractice(skill,amount);practiceAt.put(p.getUuid(),ticks);
-  int gained=data.level()-old;
-  if(gained>0)p.sendMessage(Text.translatable("message.starswordmaster.level_up",data.level(),gained*PlayerProgress.STAT_POINTS_PER_LEVEL,gained),true);
+  var data=progress(p);var old=data.level();data.awardPractice(skill,amount);practiceAt.put(p.getUuid(),ticks);
+  var gained=data.level().subtract(old);
+  if(gained.signum()>0)p.sendMessage(Text.translatable("message.starswordmaster.level_up",data.level().toString(),gained.multiply(java.math.BigInteger.valueOf(PlayerProgress.STAT_POINTS_PER_LEVEL)).toString(),gained.toString()),true);
  }
  @Override public void onInitialize(){
   PayloadTypeRegistry.playC2S().register(ActionPayload.ID,ActionPayload.CODEC);

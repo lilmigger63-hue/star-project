@@ -47,8 +47,8 @@ public final class SkillTreeScreen extends Screen {
  private void updateButtons(){
   var p=StarSwordmasterClient.data;var a=Ability.ALL.get(selected);
   String[] styles={"Hurtig stil","Tung stil","Defensiv stil"};for(int i=0;i<styleButtons.size();i++)styleButtons.get(i).setMessage(Text.literal((p.style()==PlayerProgress.SwordStyle.values()[i]?"[ ":"")+styles[i]+(p.style()==PlayerProgress.SwordStyle.values()[i]?" ]":"")));
-  for(var b:classButtons)b.active=p.level()>=10&&p.playerClass()==PlayerProgress.PlayerClass.UNINITIATED;
-  unlock.active=a!=null&&!p.learned().contains(selected)&&p.points()>0&&(a.exclusiveClass()==null||a.exclusiveClass()==p.playerClass())&&p.skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||p.learned().contains(a.parent()));
+  for(var b:classButtons)b.active=p.level().compareTo(java.math.BigInteger.TEN)>=0&&p.playerClass()==PlayerProgress.PlayerClass.UNINITIATED;
+  unlock.active=a!=null&&!p.learned().contains(selected)&&p.points().signum()>0&&(a.exclusiveClass()==null||a.exclusiveClass()==p.playerClass())&&p.skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||p.learned().contains(a.parent()));
   for(var b:assignButtons)b.active=a!=null&&a.active()&&p.learned().contains(selected);
  }
  @Override public void tick(){updateButtons();}
@@ -65,7 +65,7 @@ public final class SkillTreeScreen extends Screen {
   c.enableScissor(0,51,panelX,height-50);
   for(Node n:nodes){Ability a=Ability.ALL.get(n.id());Node parent=find(a.parent());int px=parent==null?(int)view.screenX(0,panelX/2.0):nx(parent),py=parent==null?(int)view.screenY(0,height/2.0):ny(parent);line(c,px,py,nx(n),ny(n),p.learned().contains(n.id())?0xFFB29150:0xFF3C4D61);}
   int size=Math.max(12,(int)(26*view.zoom()));
-  for(Node n:nodes){int x=nx(n)-size/2,y=ny(n)-size/2;if(n.id().equals(selected))c.fill(x-3,y-3,x+size+3,y+size+3,0xFFE8CE8B);Ability ability=Ability.ALL.get(n.id());boolean known=p.learned().contains(n.id());boolean classLocked=ability.exclusiveClass()!=null&&ability.exclusiveClass()!=p.playerClass();boolean available=!classLocked&&p.points()>0&&p.skillLevel(ability.skill())>=ability.requirement()&&(ability.parent().isEmpty()||p.learned().contains(ability.parent()));
+  for(Node n:nodes){int x=nx(n)-size/2,y=ny(n)-size/2;if(n.id().equals(selected))c.fill(x-3,y-3,x+size+3,y+size+3,0xFFE8CE8B);Ability ability=Ability.ALL.get(n.id());boolean known=p.learned().contains(n.id());boolean classLocked=ability.exclusiveClass()!=null&&ability.exclusiveClass()!=p.playerClass();boolean available=!classLocked&&p.points().signum()>0&&p.skillLevel(ability.skill())>=ability.requirement()&&(ability.parent().isEmpty()||p.learned().contains(ability.parent()));
    int frame=known?0xFFFFCF68:classLocked?0xFF874254:available?0xFF6CDCCD:0xFF49586E;c.fill(x-2,y-2,x+size+2,y+size+2,frame);SkillHud.icon(c,n.id(),x,y,size,known||available);}
   c.disableScissor();
   Ability a=Ability.ALL.get(selected);

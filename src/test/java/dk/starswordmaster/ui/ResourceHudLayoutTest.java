@@ -2,8 +2,8 @@ package dk.starswordmaster.ui;
 import org.junit.Test;
 import static org.junit.Assert.*;
 public class ResourceHudLayoutTest {
- @Test public void wideGuiPlacesPanelLeftOfUnchangedSkillBar(){var skills=SkillHudLayout.forScreen(640,360);var l=ResourceHudLayout.forScreen(640,360);assertFalse(l.stacked());assertEquals(skills.x()-8,l.x()+ResourceHudLayout.WIDTH);assertEquals(skills.y()+22,l.y()+ResourceHudLayout.HEIGHT);assertEquals(44,l.vanillaLift());}
- @Test public void narrowGuiStacksPanelAboveSkillBar(){var skills=SkillHudLayout.forScreen(320,240);var l=ResourceHudLayout.forScreen(320,240);assertTrue(l.stacked());assertEquals(320/2,l.x()+ResourceHudLayout.WIDTH/2);assertEquals(skills.y()-4,l.y()+ResourceHudLayout.HEIGHT);assertEquals(76,l.vanillaLift());}
+ @Test public void wideGuiPlacesPanelLeftOfUnchangedSkillBar(){var skills=SkillHudLayout.forScreen(640,360);var l=ResourceHudLayout.forScreen(640,360);assertFalse(l.stacked());assertEquals(skills.x()-8,l.x()+ResourceHudLayout.WIDTH);assertEquals(334,l.y()+ResourceHudLayout.HEIGHT);assertEquals(44,l.vanillaLift());}
+ @Test public void narrowGuiStacksPanelAboveSkillBar(){var skills=SkillHudLayout.forScreen(320,240);var l=ResourceHudLayout.forScreen(320,240);assertTrue(l.stacked());assertEquals(320/2,l.x()+ResourceHudLayout.WIDTH/2);assertEquals(188,l.y()+ResourceHudLayout.HEIGHT);assertEquals(76,l.vanillaLift());}
  @Test public void layoutsFitCurrentGuiAndClearHotbarAcrossResizeAndScale(){
   for(int[] size:new int[][]{{1920,1080},{1280,800},{960,720},{853,481},{640,480}})for(int scale=1;scale<=4;scale++){
    // Minecraft limits effective GUI scales to at least 320 x 240.

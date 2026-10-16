@@ -9,8 +9,8 @@ public class DomainContractTest {
  @Test public void playersPersistSeparately() throws Exception {
   Path dir=Files.createTempDirectory("star-save-test");var store=new PlayerStore(dir);UUID a=UUID.randomUUID(),b=UUID.randomUUID();
   for(int i=0;i<100;i++)store.get(a).awardPractice(Skill.SWORD,20);
-  assertTrue(store.get(a).level()>store.get(b).level());store.saveAll();var restored=new PlayerStore(dir);
-  assertEquals(store.get(a).level(),restored.get(a).level());assertEquals(1,restored.get(b).level());
+  assertTrue(store.get(a).level().intValueExact()>store.get(b).level().intValueExact());store.saveAll();var restored=new PlayerStore(dir);
+  assertEquals(store.get(a).level().intValueExact(),restored.get(a).level().intValueExact());assertEquals(1,restored.get(b).level().intValueExact());
   assertFalse(Files.exists(dir.resolve(a+".tmp")));
   for(Path p:Files.list(dir).toList())Files.delete(p);Files.delete(dir);
  }
@@ -46,7 +46,7 @@ public class DomainContractTest {
   var r=PlayerProgress.fromProperties(s.toProperties());assertEquals(s.stamina(),r.stamina(),0);
  }
  @Test public void classSelectionOpensAtExactlyLevelTen(){
-  var props=new Properties();props.setProperty("xp","1349");var nine=PlayerProgress.fromProperties(props);assertEquals(9,nine.level());assertFalse(nine.chooseClass(PlayerProgress.PlayerClass.MAGE));
-  props.setProperty("xp","1350");var ten=PlayerProgress.fromProperties(props);assertEquals(10,ten.level());assertTrue(ten.chooseClass(PlayerProgress.PlayerClass.MAGE));
+  var props=new Properties();props.setProperty("xp","1349");var nine=PlayerProgress.fromProperties(props);assertEquals(9,nine.level().intValueExact());assertFalse(nine.chooseClass(PlayerProgress.PlayerClass.MAGE));
+  props.setProperty("xp","1350");var ten=PlayerProgress.fromProperties(props);assertEquals(10,ten.level().intValueExact());assertTrue(ten.chooseClass(PlayerProgress.PlayerClass.MAGE));
  }
 }

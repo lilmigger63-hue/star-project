@@ -7,8 +7,8 @@ public class SkillHudLayoutTest {
    int w=(size[0]+scale-1)/scale,h=(size[1]+scale-1)/scale;
    var l=SkillHudLayout.forScreen(w,h);
    assertEquals(w/2-91,l.x());assertEquals(182,SkillHudLayout.WIDTH);assertEquals(22,SkillHudLayout.HEIGHT);
-   assertEquals(h-22-SkillHudLayout.GAP,l.y()+SkillHudLayout.HEIGHT);
-   assertTrue(l.y()+SkillHudLayout.HEIGHT<h-23); // Even the vanilla selection's top border stays clear.
+   assertEquals(h-23-SkillHudLayout.GAP,l.y()+SkillHudLayout.HEIGHT);
+   assertEquals(h-23,l.y()+SkillHudLayout.HEIGHT); // Touch the actual outer top, including selected-slot border.
   }
  }
  @Test public void fiveVanillaSizedSlotsAreSymmetricWithEmptySides(){
