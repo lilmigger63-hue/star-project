@@ -9,33 +9,6 @@ to mods
 
 Version **0.3.6** tilføjer animationer og visuelle effekter til **alle 32 aktive evner** med 11 originale Player Animation Library-klip. Sværdhug, stik, fejninger, parader, dash, ild, frost, stjerneaura og healing har passende udtryk; andre spillere ser de serverbekræftede aktiveringer. [Komplet oversigt over evner, animationer og effekter](ABILITY_PRESENTATION.md). Den runde markør og blå mana/rødt liv/grøn stamina fra 0.3.5 bevares sammen med H/K, Better Combat-angreb og separate stat-/perkpoint. Kræver Minecraft **1.21.10**, Better Combat **3.0.0+1.21.10** og PAL **1.1.3** samt de øvrige eksisterende afhængigheder nedenfor. Udskift den gamle Star Swordmaster-JAR på klient og server; behold kun én version.
 
-### Previous version 0.3.5
-
-- [Download 0.3.5 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.5/star-swordmaster-0.3.5.jar)
-
-### Previous version 0.3.4
-
-- [Download 0.3.4 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.4/star-swordmaster-0.3.4.jar)
-
-### Previous version 0.3.3
-
-- [Download 0.3.3 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.3/star-swordmaster-0.3.3.jar)
-
-### Previous version 0.3.2
-
-- [Download 0.3.2 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.2/star-swordmaster-0.3.2.jar)
-
-### Previous version 0.3.1
-
-- [Download 0.3.1 (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.1/star-swordmaster-0.3.1.jar)
-
-### Previous version 0.3.0
-
-- [Download the mod (.jar)](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.0/star-swordmaster-0.3.0.jar)
-- [Download the installation ZIP](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.0/star-swordmaster-0.3.0-install.zip)
-- [Download the source ZIP](https://github.com/lilmigger63-hue/star-project/raw/refs/heads/main/releases/0.3.0/star-swordmaster-0.3.0-source.zip)
-- [Validation and limitations](VALIDATION.md)
-
 Selvstændig Fabric-mod til Minecraft **1.21.10**. Din egen karakter udvikler sig gennem sværdkamp og magi, med permanente klasser og et forgrenet færdighedstræ. Inspireret af Star-Embracing Swordmaster, Solo Leveling og Skyrim; dette er en første spilbar version med egne mekanikker og grafik, ikke en færdig genskabelse af historierne.
 
 ## Installation
@@ -45,7 +18,7 @@ Selvstændig Fabric-mod til Minecraft **1.21.10**. Din egen karakter udvikler si
    - [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat)
    - [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config)
    - [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). Den kompatible fil hedder `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; udgiverens metadata angiver også Minecraft 1.21.10.
-3. Læg **star-swordmaster-0.3.5.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
+3. Læg **star-swordmaster-0.3.6.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
 4. Start Minecraft. I co-op skal alle klienter og serveren have samme version af modden og dens afhængigheder.
 
 Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker er ikke kompatibilitetstestet; Better Combat og afhængighederne ovenfor er testet sammen med denne mod.
