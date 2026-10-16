@@ -5,11 +5,13 @@ public record ResourceHudLayout(int x,int y,boolean stacked,int vanillaLift) {
  public static final int MARGIN=6,SIDE_GAP=8,STACK_GAP=4;
  public static ResourceHudLayout forScreen(int scaledWidth,int scaledHeight){return forScreen(scaledWidth,scaledHeight,0);}
  public static ResourceHudLayout forScreen(int scaledWidth,int scaledHeight,int indicatorExtra){
-  var skills=SkillHudLayout.forScreen(scaledWidth,scaledHeight);
-  boolean stacked=skills.x()<MARGIN+WIDTH+SIDE_GAP;
+  float skillRight=MARGIN+PORTRAIT_SIZE+4+SkillHudLayout.SCALED_WIDTH;
+  int offhandLeft=scaledWidth/2-SkillHudLayout.VANILLA_WIDTH/2-SkillHudLayout.VANILLA_OFFHAND_WIDTH;
+  boolean stacked=offhandLeft<skillRight+SIDE_GAP;
   int lift=SkillHudLayout.VANILLA_LIFT;
   // Reserve armor and air above the compact hunger/XP group, including extra native rows.
-  int y=stacked?scaledHeight-59-lift-Math.max(0,indicatorExtra)-STACK_GAP-HEIGHT:scaledHeight-SkillHudLayout.HEIGHT-4-HEIGHT;
+  int groupHeight=HEIGHT+SkillHudLayout.GAP+(int)Math.ceil(SkillHudLayout.SCALED_HEIGHT);
+  int y=stacked?scaledHeight-59-lift-Math.max(0,indicatorExtra)-STACK_GAP-groupHeight:scaledHeight-SkillHudLayout.VANILLA_HEIGHT-4-HEIGHT;
   return new ResourceHudLayout(MARGIN,Math.max(MARGIN,y),stacked,lift);
  }
  public int reservedTop(int height,int indicatorExtra){return Math.min(y,height-59-vanillaLift-Math.max(0,indicatorExtra));}

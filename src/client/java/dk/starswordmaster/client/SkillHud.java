@@ -22,7 +22,7 @@ public final class SkillHud {
    var mc=MinecraftClient.getInstance();boolean nativeStatus=!id.equals(VanillaHudElements.HELD_ITEM_TOOLTIP)||mc.interactionManager==null||mc.interactionManager.hasStatusBars();
    renderVanilla(context,()->original.render(context,tick),layout.tooltipLift(context.getScaledWindowHeight(),indicatorExtra(),nativeStatus));
   });
-  // Keep the native XP/food/armor/air group compact above the unchanged ability bar.
+  // Keep native XP/food/armor/air at their existing positions; abilities are a separate left-side group.
   for(var id:new Identifier[]{VanillaHudElements.ARMOR_BAR,VanillaHudElements.FOOD_BAR,VanillaHudElements.AIR_BAR,VanillaHudElements.MOUNT_HEALTH,VanillaHudElements.INFO_BAR,VanillaHudElements.EXPERIENCE_LEVEL}){
    HudElementRegistry.replaceElement(id,original->(context,tick)->{
     renderVanillaIndicator(context,()->original.render(context,tick));
@@ -64,10 +64,16 @@ public final class SkillHud {
  }
  public static void render(DrawContext c){
   var mc=MinecraftClient.getInstance();if(!visible(mc))return;
-  var p=StarSwordmasterClient.data;var layout=SkillHudLayout.forScreen(c.getScaledWindowWidth(),c.getScaledWindowHeight());int x=layout.x(),y=layout.y();
+  ResourceHud.render(c);
+  var layout=SkillHudLayout.forResources(resourceLayout(c.getScaledWindowWidth(),c.getScaledWindowHeight()));
+  var matrices=c.getMatrices();matrices.pushMatrix();
+  try{matrices.translate(layout.x(),layout.y());matrices.scale(SkillHudLayout.SCALE,SkillHudLayout.SCALE);renderBar(c,mc,StarSwordmasterClient.data);}finally{matrices.popMatrix();}
+ }
+ private static void renderBar(DrawContext c,MinecraftClient mc,PlayerProgress p){
+  // Retain every original design coordinate; one transform scales frames, icons, cooldowns and labels together.
+  var layout=new SkillHudLayout(0,0);int x=0,y=0;
   c.fill(x,y,x+SkillHudLayout.WIDTH,y+SkillHudLayout.HEIGHT,0xFF536273);
   c.fill(x+1,y+1,x+SkillHudLayout.WIDTH-1,y+SkillHudLayout.HEIGHT-1,0xE80C1424);
-  ResourceHud.render(c);
   for(int i=0;i<SkillHudLayout.SLOTS;i++){
    int sx=layout.iconX(i),sy=layout.iconY(),size=SkillHudLayout.ICON_SIZE;String id=p.slot(i);
    c.fill(layout.slotX(i),y+1,layout.slotX(i)+SkillHudLayout.SLOT_PITCH,y+SkillHudLayout.HEIGHT-1,0xFF354153);

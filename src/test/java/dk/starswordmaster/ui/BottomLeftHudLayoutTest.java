@@ -3,13 +3,13 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 public class BottomLeftHudLayoutTest {
  @Test public void widePanelStaysAtLeftScreenEdgeWhenWindowGrows(){
-  for(int w:new int[]{562,640,853,1280,1920}){var r=ResourceHudLayout.forScreen(w,480);assertFalse(r.stacked());assertEquals(6,r.x());assertEquals(480-26,r.y()+ResourceHudLayout.HEIGHT);}
+  for(int w:new int[]{630,640,853,1280,1920}){var r=ResourceHudLayout.forScreen(w,480);assertFalse(r.stacked());assertEquals(6,r.x());assertEquals(480-26,r.y()+ResourceHudLayout.HEIGHT);}
  }
  @Test public void narrowPanelStacksAtLeftAboveCompactIndicators(){
-  for(int w:new int[]{320,321,427,561}){var r=ResourceHudLayout.forScreen(w,240);assertTrue(r.stacked());assertEquals(6,r.x());assertTrue(r.y()+40<=240-49-r.vanillaLift()-4);}
+  for(int w:new int[]{320,321,427,561,629}){var r=ResourceHudLayout.forScreen(w,240);assertTrue(r.stacked());assertEquals(6,r.x());assertTrue(r.y()+40<=240-49-r.vanillaLift()-4);}
  }
- @Test public void hungerAndExperienceStayTogetherJustAboveSkills(){
-  for(int w:new int[]{320,640,853}){var r=ResourceHudLayout.forScreen(w,240);var s=SkillHudLayout.forScreen(w,240);int xpTop=240-29-r.vanillaLift(),foodTop=240-39-r.vanillaLift();assertEquals(1,xpTop-(foodTop+9));assertTrue(xpTop+5<=s.y()-2);assertTrue(s.y()-(xpTop+5)<=8);assertTrue(240-18-r.vanillaLift()<=s.y()-2);}
+ @Test public void hungerAndExperienceKeepTheirExistingPositions(){
+  for(int w:new int[]{320,640,853}){var r=ResourceHudLayout.forScreen(w,240);int xpTop=240-29-r.vanillaLift(),foodTop=240-39-r.vanillaLift();assertEquals(182,xpTop);assertEquals(172,foodTop);assertEquals(1,xpTop-(foodTop+9));}
  }
  @Test public void stackedPanelAndTooltipsClearExtraArmorAndAirRows(){
   for(int extra:new int[]{0,10,18,24}){var r=ResourceHudLayout.forScreen(320,240,extra);int nativeTop=240-59-r.vanillaLift()-extra;assertTrue(r.y()>=6);assertTrue(r.y()+40<=nativeTop-4);int tooltipBottom=240-59-r.tooltipLift(240,extra)+9;assertTrue(tooltipBottom<=r.y()-4);}

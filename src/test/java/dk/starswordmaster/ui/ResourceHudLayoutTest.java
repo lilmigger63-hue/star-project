@@ -3,17 +3,15 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 public class ResourceHudLayoutTest {
  @Test public void wideGuiPlacesPanelLeftOfUnchangedSkillBar(){var skills=SkillHudLayout.forScreen(640,360);var l=ResourceHudLayout.forScreen(640,360);assertFalse(l.stacked());assertEquals(6,l.x());assertEquals(334,l.y()+ResourceHudLayout.HEIGHT);assertEquals(29,l.vanillaLift());}
- @Test public void narrowGuiStacksPanelAboveSkillBar(){var skills=SkillHudLayout.forScreen(320,240);var l=ResourceHudLayout.forScreen(320,240);assertTrue(l.stacked());assertEquals(6,l.x());assertEquals(148,l.y()+ResourceHudLayout.HEIGHT);assertEquals(29,l.vanillaLift());}
+ @Test public void narrowGuiStacksPanelAboveSkillBar(){var skills=SkillHudLayout.forScreen(320,240);var l=ResourceHudLayout.forScreen(320,240);assertTrue(l.stacked());assertEquals(6,l.x());assertEquals(129,l.y()+ResourceHudLayout.HEIGHT);assertEquals(29,l.vanillaLift());}
  @Test public void layoutsFitCurrentGuiAndClearHotbarAcrossResizeAndScale(){
   for(int[] size:new int[][]{{1920,1080},{1280,800},{960,720},{853,481},{640,480}})for(int scale=1;scale<=4;scale++){
    // Minecraft limits effective GUI scales to at least 320 x 240.
    int w=Math.max(320,(size[0]+scale-1)/scale),h=Math.max(240,(size[1]+scale-1)/scale);var l=ResourceHudLayout.forScreen(w,h);var skills=SkillHudLayout.forScreen(w,h);
    assertTrue(l.x()>=6);assertTrue(l.x()+ResourceHudLayout.WIDTH<=w-6);assertTrue(l.y()>0);assertTrue(l.y()+ResourceHudLayout.HEIGHT<h-22);
-   assertTrue(l.stacked()?l.y()+ResourceHudLayout.HEIGHT<=skills.y()-4:l.x()+ResourceHudLayout.WIDTH<=skills.x()-8);
-   // Native indicators stay below the stacked panel and above the skill bar.
-   if(l.stacked())assertTrue(l.y()+ResourceHudLayout.HEIGHT<=h-59-l.vanillaLift()-4);
-   assertTrue(h-18-l.vanillaLift()<=skills.y()-2);
-   assertTrue(h-24-l.vanillaLift()<skills.y());
+   assertEquals(l.barX(),skills.x());assertEquals(l.barY(2)+12+2,skills.y());
+   if(l.stacked())assertTrue(skills.y()+SkillHudLayout.SCALED_HEIGHT<=h-59-l.vanillaLift()-4);
+   else assertTrue(skills.x()+SkillHudLayout.SCALED_WIDTH+8<=w/2-91-29);
   }
  }
  @Test public void threeBarsStayBesideRoundMarkerAndDoNotOverlap(){var l=ResourceHudLayout.forScreen(640,360);assertEquals(40,ResourceHudLayout.PORTRAIT_SIZE);assertEquals(l.x()+44,l.barX());assertEquals(132,ResourceHudLayout.BAR_WIDTH);for(int i=0;i<3;i++){assertTrue(l.barY(i)>=l.y());assertTrue(l.barY(i)+ResourceHudLayout.BAR_HEIGHT<=l.y()+ResourceHudLayout.HEIGHT);if(i>0)assertTrue(l.barY(i)>=l.barY(i-1)+ResourceHudLayout.BAR_HEIGHT+2);}assertEquals(l.x()+ResourceHudLayout.WIDTH,l.barX()+ResourceHudLayout.BAR_WIDTH);}

@@ -1,25 +1,24 @@
-# HUD-layout — 0.3.8
+# HUD-layout — 0.3.9
 
-Ressourcepanelet bruger stadig samme 176 × 40 GUI-enheder, rund skin-/levelmarkør og faktiske serversynkroniserede værdier. Rækkefølgen er blå mana, rødt liv og grøn stamina. Ikoner, farver, absorption og cooldown-visning er uændrede.
+Ressourcepanelet bevarer sine 176 × 40 GUI-enheder, hoved/levelmarkør og blå mana/rødt liv/grøn stamina med faktiske synkroniserede værdier. Evnebjælken ligger nu under stamina; vanilla-hotbaren er fortsat centreret nederst.
 
-## Ankre og kompakt vanilla-gruppe
+## Evnebjælken
 
-Alle koordinater beregnes fra vinduets aktuelle **skalerede GUI-bredde og -højde**, ikke fysiske skærmpixel. Her er `h` GUI-højden:
+- Hele den eksisterende 182 × 22-bjælke tegnes med én **0,75 × 0,75-transformation**: præcis **136,5 × 16,5 GUI-enheder**. Der afrundes ikke til en 137 × 17-model.
+- De fem slots, rammer, tomme sideområder, ikoner, cooldown-overlays og labels skaleres sammen. Ikoner er 12 × 12 og slotafstanden 15 GUI-enheder. Pixelgrafikken bruger de samme native nærmeste-nabo-teksturer som før; der tilføjes ingen udglatning eller nye assets.
+- Bjælkens venstrekant er ressourcebjælkernes venstrekant (`resource.barX()`), og toppen er **2 GUI-enheder under stamina-bjælkens nederste kant**.
+- Z/X/C/V/B, rækkefølge, indhold, cooldowns og aktivering er uændrede. HUD'en havde ingen musebaseret slotvælger; tildeling i K bevarer sine eksisterende klikområder og størrelse. Skaleringen er begrænset til gameplay-bjælken og påvirker ikke ikonerne i H/K.
 
-- Ressourcepanelet forankres **6 GUI-enheder fra venstre kant**. I brede vinduer ligger det ved `y = h−66` (26 enheder fra bunden).
-- Evnebjælken forbliver **182 × 22**, centreret ved `y = h−45`. Dens nederste kant er `h−23`, præcis vanilla-hotbarens faktiske yderkant inklusive markeringen af valgt slot. **Afstand 0, intet overlap.** Fem slots og Z/X/C/V/B ændres ikke.
-- Den eksisterende native XP-/sult-/rustnings-/luft-/ridedyrsgruppe flyttes samlet **29 GUI-enheder op fra vanilla**. XP-bjælken ligger ved `h−58`, er 5 enheder høj og har 8 enheders afstand til evnebjælken. Sult ligger over XP-bjælken; den normale én-enhedsafstand tillader også vanillas sult-rystelse. XP-leveltekst, locator og ride-hopbjælke bruger fortsat Minecrafts egne renderere og valg af bjælketype. Locator-markørerne flyttes med via den eksisterende mixin.
+## Responsive ankre og native indikatorer
 
-Fra GUI-bredde **562** er der mindst 8 enheder mellem ressourcepanelet og den centrerede bjælkegruppe. Under grænsen flyttes ressourcerne op, stadig ved venstre kant, med 4 enheders afstand over rustning/luft. Panelets normale smalle position er `h−132`; den tilpasses ekstra native helbredsrækker, absorption, kortvarigt bevaret helbred og luftbobler over ridedyr med op til tre hjerterækker. Hotbaren og evnebjælken flyttes ikke ved denne ombrydning.
+Alle mål er GUI-enheder beregnet fra det aktuelle skalerede vindue. Ved GUI-bredde **630 eller mere** bevarer ressourcepanelet sin tidligere placering: 6 enheder fra venstre, top `h−66`. Evnebjælken ligger ved `x=50`, `y=h−24` og slutter 7,5 enheder fra bunden. Der reserveres mindst 8 enheder til vanilla-hotbarens **venstre offhand-ramme**, også når et skjold er udstyret.
 
-## Chat og genstandsnavne
+Under 630 GUI-enheder flyttes hele venstre gruppe op over de native rustnings-/luftindikatorer. Ressourcepanelets normale top er `h−151`; evnebjælken følger med direkte under stamina og slutter mindst 4 enheder over indikatorerne. Gruppen reserverer 19 ekstra enheder i forhold til 0.3.8: 2 i mellemrum og 17 som den afrundede pladsreservation for den 16,5-høje bjælke. Selve renderingen er fortsat præcis 16,5. Ekstra native livsrækker, absorption, kortvarigt bevaret liv og luft over ridedyr indgår fortsat i pladsreservationen.
 
-Genstandsnavne og actionbar-tekst placeres over den reserverede HUD-plads. Vanillas ekstra forskydning af genstandsnavne i creative-mode kompenseres særskilt.
+**Vanilla-hotbar, XP og sult flyttes ikke fra 0.3.8.** Hotbarens baggrund ligger ved `h−22`, valgt slots yderkant ved `h−23`. Den native indikatorgruppe har fortsat løft 29: XP-bjælke ved `h−58`, sult over XP, uændrede leveltekst-/locator-/ridehopfunktioner. Evnebjælken har ingen tilknytning til hotbarens overkant længere.
 
-Chatbeskeder får en højere bundlinje, så både lukket og åben chat ligger over ressourcerne og de native tekster. Chatvisningens højde begrænses til den resterende skærmplads; ældre linjer kan stadig scrolles. Renderkoordinater, teksternes klik-/hoverområder og knappen for ventende beskeder bruger samme forskydning. Chatskalering og linjeafstand bevares. Det normale skrivefelt og beskederne ændres ikke.
+## Chat, synlighed og data
 
-## Funktioner og kompatibilitet
+Den eksisterende reservation til genstandsnavne, actionbar og chat følger venstre gruppes top, så de også har plads i smalle vinduer. Chatrendering og klik-/hoverområder flyttes samlet, og chatudsigtens højde tilpasses den resterende plads; gamle linjer kan scrolles. Skrivefelt og chatbeskeder ændres ikke.
 
-F1, spectator og manglende snapshots bevarer de tidligere synlighedsregler. Når erstatnings-HUD'en er utilgængelig, bruger chat og native indikatorer deres oprindelige placeringer; vanilla-hjerter kan vises igen. Forsinkede snapshots gendanner automatisk mod-HUD'en.
-
-Ingen ændringer i leveling, ×1,5-XP-reglen fra level 8, stat-/perkpoint, ressourcer, evner, gemmedata eller netværk. H og K bevares. Ingen nye afhængigheder. Se [VALIDATION.md](VALIDATION.md) for bygge- og spiltests.
+F1, spectator, manglende/sene snapshots og native hjerte-fallback er uændrede. Ingen ændringer i serverkode, ressourcedata, evner, stats, point, gemmedata, netværk, ubegrænset leveling eller ×1,5-XP fra belønninger modtaget på level 8+. Ingen nye afhængigheder. Se [VALIDATION.md](VALIDATION.md) for testresultater.
