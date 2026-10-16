@@ -74,7 +74,7 @@ public final class StarSwordmaster implements ModInitializer {
    };
   }catch(IllegalArgumentException ignored){}
   if(!ok)player.sendMessage(Text.literal("Kan ikke bruges: kontrollér krav, ressourcer og cooldown."),true);
-  if(ok&&!request.action().equals("cast")){if(request.action().equals("stat"))StatAttributes.apply(player,p);store.save(player.getUuid());}
+  if(ok&&!request.action().equals("cast")){if(request.action().equals("stat")||request.action().equals("unlock"))StatAttributes.apply(player,p);store.save(player.getUuid());}
   sync(player);
  }
  public static void sync(ServerPlayerEntity player){

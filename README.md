@@ -1,11 +1,13 @@
 # star-project
 to mods
 
-## Star Swordmaster 0.4.0 downloads
+## Star Swordmaster 0.4.1 downloads
 
-- [Download the mod (.jar)](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.4.0/star-swordmaster-0.4.0.jar)
-- [Checksums](releases/0.4.0/SHA256SUMS.txt)
+- [Download the mod (.jar)](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.4.1/star-swordmaster-0.4.1.jar)
+- [Checksums](releases/0.4.1/SHA256SUMS.txt)
 - [Validation and limitations](VALIDATION.md)
+
+Version **0.4.1** tilføjer en fjerde passiv rang til hver klasse ved karakterlevel 25 og færdighedslevel 20, med præcise effektive statbonusser og +5% skade til klassens kategori. Træet har **62 noder**, inklusive 15 valgfrie passive træningstrin; H viser effektive stats og rangtitel. Gamle ranks, fordelte stats, point og gemmeformat bevares. [Rangkrav, bonusser og alle nye grene](RANKS.md).
 
 Version **0.4.0** udbygger alle **32 aktive evner** med hver sit originale PAL-klip, forskellige effektbaner og seks skarpe pixelpartikler. Klinge-efterbilleder, buer, fartstreger, håndsegl, lanser, frostskår og helingsmønstre bruger stadig samme Better Combat-/serverbekræftede system og de tidligere partikelgrænser. Skade, priser, timing, progression og HUD bevares. [Komplet animation-/effektoversigt](ABILITY_PRESENTATION.md).
 
@@ -26,7 +28,7 @@ Selvstændig Fabric-mod til Minecraft **1.21.10**. Din egen karakter udvikler si
    - [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat)
    - [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config)
    - [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). Den kompatible fil hedder `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; udgiverens metadata angiver også Minecraft 1.21.10.
-3. Læg **star-swordmaster-0.4.0.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
+3. Læg **star-swordmaster-0.4.1.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
 4. Start Minecraft. I co-op skal alle klienter og serveren have samme version af modden og dens afhængigheder.
 
 Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker er ikke kompatibilitetstestet; Better Combat og afhængighederne ovenfor er testet sammen med denne mod.
@@ -46,12 +48,12 @@ Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker 
 - Sværdteknikker kræver et sværd i hovedhånden. Ret sigtet mod en fjendtlig mob for målrettede angreb. Magi bruger mana; sværdteknikker bruger også stamina. Ugyldig brug koster ingen ressourcer.
 - Mana og stamina regenererer automatisk, langsommere under kamp. Kampstatus varer otte sekunder efter skade.
 - Ved **level 10** kan du vælge Sværdkæmper, Magiker eller Magisk sværdkæmper. Valget kræver bekræftelse og er **permanent i den enkelte verden**.
-- Klasseperks åbner Adept- og Mester-rang. Alle klasser kan lære grundmagi og grundlæggende sværdteknikker.
+- Klasseperks åbner Adept-, Mester- og den nye fjerde klasserang. Alle klasser kan lære grundmagi og grundlæggende sværdteknikker.
 - Vælg Hurtig, Tung eller Defensiv stil nederst i menuen. De forbedrer henholdsvis Lynsnit, Kraftslag og Stjerneparade. Nye passive stiltræninger udvider bonusserne til sværdteknikker generelt; den valgte stil er markeret med kantparenteser. Almindelig kamp bruger Better Combat.
 - Træk i træets baggrund for at flytte udsnittet; scroll for at zoome. Hold musen over en evne for krav, pris og effekt. Lærte evner har guldmarkering, tilgængelige har turkis markering, og klassebegrænsede grene har rød markering.
 
 ## Indhold
-44 noder: **32 aktive evner** og 12 passive specialiseringer og klasse-/rangperks.
+62 noder: **32 aktive evner** og 30 passive specialiseringer, træningsnoder og klasse-/rangperks. Se [RANKS.md](RANKS.md) for de nye passive bonusser og krav.
 
 Grundmagi: Gnister, Frostgreb, Stjernelys, Lægende lys og Fornyelse. Sværdteknikker: Lynsnit, Sværdskridt, Kraftslag, Stormfejning, Stjerneparade og Modhug.
 

@@ -1,6 +1,6 @@
-# Animationer og effekter — 0.4.0
+# Animationer og effekter — 0.4.1
 
-Alle **32 aktive evner** har et særskilt originalt PAL-klip, `skill_<evne-id>.json`, og hver sin rumlige effektkoreografi. De 12 passive noder får ingen kast-animation. De 11 oprindelige klip bevares sammen med de 32 nye; PAL, Better Combat-laget og den eksisterende serverbekræftelse bruges fortsat.
+Alle **32 aktive evner** har et særskilt originalt PAL-klip, `skill_<evne-id>.json`, og hver sin rumlige effektkoreografi. De 30 passive noder får ingen kast-animation. De 11 oprindelige klip bevares sammen med de 32 nye; PAL, Better Combat-laget og den eksisterende serverbekræftelse bruges fortsat.
 
 Korte forberedelser, handling og efterbevægelse ligger inden for de hidtidige **10–20 ticks**. Klippene er PAL-format 3, ikke-loopende, med eksplicit neutral afslutning. Kun arme og begrænset torso-rotation animeres; ben, spillerens position og sigte ændres ikke. De originale animationer/designs kopierer ingen animefigur eller scene.
 
@@ -63,6 +63,6 @@ Angreb, skade, død, våbenskift, nyt kast, entity-/verdensskift og disconnect r
 
 ## Installation og tests
 
-Brug **0.4.0 på både server og klienter**. De seks partikeltyper registreres normalt af Fabric; ingen nye afhængigheder. Minecraft 1.21.10, Better Combat 3.0.0+1.21.10, PAL 1.1.3, Fabric API og Cloth Config er uændrede krav.
+Brug **0.4.1 på både server og klienter**. De seks partikeltyper registreres normalt af Fabric; ingen nye afhængigheder. Minecraft 1.21.10, Better Combat 3.0.0+1.21.10, PAL 1.1.3, Fabric API og Cloth Config er uændrede krav.
 
 Generatorerne i `tools/generate_ability_animations.py` og `tools/generate_presentation_particles.py` kan genskabe de originale assets. `src/smoke` indeholder isolerede tests og pakkes ikke i mod-JAR'en. Se [VALIDATION.md](VALIDATION.md) for de faktisk gennemførte build-, singleplayer- og multiplayertests.

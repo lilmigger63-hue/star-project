@@ -7,27 +7,16 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import java.util.*;
+import dk.starswordmaster.ui.SkillTreeLayout.Node;
 public final class SkillTreeScreen extends Screen {
- private record Node(String id,double x,double y){}
- private final List<Node> nodes=new ArrayList<>();
+ private final List<Node> nodes=dk.starswordmaster.ui.SkillTreeLayout.NODES;
  private final List<ButtonWidget> styleButtons=new ArrayList<>();
  private final List<ButtonWidget> assignButtons=new ArrayList<>(),classButtons=new ArrayList<>();
  private final dk.starswordmaster.ui.TreeViewport view=new dk.starswordmaster.ui.TreeViewport();
  private String selected="spark";
  private ButtonWidget unlock;
  private int panelX,actionY;
- public SkillTreeScreen(){super(Text.literal("Star Swordmaster"));
-  node("piercing_thrust",-420,110);node("seismic_cut",-90,450);node("guardian_stance",410,90);node("ember_ring",-510,-300);node("ice_prison",-140,-410);node("restoration",260,-310);
-  node("flow_training",-320,210);node("impact_training",-130,300);node("guard_training",260,20);node("fire_affinity",-230,-80);node("frost_affinity",60,-190);node("restorative_affinity",320,-20);
-  node("spark",-160,-90);node("mana_control",-250,-180);node("fire_burst",-360,-260);node("arcane_mastery",-250,-330);
-  node("frost_touch",0,-140);node("ice_lance",-90,-260);node("frost_nova",20,-330);
-  node("light",160,-100);node("mend",230,-70);node("sanctuary",190,-240);
-  node("quick_cut",-180,80);node("quick_dash",-290,150);node("aura_awaken",-240,230);node("aura_wave",-340,310);node("blade_focus",-170,330);node("sword_mastery",-260,420);
-  node("heavy_cut",0,140);node("heavy_sweep",-60,240);
-  node("rapid_slash",-400,180);node("crushing_edge",-20,370);node("mirror_guard",390,170);node("flame_lance",-410,-380);node("frost_ward",110,-390);node("arcane_step",100,420);node("glacier_sweep",350,420);node("renew",350,-160);
-  node("guard",190,70);node("riposte",290,140);node("element_binding",200,240);node("flame_blade",140,330);node("frost_blade",300,320);node("spellblade_mastery",220,420);
- }
- private void node(String id,double x,double y){nodes.add(new Node(id,x,y));}
+ public SkillTreeScreen(){super(Text.literal("Star Swordmaster"));}
  private ButtonWidget button(String text,int x,int y,int w,Runnable action){return addDrawableChild(ButtonWidget.builder(Text.literal(text),b->action.run()).dimensions(x,y,w,18).build());}
  @Override protected void init(){
   panelX=width-158;view.fit(panelX,height-100);actionY=Math.min(137,height-107);assignButtons.clear();classButtons.clear();styleButtons.clear();
@@ -48,7 +37,7 @@ public final class SkillTreeScreen extends Screen {
   var p=StarSwordmasterClient.data;var a=Ability.ALL.get(selected);
   String[] styles={"Hurtig stil","Tung stil","Defensiv stil"};for(int i=0;i<styleButtons.size();i++)styleButtons.get(i).setMessage(Text.literal((p.style()==PlayerProgress.SwordStyle.values()[i]?"[ ":"")+styles[i]+(p.style()==PlayerProgress.SwordStyle.values()[i]?" ]":"")));
   for(var b:classButtons)b.active=p.level().compareTo(java.math.BigInteger.TEN)>=0&&p.playerClass()==PlayerProgress.PlayerClass.UNINITIATED;
-  unlock.active=a!=null&&!p.learned().contains(selected)&&p.points().signum()>0&&(a.exclusiveClass()==null||a.exclusiveClass()==p.playerClass())&&p.skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||p.learned().contains(a.parent()));
+  unlock.active=p.canUnlock(selected);
   for(var b:assignButtons)b.active=a!=null&&a.active()&&p.learned().contains(selected);
  }
  @Override public void tick(){updateButtons();}
@@ -65,7 +54,7 @@ public final class SkillTreeScreen extends Screen {
   c.enableScissor(0,51,panelX,height-50);
   for(Node n:nodes){Ability a=Ability.ALL.get(n.id());Node parent=find(a.parent());int px=parent==null?(int)view.screenX(0,panelX/2.0):nx(parent),py=parent==null?(int)view.screenY(0,height/2.0):ny(parent);line(c,px,py,nx(n),ny(n),p.learned().contains(n.id())?0xFFB29150:0xFF3C4D61);}
   int size=Math.max(12,(int)(26*view.zoom()));
-  for(Node n:nodes){int x=nx(n)-size/2,y=ny(n)-size/2;if(n.id().equals(selected))c.fill(x-3,y-3,x+size+3,y+size+3,0xFFE8CE8B);Ability ability=Ability.ALL.get(n.id());boolean known=p.learned().contains(n.id());boolean classLocked=ability.exclusiveClass()!=null&&ability.exclusiveClass()!=p.playerClass();boolean available=!classLocked&&p.points().signum()>0&&p.skillLevel(ability.skill())>=ability.requirement()&&(ability.parent().isEmpty()||p.learned().contains(ability.parent()));
+  for(Node n:nodes){int x=nx(n)-size/2,y=ny(n)-size/2;if(n.id().equals(selected))c.fill(x-3,y-3,x+size+3,y+size+3,0xFFE8CE8B);Ability ability=Ability.ALL.get(n.id());boolean known=p.learned().contains(n.id());boolean classLocked=ability.exclusiveClass()!=null&&ability.exclusiveClass()!=p.playerClass();boolean available=p.canUnlock(n.id());
    int frame=known?0xFFFFCF68:classLocked?0xFF874254:available?0xFF6CDCCD:0xFF49586E;c.fill(x-2,y-2,x+size+2,y+size+2,frame);SkillHud.icon(c,n.id(),x,y,size,known||available);}
   c.disableScissor();
   Ability a=Ability.ALL.get(selected);
@@ -74,7 +63,7 @@ public final class SkillTreeScreen extends Screen {
    c.drawTextWithShadow(textRenderer,textRenderer.trimToWidth(Text.translatable("description.starswordmaster."+selected).getString(),142),panelX+8,70,0xFFBBCDDD);
    c.drawTextWithShadow(textRenderer,"Krav: "+a.skill()+" "+a.requirement()+" ("+p.skillLevel(a.skill())+")",panelX+8,85,0xFF99ADC3);
    c.drawTextWithShadow(textRenderer,"Mana "+String.format(java.util.Locale.ROOT,"%.1f",p.manaCost(a))+" · Stamina "+String.format(java.util.Locale.ROOT,"%.1f",p.staminaCost(a)),panelX+8,98,0xFF77BFEA);
-   c.drawTextWithShadow(textRenderer,a.active()?"Cooldown: "+p.cooldownTicks(a)/20.0+" sek.":"Passiv specialisering",panelX+8,111,0xFFE4C990);
+   c.drawTextWithShadow(textRenderer,a.active()?Text.literal("Cooldown: "+p.cooldownTicks(a)/20.0+" sek."):Text.translatable("screen.starswordmaster.passive_level",a.characterRequirement()),panelX+8,111,0xFFE4C990);
    if(a.exclusiveClass()!=null)c.drawTextWithShadow(textRenderer,a.exclusiveClass().name(),panelX+8,123,0xFFC8A5EF);
   }
   c.drawTextWithShadow(textRenderer,"Tildel til evneplads:",panelX+8,actionY+24,0xFFBBCDDD);
@@ -85,6 +74,7 @@ public final class SkillTreeScreen extends Screen {
  private List<Text> details(Ability a){
   var p=StarSwordmasterClient.data;var lines=new ArrayList<Text>();lines.add(SkillHud.name(a.id()));lines.add(Text.translatable("description.starswordmaster."+a.id()));lines.add(Text.literal("Krav: "+a.skill()+" "+a.requirement()+" · Du: "+p.skillLevel(a.skill())));
   if(!a.parent().isEmpty())lines.add(Text.literal("Tidligere evne: "+SkillHud.name(a.parent()).getString()));
+  if(a.characterRequirement()>1)lines.add(Text.translatable("screen.starswordmaster.character_requirement",a.characterRequirement(),p.level().toString()));
   if(a.exclusiveClass()!=null)lines.add(Text.literal("Kræver klasse: "+a.exclusiveClass()));
   lines.add(Text.literal("Mana: "+String.format(java.util.Locale.ROOT,"%.1f",p.manaCost(a))+" · Stamina: "+String.format(java.util.Locale.ROOT,"%.1f",p.staminaCost(a))+" · Cooldown: "+p.cooldownTicks(a)/20.0+" s"));lines.add(Text.literal(p.learned().contains(a.id())?"Lært": "Pris: 1 perkpoint"));return lines;
  }

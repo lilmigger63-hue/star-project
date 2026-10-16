@@ -1,4 +1,18 @@
-# Validering — Star Swordmaster 0.4.0
+# Validering — Star Swordmaster 0.4.1
+
+## Fjerde klasserang og 62 noder i version 0.4.1
+
+Verificeret 16. oktober 2026:
+- `./gradlew build smokeClasses` med Java 21 består: **129 JUnit-tests**, nul fejl/spring og **37 selvstændige progressionskontroller**. Minecraft/Fabric, Better Combat 3.0.0+1.21.10 og PAL 1.1.3 er uændrede; ingen nye modafhængigheder.
+- De tre ultimate noder valideres mod præcis klasse, karakterlevel 25, korrekt færdighedslevel 20, Mastery og ét perkpoint. Tests dækker level 24/25, færdighed 19/20, manglende forudsætning, forkert klasse, nul og præcis ét tilgængeligt point, dubletter og afvist tildeling af passive noder til evnepladser. Rang 1–3 og eksisterende verdensdata bevares.
+- Hver klasses præcise effektive statbonus og +5%-skadekategori er kontrolleret mod alle registrerede evner. Masterys +0,15 og tung stils +15% kombineres fortsat korrekt. Heling og defensive evner får ingen kategori-bonus. Statternes eksisterende effekter og grænser genbruges; grundstats og ubrugte statpoint ændres ikke ved perk-køb. Effektive stats over `Integer.MAX_VALUE` bruger `long` uden overflow.
+- 50 gentagne save-/snapshot-indlæsninger pr. klasse og rigtig `PlayerStore.save/forget/get` bevarer rang, bonusser, stats og point uden stabling. Ugyldige rangnoder i gemmedata afvises. Save-schema er fortsat 1; kun nye lærte node-ID'er bruges i det eksisterende format.
+- **15 valgfrie træningsnoder** og de tre rangnoder giver **62 faktisk registrerede/renderede noder: 32 aktive og 30 passive**. Testene kontrollerer alle positioners dækning, ingen dubletter, mindst 60 layoutenheder mellem nodecentre og over 200 enheder mellem Mastery og ny rang. Træets startudsnit tilpasses de udvidede grænser, og eksisterende pan/zoom/hit-test bevares. Passive træningsnoder kræver deres egne forældre og færdighedslevels og giver alene +1 effektiv eksisterende stat for ét perkpoint.
+- Alle 18 nye noder har forskellige originale **32×32 pixelikoner**, eksplicit nærmeste-nabo-filter og danske/engelske tekster. Ikonerne er visuelt gennemgået. Registreringen af de 32 aktive evners animationer/effekter består uændret.
+- En rigtig Minecraft-klient med integreret Fabric-server og Better Combat gennemfører **67 kontroller**: faktiske mining-/movement-/health-attributter for alle tre rang 4-klasser, præcis én ejet modifier efter 200 opdateringer, genindlæsning via det rigtige gemmelager, faktiske træf med Lynsnit/Gnister/Flammesværd og forventet skademultiplikator. Alle tre rangkøb sendes desuden som normale C2S-anmodninger og bekræftes i snapshots med korrekt pointforbrug, titel og effektive stats. H og K renderer for hver klasse, og screenshots er gemt; udvalgte er visuelt kontrolleret.
+- JAR har version 0.4.1, korrekt ZIP-integritet og ingen smoke-klasser. `AbilityEffects`, `CharacterExperience`, `PlayerStore`, `StatAttributes`, `AbilityPresentationEvents`, `SkillHud` og `StarSwordmasterClient` er byte-identiske med 0.4.0. Serverens eksisterende unlock-handler validerer som før og opdaterer nu også attributterne straks efter et gyldigt perk-køb. Moddens ubegrænsede leveling, 1,5× mod-XP fra level 8 og HUD-layout ændres ikke.
+- Uafhængig kodegennemgang af serverkrav, skadegrupper, effektive stats, gemmekompatibilitet, UI, grafik og tests fandt ingen væsentlige problemer.
+- Det nye liveforløb er kørt lokalt i singleplayer via virtuel skærm/offline-login; der er ikke kørt en ny dedikeret toklient-session for rang 4. Den integrerede server bruger de samme C2S-, save- og snapshotstier. Smoke-kilder og lokale testverdener medfølger ikke i release-JAR'en. Klienten blev lukket manuelt efter COMPLETE; build afslutter med exit 0. [Alle nye rang-/træningsregler](RANKS.md).
 
 ## Udbyggede animationer og effekter i version 0.4.0
 

@@ -17,12 +17,22 @@ public final class PlayerProgress {
  // Derived entitlement makes old saves and repeated snapshots idempotent: allocated stats are never re-awarded.
  public BigInteger statPoints(){return level().subtract(BigInteger.ONE).multiply(BigInteger.valueOf(STAT_POINTS_PER_LEVEL)).subtract(BigInteger.valueOf(stats.values().stream().mapToLong(Integer::longValue).sum())).max(BigInteger.ZERO);}
  public boolean spendStat(Stat s){if(s==null||statPoints().signum()==0||stat(s)==Integer.MAX_VALUE)return false;stats.put(s,stat(s)+1);return true;}
- public double strengthDamageBonus(){return 0.025*stat(Stat.STRENGTH);}
- public double agilityCooldownReduction(){return Math.min(0.4,stat(Stat.AGILITY)*0.01);}
- public long enduranceStaminaBonus(){return 5L*stat(Stat.ENDURANCE);}
- public long spiritManaBonus(){return 5L*stat(Stat.SPIRIT);}
+ public long effectiveStat(Stat s){
+  long bonus=0;for(String id:learned){var a=Ability.ALL.get(id);if(a!=null&&a.statBonus()==s)bonus++;}
+  if(rank()==4)bonus+=switch(playerClass){
+   case SWORDSMAN->switch(s){case STRENGTH->3;case AGILITY->2;default->0;};
+   case MAGE->switch(s){case SPIRIT->4;case ENDURANCE->1;default->0;};
+   case SPELLBLADE->switch(s){case STRENGTH,SPIRIT->2;case AGILITY->1;default->0;};
+   default->0;
+  };
+  return (long)stat(s)+bonus;
+ }
+ public double strengthDamageBonus(){return 0.025*effectiveStat(Stat.STRENGTH);}
+ public double agilityCooldownReduction(){return Math.min(0.4,effectiveStat(Stat.AGILITY)*0.01);}
+ public long enduranceStaminaBonus(){return 5L*effectiveStat(Stat.ENDURANCE);}
+ public long spiritManaBonus(){return 5L*effectiveStat(Stat.SPIRIT);}
  public StatBonuses bonuses(){return StatBonuses.from(this);}
- public double damageMultiplier(){return 1+strengthDamageBonus()+(rank()==3?0.15:0);}
+ public double damageMultiplier(){return 1+strengthDamageBonus()+(rank()>=3?0.15:0);}
  private PlayerClass playerClass=PlayerClass.UNINITIATED;
  private SwordStyle style=SwordStyle.QUICK;
  private double mana=100,stamina=100;
@@ -44,10 +54,10 @@ public final class PlayerProgress {
   if(c==null||c==PlayerClass.UNINITIATED||playerClass!=PlayerClass.UNINITIATED||level().compareTo(BigInteger.TEN)<0)return false;
   playerClass=c;return true;
  }
- private boolean eligible(Ability a){return a!=null&&(a.exclusiveClass()==null||a.exclusiveClass()==playerClass)&&skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||learned.contains(a.parent()));}
+ private boolean eligible(Ability a){return a!=null&&(a.exclusiveClass()==null||a.exclusiveClass()==playerClass)&&level().compareTo(BigInteger.valueOf(a.characterRequirement()))>=0&&skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||learned.contains(a.parent()));}
+ public boolean canUnlock(String id){return points().signum()>0&&!learned.contains(id)&&eligible(Ability.ALL.get(id));}
  public boolean unlock(String id){
-  Ability a=Ability.ALL.get(id);
-  if(points().signum()<1||learned.contains(id)||!eligible(a))return false;
+  if(!canUnlock(id))return false;
   learned.add(id);return true;
  }
  public Set<String> learned(){return Collections.unmodifiableSet(learned);}
@@ -55,8 +65,10 @@ public final class PlayerProgress {
   if(playerClass==PlayerClass.UNINITIATED)return 0;
   String basic=switch(playerClass){case SWORDSMAN->"aura_awaken";case MAGE->"mana_control";case SPELLBLADE->"element_binding";default->"";};
   String master=switch(playerClass){case SWORDSMAN->"sword_mastery";case MAGE->"arcane_mastery";case SPELLBLADE->"spellblade_mastery";default->"";};
-  return learned.contains(master)?3:learned.contains(basic)?2:1;
+  return learned.contains(master)?(learned.contains(ultimateRankId())?4:3):learned.contains(basic)?2:1;
  }
+ private String ultimateRankId(){return switch(playerClass){case SWORDSMAN->"astral_sword_sovereign";case MAGE->"celestial_archon";case SPELLBLADE->"eclipse_sovereign";default->"";};}
+ public String rankNodeId(){return rank()==4?ultimateRankId():"";}
  public boolean assign(int slot,String id){
   if(slot<0||slot>=5||id==null)return false;
   if(id.isEmpty()){slots[slot]="";return true;}
@@ -88,7 +100,16 @@ public final class PlayerProgress {
   if(a.skill()==Skill.FROST&&learned.contains("frost_affinity"))factor*=0.8;
   return a.active()?Math.max(10,(int)Math.round(a.cooldownTicks()*factor)):0;
  }
- public double damageMultiplier(Ability a){return damageMultiplier()*(a.stamina()>0&&style==SwordStyle.HEAVY&&learned.contains("impact_training")?1.15:1);}
+ public double rankDamageBonus(Ability a){
+  if(rank()!=4)return 0;
+  return switch(playerClass){
+   case SWORDSMAN->a.damageKind()==Ability.DamageKind.SWORD||a.damageKind()==Ability.DamageKind.ENCHANTED_SWORD?0.05:0;
+   case MAGE->a.damageKind()==Ability.DamageKind.MAGIC?0.05:0;
+   case SPELLBLADE->a.damageKind()==Ability.DamageKind.ENCHANTED_SWORD?0.05:0;
+   default->0;
+  };
+ }
+ public double damageMultiplier(Ability a){return damageMultiplier()*(a.stamina()>0&&style==SwordStyle.HEAVY&&learned.contains("impact_training")?1.15:1)*(1+rankDamageBonus(a));}
  public double healingMultiplier(){return learned.contains("restorative_affinity")?1.25:1;}
  public boolean canCast(int slot){
   Ability a=Ability.ALL.get(slot(slot));

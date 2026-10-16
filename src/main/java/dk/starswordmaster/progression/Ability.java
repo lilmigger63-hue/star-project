@@ -2,7 +2,16 @@ package dk.starswordmaster.progression;
 import java.util.*;
 import static dk.starswordmaster.progression.PlayerProgress.PlayerClass.*;
 public record Ability(String id, Skill skill, int requirement, String parent,
- PlayerProgress.PlayerClass exclusiveClass, boolean active, double mana, double stamina, int cooldownTicks) {
+ PlayerProgress.PlayerClass exclusiveClass, boolean active, double mana, double stamina, int cooldownTicks,
+ int characterRequirement,PlayerProgress.Stat statBonus) {
+ public Ability(String id,Skill skill,int requirement,String parent,PlayerProgress.PlayerClass exclusiveClass,boolean active,double mana,double stamina,int cooldownTicks){this(id,skill,requirement,parent,exclusiveClass,active,mana,stamina,cooldownTicks,1,null);}
+ public enum DamageKind { NONE,SWORD,MAGIC,ENCHANTED_SWORD }
+ public DamageKind damageKind(){return switch(id){
+  case "quick_cut","heavy_cut","heavy_sweep","riposte","aura_wave","rapid_slash","crushing_edge","piercing_thrust","seismic_cut"->DamageKind.SWORD;
+  case "spark","frost_touch","fire_burst","ice_lance","frost_nova","flame_lance","ember_ring","ice_prison"->DamageKind.MAGIC;
+  case "flame_blade","frost_blade","glacier_sweep"->DamageKind.ENCHANTED_SWORD;
+  default->DamageKind.NONE;
+ };}
  public static final Map<String,Ability> ALL;
  static {
   var a=new LinkedHashMap<String,Ability>();
@@ -50,7 +59,18 @@ public record Ability(String id, Skill skill, int requirement, String parent,
   add(a,"fire_affinity",Skill.FIRE,5,"spark",null,false,0,0,0);
   add(a,"frost_affinity",Skill.FROST,5,"frost_touch",null,false,0,0,0);
   add(a,"restorative_affinity",Skill.SUPPORT,5,"mend",null,false,0,0,0);
+  a.put("astral_sword_sovereign",new Ability("astral_sword_sovereign",Skill.SWORD,20,"sword_mastery",SWORDSMAN,false,0,0,0,25,null));
+  a.put("celestial_archon",new Ability("celestial_archon",Skill.FIRE,20,"arcane_mastery",MAGE,false,0,0,0,25,null));
+  a.put("eclipse_sovereign",new Ability("eclipse_sovereign",Skill.SWORD,20,"spellblade_mastery",SPELLBLADE,false,0,0,0,25,null));
+  training(a,"strength_training",Skill.SWORD,"impact_training",PlayerProgress.Stat.STRENGTH);
+  training(a,"agility_training",Skill.SWORD,"flow_training",PlayerProgress.Stat.AGILITY);
+  training(a,"endurance_training",Skill.SWORD,"guard_training",PlayerProgress.Stat.ENDURANCE);
+  training(a,"spirit_training",Skill.FIRE,"fire_affinity",PlayerProgress.Stat.SPIRIT);
+  training(a,"restorative_training",Skill.SUPPORT,"restorative_affinity",PlayerProgress.Stat.SPIRIT);
   ALL=Collections.unmodifiableMap(a);
+ }
+ private static void training(Map<String,Ability> a,String prefix,Skill skill,String parent,PlayerProgress.Stat stat){
+  for(int tier=1;tier<=3;tier++){String id=prefix+"_"+tier;a.put(id,new Ability(id,skill,tier*5,parent,null,false,0,0,0,1,stat));parent=id;}
  }
  private static void add(Map<String,Ability> a,String id,Skill s,int req,String parent,PlayerProgress.PlayerClass c,boolean active,double mana,double stamina,int cooldown){
   a.put(id,new Ability(id,s,req,parent,c,active,mana,stamina,cooldown));

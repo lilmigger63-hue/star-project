@@ -12,5 +12,11 @@ public final class TreeViewport {
   double next=Math.max(0.12,Math.min(1.8,zoom*Math.pow(1.15,delta)));
   double wx=worldX(x,centerX),wy=worldY(y,centerY);zoom=next;panX=x-centerX-wx*zoom;panY=y-centerY-wy*zoom;
  }
- public void fit(double width,double height){zoom=Math.max(0.12,Math.min(0.75,Math.min((width-32)/1040,(height-32)/930)));panX=50*zoom;panY=-20*zoom;}
+ public void fit(double width,double height){
+  var nodes=SkillTreeLayout.NODES;
+  double left=nodes.stream().mapToDouble(SkillTreeLayout.Node::x).min().orElse(0),right=nodes.stream().mapToDouble(SkillTreeLayout.Node::x).max().orElse(0);
+  double top=nodes.stream().mapToDouble(SkillTreeLayout.Node::y).min().orElse(0),bottom=nodes.stream().mapToDouble(SkillTreeLayout.Node::y).max().orElse(0);
+  zoom=Math.max(0.12,Math.min(0.75,Math.min((width-32)/(right-left+100),(height-32)/(bottom-top+100))));
+  panX=-(left+right)/2*zoom;panY=-(top+bottom)/2*zoom;
+ }
 }

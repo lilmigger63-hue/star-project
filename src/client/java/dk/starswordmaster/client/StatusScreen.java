@@ -81,20 +81,25 @@ public final class StatusScreen extends Screen {
   card(c,"character",x,y,w,StatusLayout.CHARACTER_HEIGHT);
   row(c,"level",Text.literal(d.level().toString()),x,y+20,w);
   row(c,"class",label("class."+d.playerClass().name().toLowerCase(Locale.ROOT)),x,y+31,w);
-  row(c,"rank",Text.literal(Integer.toString(d.rank())),x,y+42,w);
+  Text rank=Text.literal(Integer.toString(d.rank()));
+  if(!d.rankNodeId().isEmpty())rank=rank.copy().append(" · ").append(SkillHud.name(d.rankNodeId()));
+  row(c,"rank",rank,x,y+42,w);
+  if(!d.rankNodeId().isEmpty()&&pointerX>=x&&pointerX<x+w&&pointerY>=y+42&&pointerY<y+52&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(SkillHud.name(d.rankNodeId()),Text.translatable("description.starswordmaster."+d.rankNodeId()));
   row(c,"style",label("style."+d.style().name().toLowerCase(Locale.ROOT)),x,y+53,w);
   row(c,"total_xp",Text.literal(d.totalXp().toString()),x,y+64,w);
   text(c,label("next_xp",d.xpInLevel().toString(),d.xpForNextLevel().toString()),x+8,y+77,w-16,MUTED);
   bar(c,x+8,y+90,w-16,d.xpProgress(),0xFFBDA268);
   row(c,"perk_points",Text.literal(d.perkPoints().toString()),x,y+103,w);
+  if(d.rank()==4)text(c,label("rank_damage."+d.playerClass().name().toLowerCase(Locale.ROOT)),x+8,y+113,w-16,GOLD);
  }
  private void stats(DrawContext c,StatusData d,int x,int y,int w){
   card(c,"stats",x,y,w,StatusLayout.STATS_HEIGHT);row(c,"stat_points",Text.literal(d.statPoints().toString()),x,y+20,w);int i=0;
   for(var stat:PlayerProgress.Stat.values()){
    String key=stat.name().toLowerCase(Locale.ROOT);int rowY=y+38+26*i++;
-   row(c,"stat."+key,Text.literal(Integer.toString(d.stats().get(stat))),x,rowY,w-28);
+   long effective=d.effectiveStats().get(stat),bonus=effective-d.stats().get(stat);
+   row(c,"stat."+key,bonus==0?Text.literal(Long.toString(effective)):label("effective_value",effective,bonus),x,rowY,w-28);
    Text effect=effects(stat,d.bonuses());text(c,effect,x+8,rowY+11,w-42,MUTED);
-   if(pointerX>=x+8&&pointerX<x+w-28&&pointerY>=rowY&&pointerY<rowY+22&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(label("stat."+key),effect,label("rule.old."+key),label("rule.new."+key));
+   if(pointerX>=x+8&&pointerX<x+w-28&&pointerY>=rowY&&pointerY<rowY+22&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(label("stat."+key),label("effective_explanation",effective,d.stats().get(stat),bonus),effect,label("rule.old."+key),label("rule.new."+key));
   }
  }
  private void resources(DrawContext c,StatusData d,int x,int y,int w){
