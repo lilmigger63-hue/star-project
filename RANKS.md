@@ -1,41 +1,41 @@
-# Fjerde klasserang — 0.4.1
+# Class ranks and passive training
 
-Version 0.4.1 udvidede færdighedstræet til **62 noder: 32 aktive evner og 30 passive noder**. Version 0.5.0 har **85 noder / 54 aktive / 31 passive**; rangreglerne herunder er uændrede. Rang 4 låses op på K, koster ét perkpoint og gælder permanent for den valgte klasse. Den kan ikke tildeles en evneplads. Rangnoderne giver ingen selvstændige kast eller animationer.
+The current tree has **85 nodes: 54 active abilities and 31 passive nodes**. Rank 4, introduced in 0.4.1, costs one perk point in K and applies permanently to the chosen class. It is passive, cannot occupy a skill slot and does not cast a separate animation.
 
-| Klasse | Rang 4 / ID | Forudsætning | Karakter / færdighed | Effektive stats | Ekstra skade |
+| Class | Rank 4 / ID | Prerequisite | Character / skill level | Effective attribute bonuses | Extra damage |
 | --- | --- | --- | --- | --- | --- |
-| Sværdkæmper | Astralsværdets Suveræn / `astral_sword_sovereign` | `sword_mastery` | Level 25 / Sword 20 | +3 Styrke, +2 Smidighed | +5% sværdevneskade |
-| Magiker | Den Himmelske Arkon / `celestial_archon` | `arcane_mastery` | Level 25 / Fire 20 | +4 Ånd, +1 Udholdenhed | +5% offensiv magisk skade |
-| Magisk sværdkæmper | Formørkelsens Suveræn / `eclipse_sovereign` | `spellblade_mastery` | Level 25 / Sword 20 | +2 Styrke, +2 Ånd, +1 Smidighed | +5% fortryllet sværdevneskade |
+| Swordsman | Astral Sword Sovereign / `astral_sword_sovereign` | `sword_mastery` | Level 25 / Sword 20 | +3 Strength, +2 Agility | +5% sword ability damage |
+| Mage | Celestial Archon / `celestial_archon` | `arcane_mastery` | Level 25 / Fire 20 | +4 Spirit, +1 Endurance | +5% offensive magic damage |
+| Spellblade | Eclipse Sovereign / `eclipse_sovereign` | `spellblade_mastery` | Level 25 / Sword 20 | +2 Strength, +2 Spirit, +1 Agility | +5% enchanted sword ability damage |
 
-De engelske titler er **Astral Sword Sovereign**, **Celestial Archon** og **Eclipse Sovereign**. Rangnoderne forbindes direkte til deres Mastery-node med over 200 layoutenheders afstand. Træets oprindelige pan/zoom og hit-test genbruges; startudsnittet beregnes fra samtlige noders positioner. Én eksisterende træningsnode flyttes lidt for at give plads til sin nabo.
+Rank nodes connect directly to their Mastery parent with more than 200 layout units of separation. Existing pan/zoom and hit testing are reused, and the initial viewport fits every node. The fourth rank also increases sword aura detail while preserving the stable personal color.
 
-## Bonusberegning og gemmedata
+## Bonuses and persistence
 
-`stat()` er fortsat den fordelte grundværdi. `effectiveStat()` beregner grundværdi plus lærte passive bonusser og rangbonus; ingen bonus skrives ind i fordelte stats eller giver statpoint. Effektive stats bruger `long`, så en grundværdi ved `Integer.MAX_VALUE` ikke løber over. H viser effektiv værdi og `(+passiv bonus)` med en forklaring af grundværdi/passiv i tooltip samt rangtitel og kategoriens +5% skade.
+`stat()` remains the allocated base value. `effectiveStat()` adds learned passive and rank bonuses without modifying allocated values or granting spendable points. Effective values use `long`, so a base at `Integer.MAX_VALUE` does not overflow. H shows effective values, passive contributions, rank titles and damage categories with explanatory tooltips.
 
-Alle hidtidige statregler og grænser bruges også på effektive stats. Mastery bevarer sin eksisterende +0,15 i skademultiplikatoren, også ved rang 4. Den nye kategori-bonus multipliceres bagefter med **1,05**, sammen med eksisterende stil-/træningsbonusser:
+Existing attribute formulas/caps also apply to effective values. Mastery retains its +0.15 damage-multiplier bonus at Rank 4. The category bonus multiplies afterward by **1.05**, alongside existing style/training bonuses:
 
-`(1 + 0,025 × effektiv Styrke + Mastery-bonus) × eksisterende stilbonus × kategoribonus`
+`(1 + 0.025 × effective Strength + Mastery bonus) × existing style bonus × category bonus`
 
-- Sværdskade: Lynsnit, Kraftslag, Stormfejning, Modhug, Aurabølge, Lynpres, Knusende klinge, Gennemborende stød og Jordrystende hug. Fortryllede sværdangreb tæller også som sværd, hvis kategorien undersøges.
-- Offensiv magi: Gnister, Frostgreb, Flammeudbrud, Islanse, Frostnova, Flammelanse, Glødering og Frostlænker.
-- Fortryllede sværdangreb: Flammesværd, Frostsværd og Gletsjerfejning.
+The original sword category includes Quick Cut, Heavy Cut, Storm Sweep, Riposte, Aura Wave, Rapid Slash, Crushing Edge, Piercing Thrust and Seismic Cut. Enchanted sword attacks count as swords when that category is checked. Original offensive magic includes Spark, Frost Touch, Fire Burst, Ice Lance, Frost Nova, Flame Lance, Ember Ring and Ice Shackles. Original enchanted sword attacks include Flame Blade, Frost Blade and Glacier Sweep. Expansion abilities use the same category rules in production code.
 
-Heling, dash, defensive effekter, almindelige Better Combat-angreb og vanillas efterfølgende brandskade får ingen ekstra kategori-bonus. Eksisterende styrkebonus ændrer fortsat evneskade som før. Skadesberegningen bruges af den samme serverautoritative `AbilityEffects`-kode; rækkevidde, priser, cooldown, målvalg og timing ændres ikke.
+Healing, dashes, defensive effects, ordinary Better Combat attacks and vanilla's subsequent burn damage receive no extra category bonus. The existing Strength contribution continues to affect ability damage. The same server-authoritative effects code performs damage calculations; rank bonuses do not change targeting, reach, timing, costs or cooldowns.
 
-Serverens `unlock()` validerer klasse, karakterlevel, færdighedslevel, Mastery og perkpoint. Klientens knapper bruger samme `canUnlock()`-regler. Det eksisterende save-/snapshotformat, pointregnskab og indlæsning bevares. Rang afledes af lærte noder; Minecraft-attributter bruger fortsat de samme modifier-ID'er, så genindlæsning, gentagne ticks og genforbindelse ikke kan stable bonusser.
+Server `unlock()` validates class, character level, skill level, Mastery and perk points. Client `canUnlock()` mirrors those rules. Save/snapshot format and accounting remain intact. Rank derives from learned nodes; fixed attribute modifier IDs prevent stacking on reload, repeated ticks and reconnect.
 
-## 15 valgfrie træningsnoder
+## Fifteen optional training nodes
 
-Fem grene med tre trin hver, valgt for at udvide det eksisterende træ fra 44 til 62 noder. Hvert trin kræver det foregående, færdighedslevel **5 / 10 / 15**, koster ét perkpoint og giver **+1 effektiv stat**. De er åbne for alle klasser og er ikke ekstra krav til rang 4.
+Five branches have three tiers each. Each tier requires its predecessor and skill level **5 / 10 / 15**, costs one perk point and adds **+1 effective attribute**. Every class can learn them. They are optional and are not extra prerequisites for Rank 4.
 
-| Gren / ID-præfiks | Første forudsætning | Færdighed | Stat pr. trin |
+| Branch / ID prefix | First prerequisite | Skill | Attribute per tier |
 | --- | --- | --- | --- |
-| Klingetræning / `strength_training` | `impact_training` | Sword | +1 Styrke |
-| Flydetræning / `agility_training` | `flow_training` | Sword | +1 Smidighed |
-| Vogtertræning / `endurance_training` | `guard_training` | Sword | +1 Udholdenhed |
-| Glødemeditation / `spirit_training` | `fire_affinity` | Fire | +1 Ånd |
-| Livsmeditation / `restorative_training` | `restorative_affinity` | Support | +1 Ånd |
+| Blade Training / `strength_training` | `impact_training` | Sword | +1 Strength |
+| Flow Drills / `agility_training` | `flow_training` | Sword | +1 Agility |
+| Guardian Drills / `endurance_training` | `guard_training` | Sword | +1 Endurance |
+| Ember Meditation / `spirit_training` | `fire_affinity` | Fire | +1 Spirit |
+| Life Meditation / `restorative_training` | `restorative_affinity` | Support | +1 Spirit |
 
-Hver node har dansk/engelsk tekst og et originalt 32×32-ikon med skarp pixelgrafik. `tools/generate_rank_assets.py` genskaber de 18 nye ikoner og oversættelser. De tre rangikoner viser henholdsvis et gyldent stjernesværd, en lysende lilla kosmisk rune og en mørklilla formørkelse omkring en fortryllet klinge. Testkilder pakkes ikke i mod-JAR'en. Faktiske kontroller findes i [VALIDATION.md](VALIDATION.md).
+Every node has original sharp 32 × 32 pixel art. Rank icons depict a golden astral sword, a luminous cosmic rune and a dark eclipse around an enchanted blade. The finishing pass preserves these icons. `en_us.json` is the presentation source of truth; `da_dk.json` intentionally contains identical English mod strings. Localization tests cover every ability name/description and dynamic UI family. Historical generators may contain old localized metadata; do not overwrite reviewed English locale files when regenerating artwork.
+
+Tests are excluded from the release JAR. See [VALIDATION.md](VALIDATION.md) for actual results.

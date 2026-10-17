@@ -1,0 +1,1 @@
+{"required":true,"package":"dk.starswordmaster.client.mixin.circles","compatibilityLevel":"JAVA_21","client":["CirclePlayerModelAccessor","CircleNativeModelMixin","CircleFirstPersonArmMixin","CircleFrameMixin","CircleBufferedLayerMixin"],"injectors":{"defaultRequire":1}}

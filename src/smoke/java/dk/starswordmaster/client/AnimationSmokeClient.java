@@ -23,13 +23,13 @@ public class AnimationSmokeClient implements ClientModInitializer {
  private record Case(String id,String mode){}
  private final List<Case> cases=new ArrayList<>();private final Set<String> observed=new HashSet<>();private final Set<AbilityPresentation.Element> screenshots=new HashSet<>();
  private final Map<UUID,AbilityPresentationPayload> remoteActive=new HashMap<>();private boolean remoteCancelled;
- private int ticks,index,state,wait,checks;private boolean particlesSeen;private long beforeSequence;private boolean started,finished,single,attackSeen,boneSeen,ownB,remoteB,reconnecting;private String role;private Object removedClip;private float targetHealth;
+ private int ticks,index,state,wait,checks;private boolean finishing;private boolean particlesSeen;private long beforeSequence;private boolean started,finished,single,attackSeen,boneSeen,ownB,remoteB,reconnecting;private String role;private Object removedClip;private float targetHealth;
  private void check(boolean value,String msg){if(!value)throw new AssertionError("ANIMATION_"+role+" FAIL: "+msg+" case="+index+" state="+state);checks++;System.out.println("ANIMATION_"+role+" PASS: "+msg);}
  private static Object field(Object object,String name){try{Field f=object.getClass().getDeclaredField(name);f.setAccessible(true);return f.get(object);}catch(Exception e){throw new AssertionError(e);}}
  @SuppressWarnings("unchecked") private static Map<UUID,Object> active(){try{Field f=AbilityPresentationClient.class.getDeclaredField("active");f.setAccessible(true);return (Map<UUID,Object>)f.get(null);}catch(Exception e){throw new AssertionError(e);}}
  @SuppressWarnings("unchecked") private long sequence(UUID id){try{Field f=AbilityPresentationClient.class.getDeclaredField("ledger");f.setAccessible(true);return ((Map<UUID,Long>)field(f.get(null),"seen")).getOrDefault(id,0L);}catch(Exception e){throw new AssertionError(e);}}
  private void command(MinecraftClient c,String text){c.getNetworkHandler().sendChatCommand("staranimtest "+text);}
- private void connect(MinecraftClient c){if(single){c.createIntegratedServerLoader().start("AnimationSmoke",()->c.setScreen(new TitleScreen()));return;}ConnectScreen.connect(new TitleScreen(),c,ServerAddress.parse("127.0.0.1:25570"),new ServerInfo("Local animation test","127.0.0.1:25570",ServerInfo.ServerType.OTHER),false,null);}
+ private void connect(MinecraftClient c){if(single){c.createIntegratedServerLoader().start("AnimationSmoke",()->c.setScreen(new TitleScreen()));return;}ConnectScreen.connect(new TitleScreen(),c,ServerAddress.parse(finishing?"127.0.0.1:25574":"127.0.0.1:25570"),new ServerInfo("Local animation test",finishing?"127.0.0.1:25574":"127.0.0.1:25570",ServerInfo.ServerType.OTHER),false,null);}
  private PlayerAnimationController controller(MinecraftClient c){return (PlayerAnimationController)PlayerAnimationAccess.getPlayerAnimationLayer(c.player,PalAbilityAnimations.LAYER);}
  private float targetHealth(MinecraftClient c){return c.world.getEntitiesByClass(ZombieEntity.class,c.player.getBoundingBox().expand(5),e->e.isAlive()).stream().findFirst().map(ZombieEntity::getHealth).orElse(-1f);}
  @SuppressWarnings("unchecked") private void clip(boolean remove,AbilityPresentation p){try{Field f=PlayerAnimResources.class.getDeclaredField("ANIMATIONS");f.setAccessible(true);var map=(Map<Identifier,Object>)f.get(null);var id=Identifier.of("starswordmaster",p.animationId());if(remove)removedClip=map.remove(id);else if(removedClip!=null){map.put(id,removedClip);removedClip=null;}}catch(Exception e){throw new AssertionError(e);}}
@@ -51,10 +51,12 @@ public class AnimationSmokeClient implements ClientModInitializer {
   }catch(Exception e){throw new AssertionError(e);}
  }
  @Override public void onInitializeClient(){
-  if(!Boolean.getBoolean("starsmoke.animations"))return;single=Boolean.getBoolean("starsmoke.animations.singleplayer");role=System.getProperty("starsmoke.animations.role","A");
+  if(!Boolean.getBoolean("starsmoke.animations"))return;finishing=Boolean.getBoolean("starsmoke.finishing");single=Boolean.getBoolean("starsmoke.animations.singleplayer");role=System.getProperty("starsmoke.animations.role","A");
   cases.add(new Case("quick_cut","normalAttack"));AbilityPresentation.ALL.keySet().forEach(id->cases.add(new Case(id,"ok")));
+  if(finishing){cases.add(new Case("mend","firstRight"));cases.add(new Case("mend","firstLeft"));cases.add(new Case("water_bolt","thirdLeft"));cases.add(new Case("stone_spike","firstRight"));cases.add(new Case("worldbreaker","firstRight"));}
   cases.add(new Case("heavy_cut","mana"));cases.add(new Case("heavy_cut","stamina"));cases.add(new Case("heavy_cut","cooldown"));cases.add(new Case("heavy_cut","weapon"));cases.add(new Case("spark","target"));cases.add(new Case("mend","fullhealth"));
   cases.add(new Case("ember_ring","damage"));cases.add(new Case("guard","switch"));cases.add(new Case("guard","attack"));cases.add(new Case("mend","vanillaAttack"));cases.add(new Case("mend","fallback"));cases.add(new Case("quick_cut","normalAttack"));cases.add(new Case("guardian_stance","death"));
+  if(Boolean.getBoolean("starsmoke.finishing.lifecycle")){cases.clear();cases.add(new Case("quick_cut","normalAttack"));cases.add(new Case("earthen_wall","linger"));cases.add(new Case("earthen_wall","switch"));cases.add(new Case("worldbreaker","damage"));cases.add(new Case("worldbreaker","firstRight"));cases.add(new Case("quick_cut","normalAttack"));}
   ClientLifecycleEvents.CLIENT_STARTED.register(c->{c.options.pauseOnLostFocus=false;c.options.getMaxFps().setValue(60);c.getTutorialManager().setStep(TutorialStep.NONE);c.options.setPerspective(Perspective.THIRD_PERSON_BACK);c.options.getParticles().setValue(net.minecraft.particle.ParticlesMode.ALL);});
   ClientTickEvents.END_CLIENT_TICK.register(c->{
    ticks++;if(!finished&&ticks>11000)throw new AssertionError("ANIMATION_"+role+" timeout at "+index+"/"+state);
@@ -77,10 +79,12 @@ public class AnimationSmokeClient implements ClientModInitializer {
     check(single||remoteB,"other player's confirmed guard visible");command(c,"audit");
     c.disconnect(Text.literal("Animation lifecycle check"));check(active().isEmpty(),"disconnect clears all running poses");reconnecting=true;state=90;index++;wait=0;return;
    }
-   if(state==90){if(++wait<40)return;check(active().isEmpty()&&!controller(c).isActive(),"reconnect/respawn leave no stuck animation");System.out.println("ANIMATION_A COMPLETE "+(single?"singleplayer":"multiplayer")+" checks="+checks);finished=true;return;}
+   if(state==90){if(++wait<40)return;check(active().isEmpty()&&!controller(c).isActive(),"reconnect/respawn leave no stuck animation");if(finishing){if(!Boolean.getBoolean("starsmoke.finishing.lifecycle"))checks+=FinishingSmokeChecks.complete();c.setScreen(new StatusScreen());state=91;wait=0;return;}System.out.println("ANIMATION_A COMPLETE "+(single?"singleplayer":"multiplayer")+" checks="+checks);finished=true;return;}
+   if(state==91){if(++wait<20)return;ScreenshotRecorder.saveScreenshot(c.runDirectory,"finishing-status.png",c.getFramebuffer(),1,message->{});c.setScreen(new SkillTreeScreen());state=92;wait=0;return;}
+   if(state==92){if(++wait<20)return;ScreenshotRecorder.saveScreenshot(c.runDirectory,"finishing-tree.png",c.getFramebuffer(),1,message->{});c.setScreen(null);System.out.println("FINISHING_A COMPLETE "+(single?"singleplayer":"multiplayer")+" checks="+checks);finished=true;return;}
    var test=cases.get(index);var p=AbilityPresentation.ALL.get(test.id());
    if(state==0){
-    c.setScreen(null);c.options.attackKey.setPressed(false);c.player.getInventory().setSelectedSlot(0);
+    c.setScreen(null);if(finishing)c.options.setPerspective(test.mode().startsWith("first")?Perspective.FIRST_PERSON:Perspective.THIRD_PERSON_BACK);c.options.attackKey.setPressed(false);c.player.getInventory().setSelectedSlot(0);
     if(index==0){
      verifyBudgetAndSprites(c);
      for(var presentation:AbilityPresentation.ALL.values())check(PlayerAnimResources.hasAnimation(Identifier.of("starswordmaster",presentation.animationId())),"PAL loaded dedicated clip "+presentation.abilityId());
@@ -96,9 +100,10 @@ public class AnimationSmokeClient implements ClientModInitializer {
     if(++wait<10||!StarSwordmasterClient.data.slot(0).equals(test.id()))return;
     beforeSequence=sequence(c.player.getUuid());attackSeen=false;boneSeen=false;particlesSeen=false;
     if(test.mode().equals("normalAttack")){targetHealth=targetHealth(c);c.options.attackKey.setPressed(true);state=10;wait=0;return;}
-    if(test.id().equals("quick_cut")&&test.mode().equals("ok"))c.player.setMainArm(net.minecraft.util.Arm.LEFT);
+    if(test.mode().equals("firstLeft")||test.mode().equals("thirdLeft")||test.id().equals("quick_cut")&&test.mode().equals("ok"))c.player.setMainArm(net.minecraft.util.Arm.LEFT);
     else c.player.setMainArm(net.minecraft.util.Arm.RIGHT);
     if(test.mode().equals("fallback"))clip(true,p);
+    if(finishing)FinishingSmokeChecks.beforeCast(c);
     StarSwordmasterClient.send("cast","",0);state=2;wait=0;return;
    }
    if(state==10){
@@ -128,20 +133,21 @@ public class AnimationSmokeClient implements ClientModInitializer {
      attackSeen|=PalAbilityAnimations.attackActive(c.player)||c.player.handSwinging;
      if(running!=null){if(wait>12)check(false,"interruption did not release pose "+test.mode());return;}
      if(test.mode().equals("vanillaAttack"))check(attackSeen,"actual vanilla punch started");
-     check(wait<p.ticks(),"early cancellation on "+test.mode());if(test.mode().equals("damage"))check(sequence(c.player.getUuid())==beforeSequence+2,"damage cancellation synchronized from server");c.options.attackKey.setPressed(false);state=4;wait=0;return;
+     if(finishing)checks+=FinishingSmokeChecks.expired(c);check(wait<p.ticks(),"early cancellation on "+test.mode());if(test.mode().equals("damage"))check(sequence(c.player.getUuid())==beforeSequence+2,"damage cancellation synchronized from server");c.options.attackKey.setPressed(false);state=4;wait=0;return;
     }
     if(wait<4)return;
+    if(finishing&&!test.mode().equals("fallback")){checks+=FinishingSmokeChecks.verify(c,test.id());if(test.mode().startsWith("first")||test.mode().equals("thirdLeft")||dk.starswordmaster.presentation.EarthFormationMesh.kind(test.id())!=null)ScreenshotRecorder.saveScreenshot(c.runDirectory,"finishing-"+test.id()+"-"+test.mode()+".png",c.getFramebuffer(),1,message->{});}
     check(particlesSeen,"Minecraft particle manager received custom pixel "+test.id()+" VFX");
     if(!test.mode().equals("fallback"))check(boneSeen,"original clip changes right-arm pose for "+test.id());
     if(screenshots.add(p.element()))ScreenshotRecorder.saveScreenshot(c.runDirectory,"animation-"+p.element()+".png",c.getFramebuffer(),1,message->{});
     state=4;wait=0;return;
    }
-   if(state==4){if(++wait<28||!c.player.isAlive())return;check(!active().containsKey(c.player.getUuid()),"presentation naturally released for "+test.id()+"/"+test.mode());index++;state=0;wait=0;}
+   if(state==4){if(++wait<(test.mode().equals("linger")?120:28)||!c.player.isAlive())return;if(finishing&&test.mode().equals("linger"))checks+=FinishingSmokeChecks.expired(c);check(!active().containsKey(c.player.getUuid()),"presentation naturally released for "+test.id()+"/"+test.mode());index++;state=0;wait=0;}
   });
  }
  private void observer(MinecraftClient c){
   if(!observed.containsAll(AbilityPresentation.ALL.keySet()))return;
-  if(state==0){check(observed.size()==AbilityPresentation.ALL.size(),"observer saw all "+AbilityPresentation.ALL.size()+" active ability events");command(c,"prepare guard ok");state=1;wait=0;return;}
+  if(state==0){if(finishing){check(CircleSmokeCapture.remote>0,"observer sees actual remote native hand sigils");check(CircleSmokeCapture.maximumError<=.001f&&CircleSmokeCapture.unmatchedNativeArms==0,"remote circles match actual native animated arms");}check(observed.size()==AbilityPresentation.ALL.size(),"observer saw all "+AbilityPresentation.ALL.size()+" active ability events");command(c,"prepare guard ok");state=1;wait=0;return;}
   if(state==1){if(++wait<10)return;StarSwordmasterClient.send("cast","",0);state=2;wait=0;return;}
   if(state==2){var r=active().get(c.player.getUuid());if(r==null||!(boolean)field(r,"started")){if(++wait>30)check(false,"observer own cast missing/not initialized");return;}check(controller(c).getTriggeredAnimation()!=null||controller(c).isActive(),"observer also animates own confirmed cast");ownB=true;state=3;wait=0;}
   if(state==3&&++wait>30&&remoteCancelled){check(active().isEmpty(),"observer and own poses all expire");command(c,"audit");System.out.println("ANIMATION_B COMPLETE multiplayer checks="+checks);finished=true;}

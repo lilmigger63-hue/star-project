@@ -40,15 +40,16 @@ public class AnimationSmokeServer implements ModInitializer {
   if(mode.equals("cooldown"))properties.setProperty("cooldown."+id,"999");
   var data=PlayerProgress.fromProperties(properties);if(!data.learned().contains(id))throw new AssertionError("Invalid fixture prerequisites "+id);
   try{var sf=StarSwordmaster.class.getDeclaredField("store");sf.setAccessible(true);var store=sf.get(null);var pf=PlayerStore.class.getDeclaredField("players");pf.setAccessible(true);((Map<UUID,PlayerProgress>)pf.get(store)).put(player.getUuid(),data);}catch(ReflectiveOperationException e){throw new AssertionError(e);}
+  if(Boolean.getBoolean("starsmoke.finishing")){var w=player.getEntityWorld();w.setTimeOfDay(6000);for(int x=-20;x<=34;x++)for(int z=-20;z<=20;z++)w.setBlockState(new net.minecraft.util.math.BlockPos(x,79,z),net.minecraft.block.Blocks.STONE.getDefaultState());}
   player.clearStatusEffects();StatAttributes.apply(player,data);player.setHealth(mode.equals("fullhealth")?player.getMaxHealth():10);player.getHungerManager().setFoodLevel(6);player.setNoGravity(true);player.getAbilities().invulnerable=true;
-  double x=player.getGameProfile().name().endsWith("B")?12.5:0.5;var world=player.getEntityWorld();player.teleport(world,x,80,0.5,Set.of(),0,0,false);player.setVelocity(0,0,0);
+  boolean observer=player.getGameProfile().name().endsWith("B");boolean finishing=Boolean.getBoolean("starsmoke.finishing");double x=observer?(finishing?6.5:12.5):.5,z=observer&&finishing?-6.5:.5;float yaw=observer&&finishing?40:0;var world=player.getEntityWorld();player.teleport(world,x,80,z,Set.of(),yaw,0,false);player.setVelocity(0,0,0);
   player.equipStack(EquipmentSlot.MAINHAND,mode.equals("unarmed")?ItemStack.EMPTY:new ItemStack(mode.equals("weapon")?Items.STICK:Items.IRON_SWORD));
   var old=targets.remove(player.getUuid());if(old!=null)old.discard();
   // Prior local runs persist their AI-disabled targets. Clear only this fixture lane.
   for(var stale:world.getEntitiesByClass(ZombieEntity.class,new net.minecraft.util.math.Box(x-4,76,-20,x+4,84,20),ZombieEntity::isAiDisabled))stale.discard();
   if(!pets.containsKey(player.getUuid()))for(var stale:world.getEntitiesByClass(WolfEntity.class,new net.minecraft.util.math.Box(x-4,76,-20,x+4,84,20),WolfEntity::isAiDisabled))stale.discard();
   if(!mode.equals("target")){
-   var mob=new ZombieEntity(EntityType.ZOMBIE,world);mob.refreshPositionAndAngles(x,80,3.3,0,0);mob.setAiDisabled(true);mob.setNoGravity(true);mob.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(1000);mob.setHealth(1000);mob.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,10000));world.spawnEntity(mob);targets.put(player.getUuid(),mob);
+   var mob=new ZombieEntity(EntityType.ZOMBIE,world);mob.refreshPositionAndAngles(x,80,z+2.8,0,0);mob.setAiDisabled(true);mob.setNoGravity(true);if(Boolean.getBoolean("starsmoke.finishing"))mob.equipStack(EquipmentSlot.HEAD,new ItemStack(Items.IRON_HELMET));mob.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(1000);mob.setHealth(1000);mob.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,10000));world.spawnEntity(mob);targets.put(player.getUuid(),mob);
   }
   var pet=pets.get(player.getUuid());if(pet==null||!pet.isAlive()){
    pet=new WolfEntity(EntityType.WOLF,world);pet.refreshPositionAndAngles(x+1.5,80,2,0,0);pet.setAiDisabled(true);pet.setNoGravity(true);pet.setOwner(player);pet.setTamed(true,true);world.spawnEntity(pet);pets.put(player.getUuid(),pet);

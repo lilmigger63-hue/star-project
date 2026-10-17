@@ -1,0 +1,1 @@
+{"required":true,"package":"dk.starswordmaster.smoke.mixin","compatibilityLevel":"JAVA_21","client":["EarthSubmissionCaptureMixin"],"injectors":{"defaultRequire":1}}

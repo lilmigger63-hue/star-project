@@ -1,99 +1,109 @@
-# Animationer og effekter — 0.5.0
+# Ability animations and visual effects
 
-Alle **54 aktive evner** har et særskilt originalt PAL-klip, `skill_<evne-id>.json`, og en unik rumlig effektkoreografi. De **31 passive noder** får ingen kast-animation. De 11 oprindelige klip bevares; 54 evneklip og otte genbrugelige stilklip giver i alt **73 PAL-ressourcer**. Better Combat-laget og den eksisterende serverbekræftelse bruges fortsat.
+All **54 active abilities** have an original individual PAL clip, `skill_<ability-id>.json`, and spatial effect choreography. The **31 passive nodes** do not cast animations. The 11 original clips, 54 ability clips and eight reusable style clips give **73 PAL resources**. Better Combat retains ordinary attack priority, and only server-confirmed casts create presentations.
 
-De hidtidige 32 klip beholder deres 10–20 ticks; de 22 nye varer 12–32 ticks. Alle er PAL-format 3, ikke-loopende, med eksplicit neutral afslutning. Kun arme og begrænset torso-rotation animeres; ben, position og sigte ændres ikke. Armrotationernes bidrag skalerer kosmetisk 75–100 % med level, uden ændret timing. Originale animationer/designs kopierer ingen animefigur eller scene.
+The original 32 clips last 10–20 ticks; the 22 expansion clips last 12–32. All use PAL format 3, are nonlooping and explicitly return to neutral. Arms and limited torso rotation animate while legs, position and aim remain unchanged. Arm rotation contribution scales cosmetically from 75 to 100% with character level, preserving duration. Artwork and animation are original.
 
-## Komplet oversigt
+The finishing pass layers bounded reusable spell geometry over the existing choreography and uses actual arm rendering transforms for hand seals. Earth formations are temporary cosmetic stone geometry anchored to sampled loaded terrain, without block changes or physical wall collisions. Their observed behavior and remaining visual checks are recorded in [VALIDATION.md](VALIDATION.md).
 
-Hver række bruger klippet `skill_<ID>`. Klinge-efterbilleder er korte, gennemskinnelige buer efter sværdets bevægelse, ikke nye spiller-entities. Radius er fortsat udelukkende visuel.
+## Original active abilities
 
-| Evne / ID | Animation | Udbygget visuel effekt | Maks. mønsterradius |
+Each row uses `skill_<ID>.json`. Blade afterimages are brief translucent trails rather than gameplay entities. The radius below describes the original unscaled particle pattern; it does not change damage reach.
+
+| Ability / ID | Animation | Original particle choreography | Base pattern radius |
 | --- | --- | --- | --- |
-| Gnister / `spark` | Skulder-samling, fingerkast | Små håndsegl, snoet glødespor, varmt træfglimt | 1 |
-| Frostgreb / `frost_touch` | Indadgående kuldesamling, håndfladepres | Kantet frosttråd, iskronblade omkring målet | 1 |
-| Stjernelys / `light` | Bryståbning, løftet stjernehånd | Fembladet stjernebane med svævende segl | 0,8 |
-| Lægende lys / `mend` | Samlede hænder, blid frigivelse | Stigende helingsspiral af segl og små lysblade | 0,65 |
-| Lynsnit / `quick_cut` | Stramt diagonalt snit, rekyl | Smal lysbue, korte klinge-efterbilleder og fartstreger | 1,6 |
-| Sværdskridt / `quick_dash` | Armene ind, skulderfremdrift | To lave fartspor ved den bekræftede startposition | 0,7 |
-| Kraftslag / `heavy_cut` | Høj garde, tungt lodret hug | Stor lodret halvmåne, faldende striber, kraftigere træfglimt | 2,2 |
-| Stormfejning / `heavy_sweep` | Bred sideopladning, vandret fejning | Bred lav halvmåne med forskudte buer og striber | 3 |
-| Stjerneparade / `guard` | Diagonal brystgarde, kort parade | Kompakt diamantgarde, håndsegl og stålstreger | 0,9 |
-| Modhug / `riposte` | Parade, tilbagetræk, svarstik | Smalt dobbelt stikspor og koncentrerede gnister | 1,6 |
-| Aurabølge / `aura_wave` | Lysende opadgående hug | Rejsende buet energifront langs det eksisterende træfpunkt | 1 |
-| Sværdets vilje / `blade_focus` | Centrér klingen, kantkontrol, brysttræk | Roterende klingestreger og stjernesegl ved skuldrene | 1 |
-| Flammeudbrud / `fire_burst` | Komprimér, eksplosiv håndspredning | Glødende flammeblomst med opadgående blade ved målet | 2 |
-| Islanse / `ice_lance` | Form med støttehånd, skulderstik | Smal skår-lanse med lige kerne og isglimt | 1 |
-| Helligdom / `sanctuary` | Bøn, beskyttende armhvælving | To lave lysbaner, større segl og helingsstjerner | 1,2 |
-| Frostnova / `frost_nova` | Samling indad, radial frigivelse | To forskudte, udadgående ringe af lave frostskår | 6 |
-| Flammesværd / `flame_blade` | Lav optakt, stigende piskesnit | Bølget ildbue med krøllede gløder og varm kant | 1,9 |
-| Frostsværd / `frost_blade` | Høj stilling, bremset skråhug | Tandet ishalvmåne, skiftevis frostskår og efterbuer | 1,9 |
-| Lynpres / `rapid_slash` | Krydsede snit, retningsskift | Tre korte, skiftevis diagonale sporfaser | 1,8 |
-| Knusende klinge / `crushing_edge` | Samlet højt greb, knusende afslutning | Tunge krydsede buer og større koncentreret træflys | 2,8 |
-| Spejlparade / `mirror_guard` | Krydsede hænder, spejltilt | Roterende spejlskår med dobbelte klinge-refleksbuer | 1 |
-| Flammelanse / `flame_lance` | Skuldertræk, stik, rullende frigivelse | Snoet glødehelix omkring en smal lansekerne | 1 |
-| Frostværn / `frost_ward` | Tegn en rude, lås klingen | Buet krone af isblade og et kompakt frontsegl | 1 |
-| Magisk sværdskridt / `arcane_step` | Brystkryds, magisk sideskæring | Kort startsegl og spiralformede stjerne-fartstreger | 0,8 |
-| Gletsjerfejning / `glacier_sweep` | Høj sidegarde, bred bue | Udadgående vifte af lave isskår og frostbuer | 5 |
-| Fornyelse / `renew` | Hjertespiral, skiftende håndløft | Modroterende helingsspiraler og grønne buer | 0,8 |
-| Gennemborende stød / `piercing_thrust` | Hoftetræk, langt rettet stik | Konvergerende lyspunkter og fremadrettede stikstreger | 2 |
-| Jordrystende hug / `seismic_cut` | Højt løft, lavt slag, chokrekyl | Tre lave, udadgående brudlinjer med kantede gnister | 5 |
-| Vogterstilling / `guardian_stance` | Bred vogter-afstivning | Tre beskyttende segl-/søjlesektorer omkring kroppen | 1,2 |
-| Glødering / `ember_ring` | Krydssamling, cirkelspredning, løft | Roterende flammeblade og segl langs en voksende ring | 5 |
-| Frostlænker / `ice_prison` | Forskudt søjleløft, krydset lukning | Fire hjørner af stigende isstænger og forseglingsmærker | 1,2 |
-| Genoprettelse / `restoration` | Lav samling, hjertekryds, frigivelse | Stigende helingsblomst med omvendt rotation og segl | 0,95 |
+| Spark / `spark` | Shoulder gather, finger cast | Small palm seal, coiling ember trail, warm impact flash | 1 |
+| Frost Touch / `frost_touch` | Inward cold gather, palm push | Angular frost thread and icy petals around target | 1 |
+| Starlight / `light` | Open chest, lift a star-bearing hand | Five-petal star orbit with floating seals | 0.8 |
+| Mending Light / `mend` | Gather palms, gently release | Rising healing spiral of seals and small light petals | 0.65 |
+| Quick Cut / `quick_cut` | Tight diagonal cut, recoil | Narrow light arc, short blade afterimages and speed streaks | 1.6 |
+| Swordstep / `quick_dash` | Tuck arms, drive shoulder forward | Two low speed trails at the confirmed origin | 0.7 |
+| Heavy Cut / `heavy_cut` | High guard, heavy vertical cut | Large vertical crescent, falling streaks, strong impact flash | 2.2 |
+| Storm Sweep / `heavy_sweep` | Wide side charge, horizontal sweep | Wide low crescent with staggered arcs and streaks | 3 |
+| Star Guard / `guard` | Diagonal chest guard, brief parry | Compact diamond guard, palm seal and steel streaks | 0.9 |
+| Riposte / `riposte` | Parry, withdraw, counterthrust | Narrow paired thrust trails and concentrated sparks | 1.6 |
+| Aura Wave / `aura_wave` | Luminous rising slash | Traveling curved energy front along the confirmed hit path | 1 |
+| Blade Focus / `blade_focus` | Center blade, control edge, draw toward chest | Rotating blade streaks and shoulder star seals | 1 |
+| Fire Burst / `fire_burst` | Compress, explosively spread hands | Glowing flame bloom with rising petals at target | 2 |
+| Ice Lance / `ice_lance` | Shape with support palm, shoulder thrust | Narrow shard lance with a straight core and ice flash | 1 |
+| Sanctuary / `sanctuary` | Prayer, protective arm arch | Two low light orbits, larger seals and healing stars | 1.2 |
+| Frost Nova / `frost_nova` | Gather inward, release radially | Two staggered outward rings of low frost shards | 6 |
+| Flame Blade / `flame_blade` | Low windup, rising whip cut | Waving fire arc with curled embers and a warm edge | 1.9 |
+| Frost Blade / `frost_blade` | High stance, braking diagonal cut | Toothed ice crescent alternating shards and trailing arcs | 1.9 |
+| Rapid Slash / `rapid_slash` | Crossed cuts, change direction | Three brief alternating diagonal trail phases | 1.8 |
+| Crushing Edge / `crushing_edge` | Gather high grip, crushing finish | Heavy crossed arcs and concentrated impact light | 2.8 |
+| Mirror Guard / `mirror_guard` | Cross hands, mirror tilt | Rotating mirror shards with paired blade reflections | 1 |
+| Flame Lance / `flame_lance` | Draw shoulder, thrust, rolling release | Coiling ember helix around a narrow lance core | 1 |
+| Frost Ward / `frost_ward` | Trace a diamond, lock blade | Curved crown of ice petals and compact frontal seal | 1 |
+| Arcane Step / `arcane_step` | Cross chest, magical sidestep | Brief origin seal and spiraling star-speed streaks | 0.8 |
+| Glacier Sweep / `glacier_sweep` | High side guard, broad sweep | Outward fan of low ice shards and frost arcs | 5 |
+| Renewal / `renew` | Heart spiral, alternating hand lift | Counterrotating healing spirals and green arcs | 0.8 |
+| Piercing Thrust / `piercing_thrust` | Hip draw, long directed thrust | Converging lights and forward thrust streaks | 2 |
+| Seismic Cut / `seismic_cut` | High lift, low slam, shock recoil | Three low outward fracture lines with angular sparks | 5 |
+| Guardian Stance / `guardian_stance` | Wide protective brace | Three protective seal/pillar sectors around the body | 1.2 |
+| Ember Ring / `ember_ring` | Cross gather, circular spread, lift | Rotating flame petals and seals along an expanding ring | 5 |
+| Ice Shackles / `ice_prison` | Offset pillar lift, crossed closure | Four rising icy corners and sealing marks | 1.2 |
+| Restoration / `restoration` | Low gather, heart cross, release | Rising healing bloom with reversed rotation and seals | 0.95 |
 
-## 22 nye evner
+## Expansion abilities
 
-Hver række bruger `skill_<ID>.json`. Den unikke rytme og håndstilling bygger på en af de otte nye stilressourcer; kastene er selvstændige klip.
+Each row uses its own `skill_<ID>.json`, with a distinct rhythm and hand pose built on reusable style resources. Earth rows include the finishing pass's solid formations; other rows describe the established choreography beneath the new layered geometry.
 
-| ID | Animation, faktisk klipbeskrivelse | Visuel effekt | Ticks |
+| ID | Animation | Visual effect | Clip ticks |
 | --- | --- | --- | --- |
-| `static_spark` | Pinch a charge beside the shoulder, snap the wrist, then discharge a second tiny recoil. | Zigzag-lyn med håndladning og kort elektrisk træf | 12 |
-| `chain_lightning` | Lift the conductor hand and relay three alternating arcs between the open palms. | Forgrenet zigzag langs de faktiske servertræfpunkter | 20 |
-| `thunder_step` | Cross a charged guard, tuck both elbows through the step and flare an electric exit. | Lave dobbelte lynspor fra startpositionen | 12 |
-| `heavens_wrath` | Stack stormclouds overhead, split their crown and conduct descending thunder with both hands. | Faldende lyn, stormruner og roterende stormkrone | 30 |
-| `water_bolt` | Cup a droplet above the support palm, corkscrew it forward and collect the spent stream. | Snoet vanddråbe-helix langs sigtelinjen | 14 |
-| `tidal_wave` | Scoop a low tide, roll the crest between the hands and push the whole wave outward. | Fremadrettet vandvifte med høj bølgetop | 22 |
-| `aqua_blade` | Weave water beneath the hilt, carve a flowing rising edge and roll its crescent away. | Flydende klingehalvmåne og vanddråber | 16 |
-| `ocean_prison` | Raise offset spirals into a high water cage, then close its gate with crossed palms. | Stigende vandspiraler og runer omkring målet | 26 |
-| `stone_spike` | Find the earth with a low palm and lever a narrow stone point up from beneath the target. | Kantede stenskår løftet fra målets fodpunkt | 14 |
-| `earthen_wall` | Set two foundations, lift a heavy slab and brace the barrier with square open palms. | Tre lag af svævende klippestykker og værnruner | 20 |
-| `quake_blade` | Take a weighted crown guard, drive the sword into the low line and absorb two ground pulses. | Tre radiale brudlinjer med hævede stenskår | 22 |
-| `worldbreaker` | Draw the mountain overhead, suspend its weight, then shatter the seal with a monumental double slam. | Dobbelte chokfronter og større springende klippestykker | 30 |
-| `shadow_bolt` | Hook a shadow from the opposite palm, twist it into a dart and cast it from a half-open guard. | Snoet skyggespor med mørke blade | 14 |
-| `curse_mark` | Trace a hooked sigil, seal its center with two fingers and pull the curse thread taut. | Modroterende forbandelsesrune ved målet | 18 |
-| `shadow_edge` | Draw shadow along the blade, cut a low hooked arc and fold the trailing darkness inward. | Mørke klinge-efterbilleder langs et diagonalt hug | 16 |
-| `eclipse_nova` | Cup a black sun, eclipse it behind crossed arms, then tear the horizon into an open nova. | Sekstakket formørkelsesfront med runer og skyggeskår | 30 |
-| `astral_crescent` | Draw a low celestial edge, sweep a clean rising moon and stop with the point held high. | Bred stigende stjernehalvmåne med klinge-efterbilleder | 16 |
-| `falling_star` | Set the star above the crown, draw it downward through the blade and catch its falling weight. | Femspidset stjernefront ved et tungt nedslag | 22 |
-| `phantom_blades` | Mark three floating sword lanes with alternating cuts and gather their phantom edges into guard. | Fire skiftende faser af fantomklinger; ingen ekstra træf | 20 |
-| `celestial_rush` | Tuck a star-point guard, drive the shoulders through a straight rush and flare the trailing blade. | Dobbelte fartspor, klingeskår og stjerneglimt | 14 |
-| `sovereign_judgment` | Raise the sovereign blade like a scepter, hold its verdict aloft and cast a single commanding stroke. | Stort faldende klinge- og runespor | 28 |
-| `heavenly_sword_domain` | Draw an oath across the heart, crown the domain overhead and unfold a cathedral of celestial swords. | Roterende klingekrans med vekslende runesøjler | 32 |
+| `static_spark` | Pinch a charge beside the shoulder, snap the wrist, then discharge a second tiny recoil. | Zigzag lightning with a palm charge and short electric impact | 12 |
+| `chain_lightning` | Lift the conductor hand and relay three alternating arcs between the open palms. | Branching zigzags through real server-confirmed hit positions | 20 |
+| `thunder_step` | Cross a charged guard, tuck both elbows through the step and flare an electric exit. | Low paired lightning trails from the origin | 12 |
+| `heavens_wrath` | Stack stormclouds overhead, split their crown and conduct descending thunder with both hands. | Descending bolts, storm runes and rotating storm crown | 30 |
+| `water_bolt` | Cup a droplet above the support palm, corkscrew it forward and collect the spent stream. | Coiling water-droplet helix along the aiming line | 14 |
+| `tidal_wave` | Scoop a low tide, roll the crest between the hands and push the whole wave outward. | Forward water fan with a high wave crest | 22 |
+| `aqua_blade` | Weave water beneath the hilt, carve a flowing rising edge and roll its crescent away. | Flowing blade crescent and droplets | 16 |
+| `ocean_prison` | Raise offset spirals into a high water cage, then close its gate with crossed palms. | Rising water spirals and runes around the target | 26 |
+| `stone_spike` | Find the earth with a low palm and lever a narrow stone point up from beneath the target. | Terrain-sampled solid spike rises beneath the confirmed target; dust and chips | 14 |
+| `earthen_wall` | Set two foundations, lift a heavy slab and brace the barrier with square open palms. | Interlocking solid stone wall segments rise from sampled terrain; ward runes | 20 |
+| `quake_blade` | Take a weighted crown guard, drive the sword into the low line and absorb two ground pulses. | Directional wave of solid jagged stones follows the confirmed facing | 22 |
+| `worldbreaker` | Draw the mountain overhead, suspend its weight, then shatter the seal with a monumental double slam. | Bounded arrangement of massive solid rising pillars and ground shockwaves | 30 |
+| `shadow_bolt` | Hook a shadow from the opposite palm, twist it into a dart and cast it from a half-open guard. | Coiling shadow trail with dark petals | 14 |
+| `curse_mark` | Trace a hooked sigil, seal its center with two fingers and pull the curse thread taut. | Counterrotating curse rune at the target | 18 |
+| `shadow_edge` | Draw shadow along the blade, cut a low hooked arc and fold the trailing darkness inward. | Dark blade afterimages along a diagonal slash | 16 |
+| `eclipse_nova` | Cup a black sun, eclipse it behind crossed arms, then tear the horizon into an open nova. | Six-point eclipse front with runes and shadow shards | 30 |
+| `astral_crescent` | Draw a low celestial edge, sweep a clean rising moon and stop with the point held high. | Wide rising astral crescent with blade afterimages | 16 |
+| `falling_star` | Set the star above the crown, draw it downward through the blade and catch its falling weight. | Five-point star front at a heavy slam | 22 |
+| `phantom_blades` | Mark three floating sword lanes with alternating cuts and gather their phantom edges into guard. | Four alternating phantom blade phases; no extra damage | 20 |
+| `celestial_rush` | Tuck a star-point guard, drive the shoulders through a straight rush and flare the trailing blade. | Paired speed trails, blade shards and star flashes | 14 |
+| `sovereign_judgment` | Raise the sovereign blade like a scepter, hold its verdict aloft and cast a single commanding stroke. | Large descending blade and rune trail | 28 |
+| `heavenly_sword_domain` | Draw an oath across the heart, crown the domain overhead and unfold a cathedral of celestial swords. | Rotating blade crown with alternating rune pillars | 32 |
 
-Genbrugelige klip: `style_dual_cast.json`, `style_ground_slam.json`, `style_overhead_cast.json`, `style_sword_release.json`, `style_lightning_channel.json`, `style_water_weave.json`, `style_earth_raise.json`, `style_shadow_summon.json`.
+Reusable styles: `style_dual_cast`, `style_ground_slam`, `style_overhead_cast`, `style_sword_release`, `style_lightning_channel`, `style_water_weave`, `style_earth_raise`, `style_shadow_summon`.
 
-## Pixelgrafik og begrænsninger
+## Pixel art, geometry and limits
 
-Tolv originale, sparsomme partikelsilhuetter: **streak, arc, sigil, shard, flash, ember, bolt, droplet, rock, shadow, rune, blade**. Grundpaletterne er stål hvid/guld, ild orange/gul, frost cyan/ishvid, stjerne violet/guld, healing mint, lyn gul/hvid, vand blå/cyan, jord sand/grøn og mørke violet/sort. Sværdteknikker bruger spillerens personlige aurafarve, når auraen er låst op, inklusive lysere/mørkere nuancer og rang 4-højlys. Rang ændrer aldrig grundfarven. Forskelle kommer fra form, bane, fase og rytme, ikke kun farveskift.
+Twelve original sparse particle silhouettes remain: **streak, arc, sigil, shard, flash, ember, bolt, droplet, rock, shadow, rune and blade**. Elements use distinctive shapes, paths, phases and timing, alongside fire red/ember, frost cyan, lightning electric violet/blue, water turquoise, earth ochre, dark violet/crimson, astral moonlight/gold and healing gold/emerald accents. Sword techniques retain each player's personal UUID-derived aura color, with analogous shades and Rank 4 highlights. Rank never replaces the base hue.
 
-Spritekonturerne har skarpe pixelkanter og native nærmeste-nabo-filter. Korte buer, runer og skår er ét native atlas-quad pr. punkt. Punkter skaber ingen ekstra partikler, kolliderer ikke og ændrer ingen blokke eller entities. Normale spor varer 3–8 ticks; den fælles partikelklasse håndhæver højst 12 ticks og 3 blokkes quad-bredde efter levelskalering. Tunge hug har større buer/træf end små kast og hurtige snit; effekterne er sparsomme, korte og uden skærmrystelser eller fuldskærmsoverlays.
+Sprites retain sharp pixel edges and native nearest-neighbor filtering. Particle points use native atlas quads and create no secondary particles, collision, terrain edits or gameplay entities. Ordinary trails last 3–8 ticks; the particle class enforces at most 12 ticks and 3 blocks of width after scaling. Larger attacks gain broader silhouettes than basic casts without fullscreen overlays or screen shake. Reusable meshes and layered rune textures supply additional shape under separate hard geometry budgets, quality and distance limits.
 
-De hidtidige grænser bevares: **højst 12 mønsterpunkter pr. opdatering**, normalt hver anden tick, **op til 8 umiddelbare træfpunkter**, **256 nye partikler/tick**, **64 aktive kastere**, **64 blokkes visningsafstand** og **12 blokkes skaleret visuel radius** (grundmønstrene holder sig inden for 6,1). Budgettet kan ikke blive negativt. Minecrafts indstillinger ALL/DECREASED/MINIMAL respekteres, også for de nye atlaspartikler.
+Particle safeguards remain **at most 12 pattern points per update**, normally every other tick; **up to eight immediate impact points**; **256 new particles/tick**; **64 active casters**; **64 blocks of draw distance**; and **12 blocks of scaled local visual radius** (base patterns stay within 6.1). The budget cannot become negative. Minecraft ALL/DECREASED/MINIMAL and the mod's Low/Normal/Ultra settings reduce detail within these limits.
 
-## Aktivering, kamp og netværk
+## Activation, combat and networking
 
-Den eksisterende server sender stadig præcis én kort præsentationshændelse efter gyldig aktivering og ressourceforbrug. UUID/entity-ID, sekvensnummer, verdenstid, evne-ID, start og træfposition bevares. Den versionerede v2-payload tilføjer kompakt serverberegnet rank/power/farve og højst otte faktiske træfpositioner. Største hændelse holder sig under 384 bytes; separate appearance-opdateringer under 40 bytes. Klienten genererer geometrien lokalt; ingen partikelstrøm, nye gameplay-projektiler eller C2S-animationsanmodninger. Dubletter, udløbne hændelser og ukendte evner afvises som før. En forsinket gyldig hændelse afspilles kun i den resterende oprindelige levetid.
+The server sends one compact presentation event after a valid cast and resource spending. UUID/entity ID, sequence, world time, ability ID, origin and impact remain authoritative. Versioned v2 payloads include compact server-computed rank/power/color and at most eight actual hit positions; event size is below 384 bytes and appearance updates below 40 bytes. Clients generate cosmetic geometry locally. There are no particle streams, new gameplay projectiles or C2S animation permissions. Duplicate, expired and unknown events are rejected. A late valid event plays only its remaining original lifetime.
 
-**Skade og healing sker stadig på det oprindelige tidspunkt.** Et træfglimt vises straks ved serverens eksisterende træfpunkt. Visuel håndopladning, spor og efterbilleder følger bagefter og forsinker ikke gameplay. Rækkevidde, målvalg, skade, priser, cooldowns, stats, XP og gemte data ændres ikke.
+**Damage and healing keep their original timing.** Immediate impact flashes use existing server hit points. Visual anticipation, trails and recovery do not delay gameplay. Range, target selection, damage, costs, cooldowns, stats, XP and saves remain unchanged.
 
-PAL-laget er fortsat umiddelbart under Better Combats angrebslag, verificeret 1999/2000. Almindelige kombinationer bevares. Håndspejling opdateres ved kast; kropsmønstre spejles rumligt, og hånd-/projektilspor følger den relevante sigteretning. Der skrives ikke til spillerens sigte, bevægelse eller Better Combat-tilstand.
+The PAL layer remains immediately below Better Combat's attack layer (1999/2000). Ordinary combos retain priority. Casts mirror for the selected hand; native first-/third-person arm hooks attach rune circles to rendered hands, while projectile/world paths retain the confirmed aim. The renderer does not write to aim, movement or Better Combat state.
 
-Angreb, skade, død, våbenskift, nyt kast, entity-/verdensskift og disconnect rydder aktive klip. Serverens eksisterende skade-/døds-/våbenskiftsafbrydelse bevares. Allerede udsendte kosmetiske quads dør hurtigt af sig selv. Manglende PAL-klip giver fortsat partikler; manglende eller endnu ikke indlæste sprites falder tilbage til de eksisterende native elementpartikler.
+Attack, damage, death, weapon switch, a new cast, entity/world replacement and disconnect clear active clips. Previously emitted particles expire quickly. Missing PAL clips retain the remaining cosmetic fallback; missing/unloaded sprites fall back to existing native elemental particles. Additional geometry follows the same presentation lifetime authority.
 
-## Installation og tests
+## Installation and validation
 
-Brug **0.5.0 på både server og klienter**. De tolv partikeltyper registreres normalt af Fabric; ingen nye afhængigheder. Minecraft 1.21.10, Better Combat 3.0.0+1.21.10, PAL 1.1.3, Fabric API og Cloth Config er uændrede krav.
+Install the same current version on server and clients. Runtime requirements remain Minecraft 1.21.10, Java 21, Fabric API, Better Combat 3.0.0+1.21.10, PAL 1.1.3 and Cloth Config. No new dependencies are introduced by the finishing pass.
 
-Generatorerne i `tools/generate_expansion_assets.py`, `tools/generate_ability_animations.py` og `tools/generate_presentation_particles.py` kan genskabe de originale assets. `src/smoke` indeholder isolerede tests og pakkes ikke i mod-JAR'en. Se [EXPANSION.md](EXPANSION.md) for aura-/skaleringstal og [VALIDATION.md](VALIDATION.md) for de faktisk gennemførte build-, singleplayer- og multiplayertests.
+Original asset generators live in `tools/`; historical generator locale metadata may predate English-only presentation, so preserve reviewed `en_us.json` and its identical English `da_dk.json` when regenerating art. Smoke sources in `src/smoke` are excluded from the mod JAR. See [EXPANSION.md](EXPANSION.md) for aura/scaling formulas and [VALIDATION.md](VALIDATION.md) for the build, singleplayer and multiplayer checks actually executed.
+
+## Finishing-pass mesh layers (0.6.0)
+
+Every row above additionally selects one cached mesh profile: curved crescents, crossed lances, jagged branching bolts, helices, waves, cages, radial rings, shields, blooms, halos or dash ribbons. Each ability retains its distinct original animation and particle choreography. Meshes are created once at resource initialization, not rebuilt per frame. The mesh frame cap is2,048 quads, with 64 casters and 64 blocks of draw distance, frustum culling and quality/distance LOD. Chain Lightning bounds include all confirmed targets; Curse Mark's seal attaches to its confirmed target rather than the caster.
+
+Magic circles are original transparent pixel-art sigils extracted from actual native/PAL arm poses. Their palm plane mirrors with arm choice, rotates in two/three layers and dissolves with the existing animation. Native-frame deduplication caps them at 64 casters,128 hands and384 quads. The eight element palettes are distinct. First-person sword aura opacity is reduced to 65% of its third-person opacity to preserve sight; its size, RGB identity, rank progression and actual weapon attachment remain unchanged.
+
+Earth uses separate opaque, lit, low-poly models: Stone Spike's clustered tip, Earthen Wall's interlocking segments, Quake Blade's staggered directional wave and Worldbreaker's pillar array. Five loaded collision samples per footprint determine safe ground/ceiling fitting; liquid, steep or unloaded footprints are rejected. The wall ends at 100 ticks; other formations collapse within 34–56 ticks. Limits are 16 formations,9 rocks each and2,048 quads/frame. Small dust/chip sprites remain secondary to actual stone geometry. No blocks, entities or collision are created in gameplay.

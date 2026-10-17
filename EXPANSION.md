@@ -1,52 +1,52 @@
-# Ultimate magic og sværdauraer — 0.5.0
+# Expanded magic and personal sword auras
 
-Træet har **85 noder: 54 aktive og 31 passive**. Versionen tilføjer 16 elementbesværgelser, seks sværdteknikker og `aura_sense`. Alle tidligere evne-ID'er, klasser, fire rangtrin, effektive stats, point, XP-regler, slots og HUD-positioner bevares. Ingen nye afhængigheder eller mobs; schema 1 bevares. De fire nye færdigheder bruger de eksisterende `practice.<SKILL>`-felter og starter på nul praksis i gamle verdener. Auraen tilføjer intet gemmefelt.
+The tree has **85 nodes: 54 active and 31 passive**. The 0.5.0 expansion introduced 16 elemental spells, six sword techniques and `aura_sense`. Existing ability IDs, classes, four ranks, effective attributes, points, XP rules, slots and HUD positions remain compatible. No new dependencies or mobs; saves remain schema 1. Lightning, Water, Earth and Dark use existing `practice.<SKILL>` fields, starting at zero in old worlds. Auras add no save field.
 
-## Nye aktive evner
+## Expanded active abilities
 
-Alle koster ét perkpoint at lære. Mana/stamina og cooldown nedenfor er grundværdier; eksisterende stats, klasse, rang og stil anvendes som før. Detaljer og forældrekrav vises på K. Rækkevidde og skader er serverberegnede; animationer ændrer dem ikke.
+Each ability costs one perk point to learn. Mana/stamina and cooldown below are base values before existing stat, class, rank and style modifiers. K shows prerequisites and effective costs. Server calculations determine reach and damage; cosmetic animation does not change them.
 
-| ID | Klasse | Karakter / færdighedslevel | Mana / stamina | Cooldown, ticks | Faktisk effekt før eksisterende bonusser |
+| ID | Class | Character / skill level | Mana / stamina | Cooldown, ticks | Effect before existing bonuses |
 | --- | --- | --- | --- | --- | --- |
-| static_spark | Alle | 1 / Lyn 1 | 14 / 0 | 50 | 3 skade, mål inden for 16 |
-| chain_lightning | Alle | 10 / Lyn 5 | 30 / 0 | 140 | 7 skade, højst 5 mål; ×0,8 pr. spring, højst 5 mellem mål |
-| thunder_step | Magisk sværd | 10 / Lyn 8 | 22 / 6 | 160 | Kort bevægelsesimpuls, Speed/Resistance i 40 ticks |
-| heavens_wrath | Magiker | 25 / Lyn 20 | 65 / 0 | 500 | 10 skade og sløvning omkring sigtet mål, radius 5 |
-| water_bolt | Alle | 1 / Vand 1 | 14 / 0 | 50 | 4 skade, mål inden for 16 |
-| tidal_wave | Alle | 10 / Vand 5 | 30 / 0 | 160 | 5 skade og knockback i en fremadrettet vifte, rækkevidde 8 |
-| aqua_blade | Magisk sværd | 10 / Vand 8 | 26 / 6 | 140 | 7 skade, mål inden for 4 |
-| ocean_prison | Magiker | 20 / Vand 15 | 40 / 0 | 240 | 6 skade og Slowness IV i 100 ticks |
-| stone_spike | Alle | 1 / Jord 1 | 16 / 0 | 60 | 5 skade, mål inden for 16 |
-| earthen_wall | Alle | 10 / Jord 5 | 24 / 0 | 220 | Resistance i 100 og absorption i 80 ticks; placerer ingen blokke |
-| quake_blade | Sværdkæmper / Magisk sværd | 15 / Jord 10 | 34 / 10 | 180 | 8 skade og sløvning, radius 4 |
-| worldbreaker | Magiker | 25 / Jord 20 | 70 / 0 | 600 | 14 skade og sløvning, radius 6 |
-| shadow_bolt | Alle | 1 / Mørke 1 | 16 / 0 | 60 | 5 skade, mål inden for 16 |
-| curse_mark | Alle | 10 / Mørke 5 | 24 / 0 | 140 | 3 skade og Weakness i 100 ticks |
-| shadow_edge | Magisk sværd | 10 / Mørke 8 | 28 / 6 | 160 | 8 skade, mål inden for 4 |
-| eclipse_nova | Magiker | 25 / Mørke 20 | 70 / 0 | 600 | 13 skade og Weakness, radius 6 |
-| astral_crescent | Sværdkæmper | 12 / Sværd 8 | 24 / 7 | 100 | 8 skade i fremadrettet sværdvifte, rækkevidde 5 |
-| falling_star | Sværdkæmper | 18 / Sværd 12 | 34 / 10 | 180 | 11 skade og sløvning, radius 4 |
-| phantom_blades | Sværdkæmper | 20 / Sværd 15 | 32 / 9 | 160 | 10 skade i ét træf; bladefterbilleder er kosmetiske |
-| celestial_rush | Sværdkæmper | 18 / Sværd 12 | 28 / 8 | 160 | 8 skade i sværdvifte og kort fremdrift ved gyldigt mål |
-| sovereign_judgment | Sværdkæmper | 30 / Sværd 25 | 50 / 14 | 320 | 16 skade inden for 5; kræver rang 4 |
-| heavenly_sword_domain | Sværdkæmper | 40 / Sværd 30 | 80 / 18 | 700 | 15 skade og Weakness, radius 6; kræver Sovereign Judgment |
+| static_spark | All | 1 / Lightning 1 | 14 / 0 | 50 | 3 damage; target within 16 blocks |
+| chain_lightning | All | 10 / Lightning 5 | 30 / 0 | 140 | 7 damage, up to 5 targets; ×0.8 per jump, maximum 5 blocks between targets |
+| thunder_step | Spellblade | 10 / Lightning 8 | 22 / 6 | 160 | Short movement impulse; Speed/Resistance for 40 ticks |
+| heavens_wrath | Mage | 25 / Lightning 20 | 65 / 0 | 500 | 10 damage and slowing around the aimed target, radius 5 |
+| water_bolt | All | 1 / Water 1 | 14 / 0 | 50 | 4 damage; target within 16 blocks |
+| tidal_wave | All | 10 / Water 5 | 30 / 0 | 160 | 5 damage and knockback in a forward fan, reach 8 |
+| aqua_blade | Spellblade | 10 / Water 8 | 26 / 6 | 140 | 7 damage; target within 4 blocks |
+| ocean_prison | Mage | 20 / Water 15 | 40 / 0 | 240 | 6 damage and Slowness IV for 100 ticks |
+| stone_spike | All | 1 / Earth 1 | 16 / 0 | 60 | 5 damage; target within 16 blocks |
+| earthen_wall | All | 10 / Earth 5 | 24 / 0 | 220 | Resistance for 100 ticks and absorption for 80; places no blocks |
+| quake_blade | Swordsman / Spellblade | 15 / Earth 10 | 34 / 10 | 180 | 8 damage and slowing, radius 4 |
+| worldbreaker | Mage | 25 / Earth 20 | 70 / 0 | 600 | 14 damage and slowing, radius 6 |
+| shadow_bolt | All | 1 / Dark 1 | 16 / 0 | 60 | 5 damage; target within 16 blocks |
+| curse_mark | All | 10 / Dark 5 | 24 / 0 | 140 | 3 damage and Weakness for 100 ticks |
+| shadow_edge | Spellblade | 10 / Dark 8 | 28 / 6 | 160 | 8 damage; target within 4 blocks |
+| eclipse_nova | Mage | 25 / Dark 20 | 70 / 0 | 600 | 13 damage and Weakness, radius 6 |
+| astral_crescent | Swordsman | 12 / Sword 8 | 24 / 7 | 100 | 8 damage in a forward sword fan, reach 5 |
+| falling_star | Swordsman | 18 / Sword 12 | 34 / 10 | 180 | 11 damage and slowing, radius 4 |
+| phantom_blades | Swordsman | 20 / Sword 15 | 32 / 9 | 160 | One 10-damage hit; blade afterimages are cosmetic |
+| celestial_rush | Swordsman | 18 / Sword 12 | 28 / 8 | 160 | 8 damage in a sword fan and a short forward impulse on a valid target |
+| sovereign_judgment | Swordsman | 30 / Sword 25 | 50 / 14 | 320 | 16 damage within 5 blocks; requires Rank 4 |
+| heavenly_sword_domain | Swordsman | 40 / Sword 30 | 80 / 18 | 700 | 15 damage and Weakness, radius 6; requires Sovereign's Judgment |
 
-Områder rammer højst otte fjendtlige mobs. Spillere, kæledyr, holdallierede og mål uden synslinje udelukkes. Kædelyn rammer hvert mål højst én gang. Magiske spor er kosmetiske; der skabes ingen ekstra gameplay-projektiler, blokødelæggelse, ild eller eksplosionsskade. Afvist brug bruger ingen ressourcer og starter ingen præsentation.
+Areas affect at most eight hostile mobs. Players, pets, teammates and targets without line of sight are excluded. Chain Lightning hits each target once. Spell trails and stone formations are cosmetic; they create no extra damaging projectiles, permanent terrain edits, fire or explosion damage. Earthen Wall retains its resistance/absorption gameplay rather than physical collisions. Rejected use spends no resources and starts no presentation.
 
-## Personlig sværdaura
+## Personal sword aura
 
-`aura_sense` kræver Lynsnit, karakterlevel 10 og Sværd 3. Den er en passiv node, ikke en sjette evneplads. Gamle spillere med Auraopvågning eller Elementbinding får auraen automatisk; nye magiske sværdteknikker kan også åbne den.
+`aura_sense` requires Quick Cut, character level 10 and Sword 3. It is passive, not a sixth slot. Existing characters with Aura Awakening or Element Binding gain an aura automatically; new enchanted sword techniques can also unlock it.
 
-Serveren udleder en lys, mættet farve fra spillerens UUID med hele HSV-farvecirklen: mætning 72–94 %, lysstyrke 90–100 %. Ingen per-frame tilfældighed og intet nyt gemmefelt. Farven består ved død, genforbindelse og verdensgenstart. Rang øger bredde, lys, facetter og klingespor; rang 4 tilføjer hvide højlys og en stjernekrone. Sværdkæmperens envelope er 22 % bredere; Magisk sværd kan få en kort sekundær elementaccent, mens grundfarven bevares.
+The server derives a bright saturated color from the player's UUID across the full HSV wheel: saturation 72–94%, brightness 90–100%. There is no per-frame randomization or new save field. Color remains stable through death, reconnect and world restart. Rank increases width, light, facets and trails; Rank 4 adds white highlights and a star crown. The Swordsman envelope is 22% wider; Spellblade can gain a brief secondary elemental accent while retaining the personal base color.
 
-Auraen deler Minecrafts faktiske held-item-transform i første-/tredjeperson, venstre-/højrehånd og hos andre spillere. Den følger derfor også Better Combat og PAL. Kun sværd i hænder vises; ingen aura på GUI-ikoner, droppede genstande eller efter våbenskift. Depth test bevares.
+The aura uses Minecraft's actual held-item transform for both hands, both perspectives and observers. It follows Better Combat and PAL. Only held swords receive it; inventory icons, dropped items and switched-out weapons do not. Depth testing remains enabled.
 
-## Visuel skalering og ydelse
+## Visual scaling and performance
 
-For karakterlevel L bruges p=(L−1)/(L+39), begrænset til 0–1 og med sikker behandling af vilkårligt store BigInteger-levels. Visuel radius skalerer fra 0,65 til 2,25; sprites fra 0,7 til 2,5; sporlængde fra 0,75 til 2,5. Armbevægelsens bidrag skalerer fra 75 til 100 % med samme animationsvarighed, sigte og vanilla-ben. Hårde grænser: 12 blokkes lokal visuel radius, 3 blokkes spritebredde, 256 nye partikler/tick, 64 aktive kastere og 64 blokkes visningsafstand. Klingeauraen bruger højst 64 quads pr. hånd og 1024 pr. frame i alt, højst 64 spillere; afstand og kvalitet reducerer detaljer yderligere.
+For character level L, `p=(L−1)/(L+39)` is clamped to 0–1 and handles arbitrarily large `BigInteger` levels safely. Visual radius scales from 0.65 to 2.25; sprites from 0.7 to 2.5; trail length from 0.75 to 2.5. Arm contribution scales from 75 to 100% with unchanged duration, aim and vanilla legs. Hard limits remain **12 blocks of local visual radius, 3 blocks of particle sprite width, 256 new particles/tick, 64 active casters and 64 blocks of draw distance**. Sword auras use at most 64 quads per hand and 1,024 per frame globally for at most 64 players; quality and distance further reduce detail.
 
-H har et diskret VFX-valg: Low / Normal / Ultra. Det gemmes kun lokalt i `config/starswordmaster-vfx.txt`. Minecrafts partikelindstillinger respekteres også. Ingen kvalitetsindstilling hæver de hårde grænser.
+H offers **Low / Normal / Ultra**, saved locally in `config/starswordmaster-vfx.txt`. Minecraft's particle settings are respected. Quality modes never increase hard limits. The finishing pass adds separate bounded reusable spell geometry and terrain-sampled Earth formations; current geometry caps and verified behavior are documented in [VALIDATION.md](VALIDATION.md).
 
-Serveren sender kompakt appearance-state ved tracking, ændringer, join, respawn og dimensionsskift. Gyldige kast indeholder power/farve og højst otte faktiske træfpositioner; klienten tegner selv mønstrene. Brug **0.5.0 på både server og klienter**, da præsentationspayloaden er versioneret.
+The server sends compact appearance state for tracking, changes, join, respawn and dimension travel. Valid casts contain power/color and at most eight real hit positions; clients draw cosmetic patterns locally. Install the same current version on server and clients because the presentation payload is versioned.
 
-Se [ABILITY_PRESENTATION.md](ABILITY_PRESENTATION.md) for alle 54 animationer og [VALIDATION.md](VALIDATION.md) for udførte tests.
+See [ABILITY_PRESENTATION.md](ABILITY_PRESENTATION.md) for all 54 ability presentations and [VALIDATION.md](VALIDATION.md) for checks actually completed.

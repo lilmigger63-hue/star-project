@@ -84,5 +84,5 @@ public final class ParticlePattern {
   for(int i=0;i<n;i++){double a=i*Math.PI*2/n,r=heavy?0.42:0.18;Ink ink=switch(p.element()){case FIRE->Ink.EMBER;case FROST->Ink.SHARD;case HEALING->Ink.SIGIL;case LIGHTNING->Ink.BOLT;case WATER->Ink.DROPLET;case EARTH->Ink.ROCK;case DARK->Ink.SHADOW;default->Ink.FLASH;};out.add(mark(Math.cos(a)*r,Math.sin(a)*r,0,Space.IMPACT,ink,heavy?0.55:0.25,4,a,1));}
   return List.copyOf(out);
  }
- public static int color(AbilityPresentation.Element element,int tone){return switch(element){case STEEL->tone==0?0xD0E7FF:0xFFF0B0;case FIRE->tone==0?0xFF5926:0xFFD46A;case FROST->tone==0?0x44CFFF:0xD9FBFF;case STAR->tone==0?0xA97CFF:0xF4E2A3;case HEALING->tone==0?0x44E79A:0xD8FFC4;case LIGHTNING->tone==0?0x7699FF:0xE9EAFF;case WATER->tone==0?0x24C5D3:0xBDFBFF;case EARTH->tone==0?0xA07942:0xF7DA91;case DARK->tone==0?0x44245F:0xA169C7;};}
+ public static int color(AbilityPresentation.Element element,int tone){return FantasyPalette.color(element,tone);}
 }

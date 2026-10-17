@@ -146,7 +146,11 @@ public final class PlayerProgress {
   try{q.style=SwordStyle.valueOf(p.getProperty("style","QUICK"));}catch(IllegalArgumentException ignored){}
   for(Stat s:Stat.values()){int n=integer(p,"stat."+s,Integer.MAX_VALUE);q.stats.put(s,q.statPoints().min(BigInteger.valueOf(n)).intValueExact());}
     Set<String> requested=new LinkedHashSet<>(Arrays.asList(p.getProperty("learned","").split(",")));
-  for(int pass=0;pass<Ability.ALL.size();pass++)for(Ability a:Ability.ALL.values())if(requested.contains(a.id())&&!q.learned.contains(a.id()))q.unlock(a.id());
+  for(int pass=0;pass<Ability.ALL.size();pass++){
+   int before=q.learned.size();
+   for(Ability a:Ability.ALL.values())if(requested.contains(a.id())&&!q.learned.contains(a.id()))q.unlock(a.id());
+   if(q.learned.size()==before)break;
+  }
   q.mana=number(p,"mana",q.maxMana());q.stamina=number(p,"stamina",q.maxStamina());
   for(int i=0;i<5;i++)q.assign(i,p.getProperty("slot."+i,""));
   for(Ability a:Ability.ALL.values()){q.cooldowns.put(a.id(),integer(p,"cooldown."+a.id(),a.cooldownTicks()));int duration=p.containsKey("cooldownDuration."+a.id())?integer(p,"cooldownDuration."+a.id(),a.cooldownTicks()):q.cooldownTicks(a);q.cooldownDurations.put(a.id(),Math.max(q.cooldown(a.id()),duration));}

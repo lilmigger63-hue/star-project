@@ -77,7 +77,9 @@ public final class SwordAuraRenderer {
   var draw=BladeAuraMesh.build(profile,snapshot.age(),base,AuraColors.highlight(base,.9f),AuraColors.shade(base,.5f),accent);
   queue.submitCustom(matrices,AuraRenderLayer.get(),(entry,vertices)->{
    for(var quad:draw){
-    int color=(quad.alpha()<<24)|(quad.rgb()&0xffffff);
+    boolean first=snapshot.context()==ItemDisplayContext.FIRST_PERSON_LEFT_HAND||snapshot.context()==ItemDisplayContext.FIRST_PERSON_RIGHT_HAND;
+    int alpha=first?Math.round(quad.alpha()*.65f):quad.alpha();
+    int color=(alpha<<24)|(quad.rgb()&0xffffff);
     for(int i=0;i<4;i++){
      var point=quad.vertices().get(i);
      vertex(vertices,entry,point,color,i==0||i==3?0:1,i<2?0:1);

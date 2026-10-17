@@ -17,9 +17,11 @@ public final class AbilityPresentationClient {
  private static final Map<UUID,Running> active=new LinkedHashMap<>();
  private static ClientWorld world;
  private static final ParticleBudget budget=new ParticleBudget();
+ public record CastVisual(AbilityPresentationPayload event,AbilityPresentation style,int age){}
+ public static CastVisual visual(UUID player){var r=active.get(player);return r==null||!r.started?null:r.visual;}
  private static final class Running {
   final AbilityPresentationPayload event;final AbilityPresentation style;final long received;
-  PlayerEntity player;ItemStack weapon;int age,lastHurt;boolean started,wasSwinging;
+  PlayerEntity player;ItemStack weapon;int age,lastHurt;boolean started,wasSwinging;CastVisual visual;
   Running(AbilityPresentationPayload e,AbilityPresentation p,long received){event=e;style=p;this.received=received;}
  }
  private AbilityPresentationClient(){}
@@ -54,13 +56,15 @@ public final class AbilityPresentationClient {
    if(!(entity instanceof PlayerEntity player)||!player.getUuid().equals(r.event.caster())){
     if(world.getTime()-r.received>5){stop(r);iterator.remove();}continue;
    }
-   if(!player.isAlive()||player.isSpectator()){stop(r);iterator.remove();continue;}
+   if(!player.isAlive()||player.isSpectator()){EarthFormationRenderer.cancel(r.event.caster());CinematicVfxRenderer.cancel(r.event.caster());stop(r);iterator.remove();continue;}
    boolean firstFrame=!r.started;
    if(firstFrame){r.player=player;r.weapon=player.getMainHandStack().copy();r.lastHurt=player.hurtTime;r.wasSwinging=player.handSwinging;r.started=true;}
    boolean interrupted=player!=r.player||player.hurtTime>r.lastHurt||!ItemStack.areItemsAndComponentsEqual(r.weapon,player.getMainHandStack())||(player.handSwinging&&!r.wasSwinging)||PalAbilityAnimations.attackActive(player);
-   if(interrupted){stop(r);iterator.remove();continue;}
+   if(interrupted){EarthFormationRenderer.cancel(r.event.caster());CinematicVfxRenderer.cancel(r.event.caster());stop(r);iterator.remove();continue;}
+   r.visual=new CastVisual(r.event,r.style,r.age);
    if(firstFrame){
     PalAbilityAnimations.play(player,r.style,r.age,r.event.visual().power());
+    EarthFormationRenderer.start(r.event,player.getYaw());CinematicVfxRenderer.start(r.event,player);
     // Gameplay is still instantaneous: target accents appear on confirmation, never after cosmetic wind-up.
     if(r.age<=2&&r.event.impact().squaredDistanceTo(r.event.origin().add(0,1,0))>1){
      var accents=ParticlePattern.impact(r.style);for(int i=0;i<accents.size();i++){
@@ -108,11 +112,12 @@ public final class AbilityPresentationClient {
   if(mode==ParticlesMode.MINIMAL||(mode==ParticlesMode.DECREASED&&world.random.nextInt(3)==0)||(VfxQuality.level()==0&&world.random.nextBoolean())||(distance>1024&&world.random.nextBoolean())||!budget.take(distance))return;
   int color=ParticlePattern.color(style.element(),point.tone());var ability=dk.starswordmaster.progression.Ability.ALL.get(style.abilityId());
   if(visual.auraUnlocked()&&ability!=null&&ability.stamina()>0)color=point.tone()==0?AuraColors.shade(visual.auraColor(),.8f):AuraColors.highlight(visual.auraColor(),visual.rank()==4?.8f:.45f);
-  if(FantasyParticles.emit(client,point.ink(),color,at,velocity,point.life(),point.size(),point.angle()))return;
+  float size=style.element()==AbilityPresentation.Element.EARTH&&point.ink()==ParticlePattern.Ink.ROCK?Math.min(.48f,point.size()*.3f):point.size();
+  if(FantasyParticles.emit(client,point.ink(),color,at,velocity,point.life(),size,point.angle()))return;
   ParticleEffect fallback=switch(style.element()){case FIRE->ParticleTypes.SMALL_FLAME;case FROST->ParticleTypes.SNOWFLAKE;case STAR->ParticleTypes.END_ROD;case HEALING->ParticleTypes.HAPPY_VILLAGER;case STEEL->ParticleTypes.CRIT;case LIGHTNING->ParticleTypes.ELECTRIC_SPARK;case WATER->ParticleTypes.DRIPPING_WATER;case EARTH->ParticleTypes.CRIT;case DARK->ParticleTypes.PORTAL;};
   world.addParticleClient(fallback,at.x,at.y,at.z,velocity.x,velocity.y,velocity.z);
  }
  private static void stop(Running running){if(running.player!=null)PalAbilityAnimations.stop(running.player);}
- private static void cancel(UUID caster){var running=active.remove(caster);if(running!=null)stop(running);}
- private static void clear(){active.values().forEach(AbilityPresentationClient::stop);active.clear();ledger.clear();world=null;}
+ private static void cancel(UUID caster){EarthFormationRenderer.cancel(caster);CinematicVfxRenderer.cancel(caster);var running=active.remove(caster);if(running!=null)stop(running);}
+ private static void clear(){active.values().forEach(AbilityPresentationClient::stop);active.clear();ledger.clear();EarthFormationRenderer.clear();CinematicVfxRenderer.clear();world=null;}
 }

@@ -1,26 +1,26 @@
-# HUD-layout — 0.3.10
+# HUD layout
 
-Ressourcepanelet bevarer sine 176 × 40 GUI-enheder, hoved/levelmarkør og blå mana/rødt liv/grøn stamina med faktiske synkroniserede værdier. Evnebjælken ligger nu under stamina; vanilla-hotbaren er fortsat centreret nederst.
+The resource panel retains its **176 × 40 GUI units**, portrait/level marker and blue mana / red health / green stamina identities. Iron/bronze frames and antique-gold labels match H/K. The skill bar sits below stamina; vanilla's hotbar stays centered at the bottom. Color changes do not change geometry or gameplay.
 
-## Evnebjælken
+## Skill bar
 
-- Hele den eksisterende 182 × 22-bjælke tegnes med én **0,75 × 0,75-transformation**: præcis **136,5 × 16,5 GUI-enheder**. Der afrundes ikke til en 137 × 17-model.
-- De fem slots, rammer, tomme sideområder, ikoner, cooldown-overlays og labels skaleres sammen. Ikoner er 12 × 12 og slotafstanden 15 GUI-enheder. Pixelgrafikken bruger de samme native nærmeste-nabo-teksturer som før; der tilføjes ingen udglatning eller nye assets.
-- Bjælkens venstrekant er ressourcebjælkernes venstrekant (`resource.barX()`), og toppen er **2 GUI-enheder under stamina-bjælkens nederste kant**.
-- Z/X/C/V/B, rækkefølge, indhold, cooldowns og aktivering er uændrede. HUD'en havde ingen musebaseret slotvælger; tildeling i K bevarer sine eksisterende klikområder og størrelse. Skaleringen er begrænset til gameplay-bjælken og påvirker ikke ikonerne i H/K.
+- One **0.75 × 0.75 transform** scales the original 182 × 22 bar to exactly **136.5 × 16.5 GUI units**, without rounding the rendered model to 137 × 17.
+- All five slots, frames, empty side areas, icons, cooldown overlays and labels scale together. Icons are 12 × 12, with 15-unit slot spacing. Existing textures use nearest-neighbor filtering.
+- The bar's left edge is `resource.barX()`. Its top is **2 units below stamina's bottom edge**.
+- Z/X/C/V/B, slot order, assignments, cooldowns and activation are preserved. Assignment buttons in K retain their original input regions/sizes. The gameplay transform does not scale H/K icons.
 
-## Responsive ankre og native indikatorer
+## Responsive anchors and native indicators
 
-Alle mål er GUI-enheder beregnet fra det aktuelle skalerede vindue. Ved GUI-bredde **630 eller mere** bevarer ressourcepanelet sin tidligere placering: 6 enheder fra venstre, top `h−66`. Evnebjælken ligger ved `x=50`, `y=h−24` og slutter 7,5 enheder fra bunden. Der reserveres mindst 8 enheder til vanilla-hotbarens **venstre offhand-ramme**, også når et skjold er udstyret.
+All coordinates use the current scaled GUI window. At width **630 or greater**, the resource panel is 6 units from the left, at `y=h−66`. The skill bar is at `x=50`, `y=h−24`, ending 7.5 units above the bottom. At least 8 units separate the group from vanilla's left offhand frame, including when a shield is equipped.
 
-Under 630 GUI-enheder flyttes hele venstre gruppe op over de native rustnings-/luftindikatorer. Ressourcepanelets normale top er `h−151`; evnebjælken følger med direkte under stamina og slutter mindst 4 enheder over indikatorerne. Gruppen reserverer 19 ekstra enheder i forhold til 0.3.8: 2 i mellemrum og 17 som den afrundede pladsreservation for den 16,5-høje bjælke. Selve renderingen er fortsat præcis 16,5. Ekstra native livsrækker, absorption, kortvarigt bevaret liv og luft over ridedyr indgår fortsat i pladsreservationen.
+Below width 630, the left group moves above the armor/air indicators. The normal resource top is `h−151`; the skill bar follows stamina and ends at least 4 units above native indicators. The layout reserves 19 extra units compared with 0.3.8: 2 for the gap and 17 for the rounded reservation of a 16.5-unit bar. Rendering remains exactly 16.5 units high. Extra health rows, absorption, temporarily retained display health and mounted air indicators contribute to reservations.
 
-**Vanilla-hotbaren flyttes ikke.** Baggrunden ligger ved `h−22`, valgt slots yderkant ved `h−23`. XP-bjælken ligger nu ved **`h−28`**, er 5 enheder høj og slutter præcis ved **`h−23`**: **0 GUI-enheders afstand til hotbarens faktiske yderkant**, uden overlap. Leveltallet følger med ved `h−34`. Sult tegnes over XP ved `h−38` med vanillas sædvanlige rystelse bevaret. Hele XP-/level-/sultgruppen er flyttet 30 enheder ned fra 0.3.9; der er ingen tom række under gruppen.
+**The vanilla hotbar does not move.** Its background starts at `h−22`, and the selected slot's outer frame at `h−23`. The 5-unit XP bar starts at **`h−28`** and ends exactly at **`h−23`**, giving **zero gap without overlap**. The level number follows at `h−34`; food is above XP at `h−38`, retaining vanilla's normal shake. This XP/level/food group moved down 30 units from 0.3.9.
 
-Kun XP-, XP-level- og sultlagene får den nye forskydning. Native rustning, luft, ridedyrshelbred, locator-markører og ride-hopbjælke beholder det tidligere løft på 29. Minecrafts eksisterende valg mellem XP, locator og ride-hop ændres ikke; locator-/ridevisning og tilhørende leveltekst flyttes ikke. Evnebjælke, ressourcepanel, chat, genstandsnavne og øvrige ankre er uændrede fra 0.3.9.
+Only XP, its level number and food use that placement. Armor, air, mount health, locator and mount-jump retain the previous 29-unit lift. Minecraft's choice between XP, locator and mount-jump bars is preserved, including associated level text. Resource and skill bars, chat and item-name anchors retain their established coordinates.
 
-## Chat, synlighed og data
+## Chat, visibility and data
 
-Den eksisterende reservation til genstandsnavne, actionbar og chat følger venstre gruppes top, så de også har plads i smalle vinduer. Chatrendering og klik-/hoverområder flyttes samlet, og chatudsigtens højde tilpasses den resterende plads; gamle linjer kan scrolles. Skrivefelt og chatbeskeder ændres ikke.
+Item names, actionbar and chat reserve space above the left group, including narrow windows. Chat rendering, click and hover regions move together; viewport height fits the remaining space and old messages can scroll. The typing field and message contents are preserved.
 
-F1, spectator, manglende/sene snapshots og native hjerte-fallback er uændrede. Ingen ændringer i serverkode, ressourcedata, evner, stats, point, gemmedata, netværk, ubegrænset leveling eller ×1,5-XP fra belønninger modtaget på level 8+. Ingen nye afhængigheder. Se [VALIDATION.md](VALIDATION.md) for testresultater.
+F1, spectator, missing/late snapshots and native-heart fallback retain existing behavior. Resource values remain authoritative snapshots or synchronized vanilla health/absorption. Layout/theme changes do not alter abilities, stats, points, saves, network state, unlimited leveling or ×1.5 rewards received at level 8+. See [VALIDATION.md](VALIDATION.md) for executed checks.

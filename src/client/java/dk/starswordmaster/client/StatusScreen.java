@@ -22,7 +22,7 @@ public final class StatusScreen extends Screen {
  private List<Text> tooltip;
  private final List<ButtonWidget> statButtons=new ArrayList<>();
  private PlayerProgress pendingStatSnapshot;
- private static final int GOLD=0xFFE8CB88,WHITE=0xFFDAE5EF,MUTED=0xFF99AEC3;
+ private static final int GOLD=DarkFantasyPalette.GOLD,WHITE=DarkFantasyPalette.TEXT,MUTED=DarkFantasyPalette.MUTED;
  public StatusScreen(){super(label("title"));}
  private static Text label(String key,Object... args){return Text.translatable("status.starswordmaster."+key,args);}
  private static String number(double value){return String.format(Locale.ROOT,"%.1f",value).replaceFirst("\\.0$","");}
@@ -39,11 +39,11 @@ public final class StatusScreen extends Screen {
   statButtons.clear();
   for(var stat:PlayerProgress.Stat.values()){
    Text description=label("increase_stat",label("stat."+stat.name().toLowerCase(Locale.ROOT)));
-   var button=ButtonWidget.builder(Text.literal("+"),b->spendStat(stat)).dimensions(0,0,18,18).tooltip(Tooltip.of(description)).narrationSupplier(defaultText->description.copy()).build();
+   var button=FantasyUi.statButton(Text.literal("+"),b->spendStat(stat),description);button.setTooltip(Tooltip.of(description));
    statButtons.add(addSelectableChild(button));
   }
-  addDrawableChild(ButtonWidget.builder(Text.translatable("gui.done"),b->close()).dimensions(layout.x()+layout.width()-70,layout.y()+layout.height()-23,60,18).build());
-  addDrawableChild(ButtonWidget.builder(label("vfx_quality",qualityName()),b->{VfxQuality.cycle();b.setMessage(label("vfx_quality",qualityName()));}).dimensions(layout.x()+12,layout.y()+layout.height()-23,Math.min(120,Math.max(36,layout.width()-92)),18).build());
+  addDrawableChild(FantasyUi.button(Text.translatable("screen.starswordmaster.close"),layout.x()+layout.width()-70,layout.y()+layout.height()-23,60,18,b->close()));
+  addDrawableChild(FantasyUi.button(label("vfx_quality",qualityName()),layout.x()+12,layout.y()+layout.height()-23,Math.min(120,Math.max(36,layout.width()-92)),18,b->{VfxQuality.cycle();b.setMessage(label("vfx_quality",qualityName()));}));
   updateStatButtons();
  }
  private static Text qualityName(){return label("quality."+switch(VfxQuality.level()){case 0->"low";case 2->"ultra";default->"normal";});}
@@ -69,7 +69,7 @@ public final class StatusScreen extends Screen {
   if(!visible.equals(full)&&pointerX>=x&&pointerX<x+maxWidth&&pointerY>=y&&pointerY<y+textRenderer.fontHeight&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(value);
  }
  private void card(DrawContext c,String title,int x,int y,int w,int h){
-  c.fill(x,y,x+w,y+h,0xE80B1829);c.fill(x,y,x+w,y+1,0xFF354962);
+  c.fill(x,y,x+w,y+h,0xF0202529);c.fill(x,y,x+w,y+1,DarkFantasyPalette.BRONZE);
   text(c,label(title),x+8,y+6,w-16,GOLD);
  }
  private void row(DrawContext c,String key,Text value,int x,int y,int w){
@@ -77,7 +77,7 @@ public final class StatusScreen extends Screen {
   text(c,name,x+8,y,w-16,MUTED);text(c,value,x+8+labelWidth,y,w-16-labelWidth,WHITE);
  }
  private void bar(DrawContext c,int x,int y,int w,double fraction,int color){
-  c.fill(x,y,x+w,y+4,0xFF25354B);c.fill(x,y,x+(int)(w*Math.max(0,Math.min(1,fraction))),y+4,color);
+  c.fill(x,y,x+w,y+4,DarkFantasyPalette.IRON);c.fill(x,y,x+(int)(w*Math.max(0,Math.min(1,fraction))),y+4,color);
  }
  private void character(DrawContext c,StatusData d,int x,int y,int w){
   card(c,"character",x,y,w,StatusLayout.CHARACTER_HEIGHT);
@@ -107,9 +107,9 @@ public final class StatusScreen extends Screen {
  private void resources(DrawContext c,StatusData d,int x,int y,int w){
   card(c,"resources",x,y,w,66);
   row(c,"mana",Text.literal(String.format(Locale.ROOT,"%.1f / %.1f",d.mana(),d.maxMana())),x,y+20,w);
-  bar(c,x+8,y+32,w-16,d.maxMana()>0?d.mana()/d.maxMana():0,0xFF4B9EE8);
+  bar(c,x+8,y+32,w-16,d.maxMana()>0?d.mana()/d.maxMana():0,DarkFantasyPalette.MANA);
   row(c,"stamina",Text.literal(String.format(Locale.ROOT,"%.1f / %.1f",d.stamina(),d.maxStamina())),x,y+43,w);
-  bar(c,x+8,y+55,w-16,d.maxStamina()>0?d.stamina()/d.maxStamina():0,0xFFE0AD43);
+  bar(c,x+8,y+55,w-16,d.maxStamina()>0?d.stamina()/d.maxStamina():0,DarkFantasyPalette.STAMINA);
  }
  private int abilities(DrawContext c,List<String> ids,String heading,int x,int y,int w,int mouseX,int mouseY){
   int h=26+Math.max(1,ids.size())*16;card(c,heading,x,y,w,h);
@@ -123,10 +123,11 @@ public final class StatusScreen extends Screen {
   return h;
  }
  @Override public void render(DrawContext c,int mouseX,int mouseY,float delta){
-  tooltip=null;pointerX=mouseX;pointerY=mouseY;c.fill(0,0,width,height,0x99020811);
-  c.fill(layout.x()-1,layout.y()-1,layout.x()+layout.width()+1,layout.y()+layout.height()+1,0xFF52627B);
+  tooltip=null;pointerX=mouseX;pointerY=mouseY;c.fill(0,0,width,height,0xB0101113);
+  c.fill(layout.x()-1,layout.y()-1,layout.x()+layout.width()+1,layout.y()+layout.height()+1,DarkFantasyPalette.BRONZE);
   c.drawTexture(RenderPipelines.GUI_TEXTURED,Identifier.of("starswordmaster","textures/gui/constellation.png"),layout.x(),layout.y(),0,0,layout.width(),layout.height(),1024,768,1024,768);
-  c.fill(layout.x(),layout.y(),layout.x()+layout.width(),layout.y()+layout.height(),0xCF07101E);
+  c.fill(layout.x(),layout.y(),layout.x()+layout.width(),layout.y()+layout.height(),0xE8121416);
+  FantasyUi.corners(c,layout.x(),layout.y(),layout.width(),layout.height());
   text(c,title,layout.x()+12,layout.y()+11,layout.width()-24,GOLD);
   var snapshot=StatusData.from(StarSwordmasterClient.data,StarSwordmasterClient.ready&&client!=null&&client.player!=null);
   if(snapshot.isEmpty()){
@@ -147,7 +148,7 @@ public final class StatusScreen extends Screen {
    if(contentHeight>layout.bodyHeight()){
     int trackX=layout.x()+layout.width()-7,h=layout.thumbHeight(contentHeight);
     int thumbY=layout.thumbTop(scroll,contentHeight);
-    c.fill(trackX,layout.bodyTop(),trackX+2,layout.bodyBottom(),0xFF25354B);c.fill(trackX,thumbY,trackX+2,thumbY+h,0xFFBDA268);
+    c.fill(trackX,layout.bodyTop(),trackX+2,layout.bodyBottom(),DarkFantasyPalette.IRON);c.fill(trackX,thumbY,trackX+2,thumbY+h,0xFFBDA268);
    }
   }
   updateStatButtons();

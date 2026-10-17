@@ -1,38 +1,34 @@
-# Leveling og hotbar — 0.3.7
+# Unlimited leveling and legacy migration
 
-Karakterlevel har ingen fast maksimalværdi. XP, level og beholdninger af stat-/perkpoint bruger `BigInteger`; level beregnes med en heltalskvadratrod, så meget store XP-belønninger hverken løber over eller kræver en løkke gennem hvert level.
+Character level has no fixed maximum. XP, levels and available stat/perk points use `BigInteger`. An integer square root computes level without overflowing or looping through every level.
 
-XP-kravet fra level L til L+1 er uændret: **50 + 20 × L**. Den samlede kurve ved begyndelsen af L er **10 × (L−1) × (L+5)**.
+The XP requirement from level L to L+1 remains **50 + 20 × L**. The cumulative curve at the start of L is **10 × (L−1) × (L+5)**.
 
-## XP-belønning og point
+## Rewards and points
 
-- Er karakteren level 1–7 **før** en belønning, gives den normale mod-XP.
-- Er karakteren allerede level 8 eller højere, gives **normal belønning × 1,5**. Kravet til næste level multipliceres ikke.
-- En belønning ved level 7, der krydser level 8, gives fuldt ud med den gamle faktor. Den næste belønning bruger ×1,5.
-- Halve XP gemmes mellem belønninger og genindlæsninger; der afrundes ikke gentagne gange med tab. De eksisterende normale belønninger på 100 XP bliver præcis 150.
-- Hvert nyt level giver stadig **5 statpoint til H og 1 perkpoint til K**. Tilgængelige point udledes af level minus allerede købte stats/evner; flere levels på én gang, snapshots, død og genindlæsning giver ikke dobbelt belønning.
-- XP kommer stadig fra de eksisterende træningshændelser og milepæle. Træningstallene kan nu fortsætte efter færdighedslevel 100, så karakteren faktisk kan blive ved med at få XP. Færdighedstræets krav, evner og viste færdighedslevel 1–100 ændres ikke. Ingen ændringer i Minecrafts almindelige XP.
+- A character at levels 1–7 **before** a reward receives the normal mod XP.
+- A character already level 8+ receives **normal reward × 1.5**. The next-level requirement does not increase.
+- A reward that crosses level 8 from level 7 uses the original multiplier for the whole reward; the following reward uses ×1.5.
+- Half-XP persists between rewards/reloads without repeated rounding losses. An ordinary 100-XP reward becomes exactly 150.
+- Every gained level grants **5 stat points in H and 1 perk point in K**. Available points derive from level minus prior purchases, preventing duplicate rewards on multi-level gains, snapshots, death or reload.
+- XP continues to come from practice events and milestones. Practice counters can grow beyond skill level 100 so character XP can continue, while displayed skill levels and tree requirements remain 1–100. Vanilla XP is separate.
 
-## Eksisterende gemmedata
+## Existing saves
 
-De samme schema-1-properties og atomiske lagring bruges. Nye, valgfrie felter er `xpCurveVersion=2`, `xpLegacyOffset` og `xpHalf`; `xp` beholder hele den eksisterende total. Stat-/perkpoint gemmes fortsat ikke som en ekstra belønning, der kan genudbetales.
+The same atomic schema-1 properties remain in use. Optional fields are `xpCurveVersion=2`, `xpLegacyOffset` and `xpHalf`; `xp` retains the existing total. Stat/perk points are not stored as replayable rewards.
 
-Gamle karakterer under level 100 indlæses på præcis samme level og samme XP-fremskridt. En gammel karakter på level 100 kunne have 200.000 total XP, selv om level 100 begynder ved 103.950. Den gamle mod viste alligevel level 100 og nul fremskridt. Migrationen beholder **både level 100, alle 200.000 XP, allerede fordelte stats og de gamle pointbeholdninger**. Det gamle overskud registreres som en fast historisk forskydning; det giver ikke retroaktive levels eller ekstra point. Nye belønninger fortsætter kurven fra level 100.
+Legacy characters below level 100 retain exactly their level and XP progress. A legacy level-100 character could have 200,000 XP although level 100 starts at 103,950; the previous mod still displayed level 100 and zero progress. Migration retains **level 100, all 200,000 XP, allocated attributes and point budgets**. Historical surplus becomes a fixed offset rather than retroactive levels/points. New rewards continue the curve from level 100.
 
-Eksempel: gammel level 100 / 200.000 XP + normal belønning på 1.400 → faktisk belønning 2.100 → level 101, 202.100 total XP og 50/2.070 XP til næste level. Der gives kun 5 nye statpoint og 1 nyt perkpoint. Gentagen indlæsning gentager ikke migrationen.
+Example: legacy level 100 / 200,000 XP plus an ordinary reward of 1,400 yields 2,100 actual XP: level 101, 202,100 total XP and 50/2,070 XP toward the next level. Only 5 new stat points and 1 new perk point are granted. Reloading does not repeat migration.
 
-Eksisterende mana, stamina, liv, skader, klasse-/rang-/stilbonusser og fordelte stats bevares ved opdatering. Nye levels bruger de eksisterende ressourceformler; der er ingen rebalance. Bonusmultiplikationer er udvidet til `long`, og et statkøb kan ikke ombryde den eksisterende heltalstype eller opbruge et point uden at øge statten. Meget store ressourceværdier bruger kompakt notation i de samme HUD-felter; alle almindelige tal vises som før. H viser de fulde XP-/level-/pointtal med eksisterende tooltips, når teksten er bredere end feltet.
+Mana, stamina, health, damage, class/rank/style bonuses and allocated stats remain intact. New levels use the existing resource formulas. Bonus arithmetic uses `long`; purchasing a stat cannot overflow its allocated integer or spend a point without increasing it. Very large resource numbers use compact notation within the same HUD fields. H exposes full XP/level/point values through existing overflow tooltips.
 
-Installer samme nye version på klient og server. Behold en kopi af verdenen ved opdatering; ældre modversioner forstår ikke de nye store XP-tal og må ikke bruges til at skrive opdaterede data tilbage.
+Use the same version on client and server and back up the world. Older mod versions do not understand the new large XP values and must not write upgraded data back.
 
-## HUD-geometri i 0.3.7
+## Historical 0.3.7 HUD
 
-Placeringerne nedenfor beskriver 0.3.7. Se [HUD_LAYOUT.md](HUD_LAYOUT.md) for det aktuelle venstre HUD-layout med evnebjælken under stamina i 0.3.9; XP-reglen og migrationen ovenfor er uændrede.
+The following describes the historical 0.3.7 geometry, retained here to explain the transition. [HUD_LAYOUT.md](HUD_LAYOUT.md) describes the current bar below stamina; the XP rules and migration above remain current.
 
-Evnebjælken er stadig **182 × 22 GUI-enheder**, med de samme fem slots, ikoner, rækkefølge og **Z/X/C/V/B**. Begge bjælker er centreret på `GUI-bredde / 2`.
+The old skill bar was **182 × 22 GUI units**, with the same five slots and Z/X/C/V/B controls. It and the hotbar were centered on `GUI width / 2`. Vanilla's background started at `h−22`, but its selected-slot/offhand outer frame started at `h−23`; the old skill bar ended at that actual outer edge with zero gap, three units lower than 0.3.6. The resource portrait used `h−66` in side layout and `h−92` in stacked layout. Native XP/food/armor/air/locator shifts were then 44/76 units. Later HUD releases superseded these positions without changing leveling.
 
-Minecraft 1.21.10 placerer hotbarens baggrund ved `GUI-højde−22`, men den valgte slots yderkant og offhand-rammen begynder ved **GUI-højde−23**. Evnebjælken slutter præcis dér: **0 GUI-enheders afstand til den faktiske ydre hotbar-kant**, uden at skjule markeringen eller flytte vanilla-hotbaren. Den forskydes derfor tre GUI-enheder ned fra 0.3.6.
-
-Ressourceportrættets position bevares: top `h−66` ved sidelayout og `h−92` ved stablet layout. XP, sult, rustning, luft, locator og øvrige eksisterende native forskydninger forbliver 44/76 GUI-enheder som før. H og K bevares.
-
-Se [VALIDATION.md](VALIDATION.md) for bygge- og spiltests.
+See [VALIDATION.md](VALIDATION.md) for executed build and gameplay checks.

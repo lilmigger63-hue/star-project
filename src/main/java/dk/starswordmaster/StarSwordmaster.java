@@ -61,7 +61,7 @@ public final class StarSwordmaster implements ModInitializer {
    if(entity instanceof HostileEntity&&source.getAttacker() instanceof ServerPlayerEntity p&&actual>0){combat(p);if(source.isOf(DamageTypes.PLAYER_ATTACK)&&p.getMainHandStack().isIn(ItemTags.SWORDS))practice(p,Skill.SWORD,10);}
   });
   ServerLivingEntityEvents.AFTER_DEATH.register((entity,source)->{if(entity instanceof ServerPlayerEntity p)AbilityPresentationEvents.cancel(p);if(entity instanceof HostileEntity&&source.getAttacker() instanceof ServerPlayerEntity p){combat(p);if(source.isOf(DamageTypes.PLAYER_ATTACK)&&p.getMainHandStack().isIn(ItemTags.SWORDS))practice(p,Skill.SWORD,20);}});
-  CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("starswordmaster").executes(c->{var p=c.getSource().getPlayerOrThrow();var d=progress(p);p.sendMessage(Text.literal("Star Swordmaster | Level "+d.level()+" | "+d.playerClass()+" | Rank "+d.rank()+" | K: færdighedstræ"),false);return 1;})));
+  CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("starswordmaster").executes(c->{var p=c.getSource().getPlayerOrThrow();var d=progress(p);p.sendMessage(Text.translatable("message.starswordmaster.command_status",d.level().toString(),Text.translatable("status.starswordmaster.class."+d.playerClass().name().toLowerCase(Locale.ROOT)),d.rank()),false);return 1;})));
  }
  private static void handle(ServerPlayerEntity player,ActionPayload request){
   if(store==null||!player.isAlive()||player.isSpectator()||request.action().length()>20||request.target().length()>64)return;
@@ -78,7 +78,7 @@ public final class StarSwordmaster implements ModInitializer {
     default->false;
    };
   }catch(IllegalArgumentException ignored){}
-  if(!ok)player.sendMessage(Text.literal("Kan ikke bruges: kontrollér krav, ressourcer og cooldown."),true);
+  if(!ok)player.sendMessage(Text.translatable("message.starswordmaster.action_failed"),true);
   if(ok&&!request.action().equals("cast")){if(request.action().equals("stat")||request.action().equals("unlock"))StatAttributes.apply(player,p);store.save(player.getUuid());}
   sync(player);ServerVisualState.sync(player);
  }

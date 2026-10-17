@@ -20,10 +20,10 @@ public final class ResourceHud {
  }
  private static void meter(DrawContext c,ResourceHudLayout l,int row,ResourceHudData.Meter value,String text,int color,int highlight,double absorption){
   var mc=MinecraftClient.getInstance();int x=l.barX(),y=l.barY(row),w=ResourceHudLayout.BAR_WIDTH,h=ResourceHudLayout.BAR_HEIGHT;
-  c.fill(x,y,x+w,y+h,0xFF060A10);c.fill(x+1,y+1,x+w-1,y+h-1,0xFF475264);
-  c.fill(x+2,y+2,x+w-2,y+h-2,0xFF15202B);int fill=(int)((w-4)*value.fraction());
+  c.fill(x,y,x+w,y+h,0xFF060A10);c.fill(x+1,y+1,x+w-1,y+h-1,DarkFantasyPalette.BRONZE);
+  c.fill(x+2,y+2,x+w-2,y+h-2,DarkFantasyPalette.SLATE);int fill=(int)((w-4)*value.fraction());
   c.fill(x+2,y+2,x+2+fill,y+h-2,color);c.fill(x+2,y+2,x+2+fill,y+3,highlight);
-  c.fill(x+1,y+h-2,x+w-1,y+h-1,0xFF222A36);
+  c.fill(x+1,y+h-2,x+w-1,y+h-1,DarkFantasyPalette.CHARCOAL);
   if(absorption>0&&Double.isFinite(absorption)&&value.available()){
    int gold=(int)((w-4)*Math.min(1,absorption/(value.maximum()+absorption)));
    c.fill(x+2,y+h-3,x+2+gold,y+h-2,0xFFFFD36B);
@@ -46,15 +46,15 @@ public final class ResourceHud {
  private static int inset(int diameter,int row){double radius=diameter/2.0,dy=row+0.5-radius;return (int)Math.ceil(radius-Math.sqrt(Math.max(0,radius*radius-dy*dy)));}
  private static void disc(DrawContext c,int x,int y,int diameter,int top,int bottom){for(int row=0;row<diameter;row++){int left=inset(diameter,row);c.fill(x+left,y+row,x+diameter-left,y+row+1,row<diameter/2?top:bottom);}}
  private static void portrait(DrawContext c,MinecraftClient mc,ResourceHudLayout l,java.math.BigInteger level){
-  int x=l.x(),y=l.y();disc(c,x,y,40,0xFF090E18,0xFF090E18);disc(c,x+1,y+1,38,0xFFB1B8C6,0xFF3E4C61);disc(c,x+3,y+3,34,0xFF182433,0xFF182433);
+  int x=l.x(),y=l.y();disc(c,x,y,40,DarkFantasyPalette.CHARCOAL,DarkFantasyPalette.CHARCOAL);disc(c,x+1,y+1,38,DarkFantasyPalette.GOLD,DarkFantasyPalette.BRONZE);disc(c,x+3,y+3,34,DarkFantasyPalette.SLATE,DarkFantasyPalette.SLATE);
   // Vanilla provides a default skin while remote textures load. Clip its normal face/hat draw to a circle.
   var skin=mc.player.getSkin();
   for(int row=0;row<32;row++){
    int left=inset(32,row);c.enableScissor(x+4+left,y+4+row,x+36-left,y+5+row);
    try{PlayerSkinDrawer.draw(c,skin,x+4,y+4,32);}finally{c.disableScissor();}
   }
-  String full="Lv "+level;String text=mc.textRenderer.getWidth(full)<=36?full:mc.textRenderer.trimToWidth(full,30)+"…";int w=Math.max(30,mc.textRenderer.getWidth(text)+4),bx=x+(40-w)/2;
-  c.fill(bx,y+30,bx+w,y+40,0xFF080D17);c.fill(bx+1,y+31,bx+w-1,y+39,0xFF263348);
-  c.drawTextWithShadow(mc.textRenderer,text,x+(40-mc.textRenderer.getWidth(text))/2,y+31,0xFFFFDC93);
+  String full=net.minecraft.text.Text.translatable("hud.starswordmaster.level",level.toString()).getString();String text=mc.textRenderer.getWidth(full)<=36?full:mc.textRenderer.trimToWidth(full,30)+"…";int w=Math.max(30,mc.textRenderer.getWidth(text)+4),bx=x+(40-w)/2;
+  c.fill(bx,y+30,bx+w,y+40,DarkFantasyPalette.CHARCOAL);c.fill(bx+1,y+31,bx+w-1,y+39,DarkFantasyPalette.SLATE);
+  c.drawTextWithShadow(mc.textRenderer,text,x+(40-mc.textRenderer.getWidth(text))/2,y+31,DarkFantasyPalette.GOLD);
  }
 }

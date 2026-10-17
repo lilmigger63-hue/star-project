@@ -1,0 +1,1 @@
+{"required":true,"package":"dk.starswordmaster.smoke.mixin","compatibilityLevel":"JAVA_21","client":["CircleSubmissionCaptureMixin","CircleNativeArmCaptureMixin","CircleSmokeFrameMixin"],"injectors":{"defaultRequire":1}}

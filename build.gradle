@@ -90,3 +90,14 @@ loom.runs {
  smokeExpansionA { client(); source sourceSets.smoke; runDir 'run/expansion-a'; programArg '--username'; programArg 'ExpansionA'; vmArg '-Dstarsmoke.expansion=true'; vmArg '-Dstarsmoke.auras=true' }
  smokeExpansionB { client(); source sourceSets.smoke; runDir 'run/expansion-b'; programArg '--username'; programArg 'ExpansionB'; vmArg '-Dstarsmoke.expansion=true'; vmArg '-Dstarsmoke.auras=true' }
 }
+
+loom.runs {
+ smokeFinishingSingleplayer { client(); source sourceSets.smoke; runDir 'run/finishing-sp'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true'; vmArg '-Dstarsmoke.finishing=true' }
+ smokeFinishingServer { server(); source sourceSets.smoke; runDir 'run/finishing-server'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.finishing=true' }
+ smokeFinishingA { client(); source sourceSets.smoke; runDir 'run/finishing-a'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.finishing=true' }
+ smokeFinishingB { client(); source sourceSets.smoke; runDir 'run/finishing-b'; programArg '--username'; programArg 'AnimationSmokeB'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.role=B'; vmArg '-Dstarsmoke.finishing=true' }
+}
+
+loom.runs {
+ smokeFinishingLifecycle { client(); source sourceSets.smoke; runDir 'run/finishing-lifecycle'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.finishing.lifecycle=true' }
+}
