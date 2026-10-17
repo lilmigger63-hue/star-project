@@ -18,6 +18,7 @@ final class PalAbilityAnimations {
   PlayerAnimationFactory.ANIMATION_DATA_FACTORY.registerFactory(LAYER,0,avatar->{
    var controller=new PlayerAnimationController(avatar,(c,data,setter)->PlayState.STOP);
    var mirror=new MirrorModifier();mirror.enabled=avatar.getMainArm()==Arm.LEFT;controller.addModifierLast(mirror);
+   controller.addModifierBefore(new PowerAnimationModifier());
    controller.setFirstPersonMode(FirstPersonMode.THIRD_PERSON_MODEL);
    controller.setFirstPersonConfiguration(new FirstPersonConfiguration(true,true,true,true,false));
    return controller;
@@ -35,11 +36,15 @@ final class PalAbilityAnimations {
   catch(RuntimeException e){return false;}
  }
  static boolean play(PlayerEntity player,AbilityPresentation p,int elapsed){
+  return play(player,p,elapsed,1);
+ }
+ static boolean play(PlayerEntity player,AbilityPresentation p,int elapsed,float power){
   try{
    var clip=Identifier.of("starswordmaster",p.animationId());
    if(!PlayerAnimResources.hasAnimation(clip)||attackActive(player))return false;
    if(PlayerAnimationAccess.getPlayerAnimationLayer(player,LAYER) instanceof PlayerAnimationController c){
     for(var modifier:c.getModifiers())if(modifier instanceof MirrorModifier mirror)mirror.enabled=player.getMainArm()==Arm.LEFT;
+    for(var modifier:c.getModifiers())if(modifier instanceof PowerAnimationModifier blend)blend.power(power);
     c.stopTriggeredAnimation();c.stop();return c.triggerAnimation(clip,elapsed);
    }
   }catch(RuntimeException e){if(!warned){warned=true;StarSwordmaster.LOG.warn("Ability animation unavailable; using particle fallback",e);}}

@@ -1,8 +1,8 @@
-# Animationer og effekter — 0.4.1
+# Animationer og effekter — 0.5.0
 
-Alle **32 aktive evner** har et særskilt originalt PAL-klip, `skill_<evne-id>.json`, og hver sin rumlige effektkoreografi. De 30 passive noder får ingen kast-animation. De 11 oprindelige klip bevares sammen med de 32 nye; PAL, Better Combat-laget og den eksisterende serverbekræftelse bruges fortsat.
+Alle **54 aktive evner** har et særskilt originalt PAL-klip, `skill_<evne-id>.json`, og en unik rumlig effektkoreografi. De **31 passive noder** får ingen kast-animation. De 11 oprindelige klip bevares; 54 evneklip og otte genbrugelige stilklip giver i alt **73 PAL-ressourcer**. Better Combat-laget og den eksisterende serverbekræftelse bruges fortsat.
 
-Korte forberedelser, handling og efterbevægelse ligger inden for de hidtidige **10–20 ticks**. Klippene er PAL-format 3, ikke-loopende, med eksplicit neutral afslutning. Kun arme og begrænset torso-rotation animeres; ben, spillerens position og sigte ændres ikke. De originale animationer/designs kopierer ingen animefigur eller scene.
+De hidtidige 32 klip beholder deres 10–20 ticks; de 22 nye varer 12–32 ticks. Alle er PAL-format 3, ikke-loopende, med eksplicit neutral afslutning. Kun arme og begrænset torso-rotation animeres; ben, position og sigte ændres ikke. Armrotationernes bidrag skalerer kosmetisk 75–100 % med level, uden ændret timing. Originale animationer/designs kopierer ingen animefigur eller scene.
 
 ## Komplet oversigt
 
@@ -43,17 +43,48 @@ Hver række bruger klippet `skill_<ID>`. Klinge-efterbilleder er korte, gennemsk
 | Frostlænker / `ice_prison` | Forskudt søjleløft, krydset lukning | Fire hjørner af stigende isstænger og forseglingsmærker | 1,2 |
 | Genoprettelse / `restoration` | Lav samling, hjertekryds, frigivelse | Stigende helingsblomst med omvendt rotation og segl | 0,95 |
 
+## 22 nye evner
+
+Hver række bruger `skill_<ID>.json`. Den unikke rytme og håndstilling bygger på en af de otte nye stilressourcer; kastene er selvstændige klip.
+
+| ID | Animation, faktisk klipbeskrivelse | Visuel effekt | Ticks |
+| --- | --- | --- | --- |
+| `static_spark` | Pinch a charge beside the shoulder, snap the wrist, then discharge a second tiny recoil. | Zigzag-lyn med håndladning og kort elektrisk træf | 12 |
+| `chain_lightning` | Lift the conductor hand and relay three alternating arcs between the open palms. | Forgrenet zigzag langs de faktiske servertræfpunkter | 20 |
+| `thunder_step` | Cross a charged guard, tuck both elbows through the step and flare an electric exit. | Lave dobbelte lynspor fra startpositionen | 12 |
+| `heavens_wrath` | Stack stormclouds overhead, split their crown and conduct descending thunder with both hands. | Faldende lyn, stormruner og roterende stormkrone | 30 |
+| `water_bolt` | Cup a droplet above the support palm, corkscrew it forward and collect the spent stream. | Snoet vanddråbe-helix langs sigtelinjen | 14 |
+| `tidal_wave` | Scoop a low tide, roll the crest between the hands and push the whole wave outward. | Fremadrettet vandvifte med høj bølgetop | 22 |
+| `aqua_blade` | Weave water beneath the hilt, carve a flowing rising edge and roll its crescent away. | Flydende klingehalvmåne og vanddråber | 16 |
+| `ocean_prison` | Raise offset spirals into a high water cage, then close its gate with crossed palms. | Stigende vandspiraler og runer omkring målet | 26 |
+| `stone_spike` | Find the earth with a low palm and lever a narrow stone point up from beneath the target. | Kantede stenskår løftet fra målets fodpunkt | 14 |
+| `earthen_wall` | Set two foundations, lift a heavy slab and brace the barrier with square open palms. | Tre lag af svævende klippestykker og værnruner | 20 |
+| `quake_blade` | Take a weighted crown guard, drive the sword into the low line and absorb two ground pulses. | Tre radiale brudlinjer med hævede stenskår | 22 |
+| `worldbreaker` | Draw the mountain overhead, suspend its weight, then shatter the seal with a monumental double slam. | Dobbelte chokfronter og større springende klippestykker | 30 |
+| `shadow_bolt` | Hook a shadow from the opposite palm, twist it into a dart and cast it from a half-open guard. | Snoet skyggespor med mørke blade | 14 |
+| `curse_mark` | Trace a hooked sigil, seal its center with two fingers and pull the curse thread taut. | Modroterende forbandelsesrune ved målet | 18 |
+| `shadow_edge` | Draw shadow along the blade, cut a low hooked arc and fold the trailing darkness inward. | Mørke klinge-efterbilleder langs et diagonalt hug | 16 |
+| `eclipse_nova` | Cup a black sun, eclipse it behind crossed arms, then tear the horizon into an open nova. | Sekstakket formørkelsesfront med runer og skyggeskår | 30 |
+| `astral_crescent` | Draw a low celestial edge, sweep a clean rising moon and stop with the point held high. | Bred stigende stjernehalvmåne med klinge-efterbilleder | 16 |
+| `falling_star` | Set the star above the crown, draw it downward through the blade and catch its falling weight. | Femspidset stjernefront ved et tungt nedslag | 22 |
+| `phantom_blades` | Mark three floating sword lanes with alternating cuts and gather their phantom edges into guard. | Fire skiftende faser af fantomklinger; ingen ekstra træf | 20 |
+| `celestial_rush` | Tuck a star-point guard, drive the shoulders through a straight rush and flare the trailing blade. | Dobbelte fartspor, klingeskår og stjerneglimt | 14 |
+| `sovereign_judgment` | Raise the sovereign blade like a scepter, hold its verdict aloft and cast a single commanding stroke. | Stort faldende klinge- og runespor | 28 |
+| `heavenly_sword_domain` | Draw an oath across the heart, crown the domain overhead and unfold a cathedral of celestial swords. | Roterende klingekrans med vekslende runesøjler | 32 |
+
+Genbrugelige klip: `style_dual_cast.json`, `style_ground_slam.json`, `style_overhead_cast.json`, `style_sword_release.json`, `style_lightning_channel.json`, `style_water_weave.json`, `style_earth_raise.json`, `style_shadow_summon.json`.
+
 ## Pixelgrafik og begrænsninger
 
-Seks originale, sparsomme partikelsilhuetter: **streak, arc, sigil, shard, flash, ember**. Stål bruger køligt hvidt/guld, ild orange/glødegult, frost cyan/ishvidt, stjerne violet/guld og healing mint/lysegrønt. Forskelle kommer fra form, bane, fase og rytme, ikke kun farveskift.
+Tolv originale, sparsomme partikelsilhuetter: **streak, arc, sigil, shard, flash, ember, bolt, droplet, rock, shadow, rune, blade**. Grundpaletterne er stål hvid/guld, ild orange/gul, frost cyan/ishvid, stjerne violet/guld, healing mint, lyn gul/hvid, vand blå/cyan, jord sand/grøn og mørke violet/sort. Sværdteknikker bruger spillerens personlige aurafarve, når auraen er låst op, inklusive lysere/mørkere nuancer og rang 4-højlys. Rang ændrer aldrig grundfarven. Forskelle kommer fra form, bane, fase og rytme, ikke kun farveskift.
 
-Spritekonturerne har skarpe pixelkanter og native nærmeste-nabo-filter. Korte buer, runer og skår er ét native atlas-quad pr. punkt. Punkter skaber ingen ekstra partikler, kolliderer ikke og ændrer ingen blokke eller entities. Normale spor varer 3–8 ticks; den fælles partikelklasse håndhæver højst 12 ticks og 1,5 blokkes quad-bredde. Tunge hug har større buer/træf end små kast og hurtige snit; effekterne er sparsomme, korte og uden skærmrystelser eller fuldskærmsoverlays.
+Spritekonturerne har skarpe pixelkanter og native nærmeste-nabo-filter. Korte buer, runer og skår er ét native atlas-quad pr. punkt. Punkter skaber ingen ekstra partikler, kolliderer ikke og ændrer ingen blokke eller entities. Normale spor varer 3–8 ticks; den fælles partikelklasse håndhæver højst 12 ticks og 3 blokkes quad-bredde efter levelskalering. Tunge hug har større buer/træf end små kast og hurtige snit; effekterne er sparsomme, korte og uden skærmrystelser eller fuldskærmsoverlays.
 
-De hidtidige grænser bevares: **højst 12 mønsterpunkter pr. opdatering**, normalt hver anden tick, **op til 8 umiddelbare træfpunkter**, **256 nye partikler/tick**, **64 aktive kastere**, **64 blokkes visningsafstand** og **6 blokkes mønsterradius**. Budgettet kan ikke blive negativt. Minecrafts indstillinger ALL/DECREASED/MINIMAL respekteres, også for de nye atlaspartikler.
+De hidtidige grænser bevares: **højst 12 mønsterpunkter pr. opdatering**, normalt hver anden tick, **op til 8 umiddelbare træfpunkter**, **256 nye partikler/tick**, **64 aktive kastere**, **64 blokkes visningsafstand** og **12 blokkes skaleret visuel radius** (grundmønstrene holder sig inden for 6,1). Budgettet kan ikke blive negativt. Minecrafts indstillinger ALL/DECREASED/MINIMAL respekteres, også for de nye atlaspartikler.
 
 ## Aktivering, kamp og netværk
 
-Den eksisterende server sender stadig præcis én kort præsentationshændelse efter gyldig aktivering og ressourceforbrug. UUID/entity-ID, sekvensnummer, verdenstid, evne-ID, start og træfposition er uændrede. Klienten genererer geometrien lokalt; ingen partikelstrøm, nye gameplay-projektiler eller C2S-animationsanmodninger. Dubletter, udløbne hændelser og ukendte evner afvises som før. En forsinket gyldig hændelse afspilles kun i den resterende oprindelige levetid.
+Den eksisterende server sender stadig præcis én kort præsentationshændelse efter gyldig aktivering og ressourceforbrug. UUID/entity-ID, sekvensnummer, verdenstid, evne-ID, start og træfposition bevares. Den versionerede v2-payload tilføjer kompakt serverberegnet rank/power/farve og højst otte faktiske træfpositioner. Største hændelse holder sig under 384 bytes; separate appearance-opdateringer under 40 bytes. Klienten genererer geometrien lokalt; ingen partikelstrøm, nye gameplay-projektiler eller C2S-animationsanmodninger. Dubletter, udløbne hændelser og ukendte evner afvises som før. En forsinket gyldig hændelse afspilles kun i den resterende oprindelige levetid.
 
 **Skade og healing sker stadig på det oprindelige tidspunkt.** Et træfglimt vises straks ved serverens eksisterende træfpunkt. Visuel håndopladning, spor og efterbilleder følger bagefter og forsinker ikke gameplay. Rækkevidde, målvalg, skade, priser, cooldowns, stats, XP og gemte data ændres ikke.
 
@@ -63,6 +94,6 @@ Angreb, skade, død, våbenskift, nyt kast, entity-/verdensskift og disconnect r
 
 ## Installation og tests
 
-Brug **0.4.1 på både server og klienter**. De seks partikeltyper registreres normalt af Fabric; ingen nye afhængigheder. Minecraft 1.21.10, Better Combat 3.0.0+1.21.10, PAL 1.1.3, Fabric API og Cloth Config er uændrede krav.
+Brug **0.5.0 på både server og klienter**. De tolv partikeltyper registreres normalt af Fabric; ingen nye afhængigheder. Minecraft 1.21.10, Better Combat 3.0.0+1.21.10, PAL 1.1.3, Fabric API og Cloth Config er uændrede krav.
 
-Generatorerne i `tools/generate_ability_animations.py` og `tools/generate_presentation_particles.py` kan genskabe de originale assets. `src/smoke` indeholder isolerede tests og pakkes ikke i mod-JAR'en. Se [VALIDATION.md](VALIDATION.md) for de faktisk gennemførte build-, singleplayer- og multiplayertests.
+Generatorerne i `tools/generate_expansion_assets.py`, `tools/generate_ability_animations.py` og `tools/generate_presentation_particles.py` kan genskabe de originale assets. `src/smoke` indeholder isolerede tests og pakkes ikke i mod-JAR'en. Se [EXPANSION.md](EXPANSION.md) for aura-/skaleringstal og [VALIDATION.md](VALIDATION.md) for de faktisk gennemførte build-, singleplayer- og multiplayertests.

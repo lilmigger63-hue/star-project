@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_astral_crescent",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Draw a low celestial edge, sweep a clean rising moon and stop with the point held high. Builds on sword_release.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 15,
+    "stopTick": 16,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -32,
+          "yaw": -38,
+          "roll": 72
+        },
+        "leftArm": {
+          "pitch": -36,
+          "yaw": 22,
+          "roll": -28
+        },
+        "torso": {
+          "pitch": 6,
+          "yaw": -14,
+          "roll": 3
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -94,
+          "yaw": -48,
+          "roll": 78
+        },
+        "leftArm": {
+          "pitch": -54,
+          "yaw": 28,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": -4,
+          "yaw": -24,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": -50,
+          "roll": 92
+        },
+        "leftArm": {
+          "pitch": -56,
+          "yaw": 28,
+          "roll": -40
+        },
+        "torso": {
+          "pitch": 3,
+          "yaw": -25,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -154,
+          "yaw": 24,
+          "roll": -44
+        },
+        "leftArm": {
+          "pitch": -76,
+          "yaw": -14,
+          "roll": -42
+        },
+        "torso": {
+          "pitch": -11,
+          "yaw": 16,
+          "roll": -3
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -138,
+          "yaw": 42,
+          "roll": -72
+        },
+        "leftArm": {
+          "pitch": -60,
+          "yaw": -22,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": -7,
+          "yaw": 25,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -82,
+          "yaw": 14,
+          "roll": -30
+        },
+        "leftArm": {
+          "pitch": -36,
+          "yaw": 4,
+          "roll": -22
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 8,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 15,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -30,
+          "yaw": 2,
+          "roll": -6
+        },
+        "leftArm": {
+          "pitch": -16,
+          "yaw": 2,
+          "roll": -10
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

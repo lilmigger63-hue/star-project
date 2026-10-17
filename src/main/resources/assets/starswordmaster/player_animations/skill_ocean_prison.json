@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_ocean_prison",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Raise offset spirals into a high water cage, then close its gate with crossed palms. Builds on water_weave.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 23,
+    "stopTick": 26,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -34,
+          "yaw": 18,
+          "roll": 32
+        },
+        "leftArm": {
+          "pitch": -48,
+          "yaw": -22,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 5,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -96,
+          "yaw": -28,
+          "roll": 50
+        },
+        "leftArm": {
+          "pitch": -68,
+          "yaw": 36,
+          "roll": -62
+        },
+        "torso": {
+          "pitch": 5,
+          "yaw": -9,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -154,
+          "yaw": -14,
+          "roll": 42
+        },
+        "leftArm": {
+          "pitch": -130,
+          "yaw": 20,
+          "roll": -54
+        },
+        "torso": {
+          "pitch": -10,
+          "yaw": -4,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -130,
+          "yaw": 28,
+          "roll": 58
+        },
+        "leftArm": {
+          "pitch": -150,
+          "yaw": -16,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": -6,
+          "yaw": 10,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -96,
+          "yaw": 46,
+          "roll": 48
+        },
+        "leftArm": {
+          "pitch": -104,
+          "yaw": -44,
+          "roll": -50
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 4,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -60,
+          "yaw": 22,
+          "roll": 28
+        },
+        "leftArm": {
+          "pitch": -56,
+          "yaw": -14,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 23,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -24,
+          "yaw": 8,
+          "roll": 12
+        },
+        "leftArm": {
+          "pitch": -26,
+          "yaw": -6,
+          "roll": -14
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

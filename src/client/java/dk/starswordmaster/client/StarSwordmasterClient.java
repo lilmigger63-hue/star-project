@@ -33,6 +33,7 @@ public final class StarSwordmasterClient implements ClientModInitializer {
    while(menu.wasPressed())if(ready&&client.player!=null&&client.currentScreen==null)client.setScreen(new SkillTreeScreen());
    for(int i=0;i<5;i++)while(keys[i].wasPressed())if(ready&&client.player!=null&&client.currentScreen==null)send("cast","",i);
   });
+  VfxQuality.load();ClientVisualState.register();SwordAuraRenderer.register();
   AbilityPresentationClient.register();
   SkillHud.register();
  }

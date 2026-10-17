@@ -43,8 +43,10 @@ public final class StatusScreen extends Screen {
    statButtons.add(addSelectableChild(button));
   }
   addDrawableChild(ButtonWidget.builder(Text.translatable("gui.done"),b->close()).dimensions(layout.x()+layout.width()-70,layout.y()+layout.height()-23,60,18).build());
+  addDrawableChild(ButtonWidget.builder(label("vfx_quality",qualityName()),b->{VfxQuality.cycle();b.setMessage(label("vfx_quality",qualityName()));}).dimensions(layout.x()+12,layout.y()+layout.height()-23,Math.min(120,Math.max(36,layout.width()-92)),18).build());
   updateStatButtons();
  }
+ private static Text qualityName(){return label("quality."+switch(VfxQuality.level()){case 0->"low";case 2->"ultra";default->"normal";});}
  private void spendStat(PlayerProgress.Stat stat){
   var data=StarSwordmasterClient.data;
   if(!StarSwordmasterClient.ready||client==null||client.player==null||data==null||data.statPoints().signum()==0||pendingStatSnapshot==data)return;

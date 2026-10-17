@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_water_bolt",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Cup a droplet above the support palm, corkscrew it forward and collect the spent stream. Builds on dual_cast.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 12,
+    "stopTick": 14,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -25,
+          "yaw": 22,
+          "roll": 12
+        },
+        "leftArm": {
+          "pitch": -25,
+          "yaw": -22,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 3,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": 36,
+          "roll": 28
+        },
+        "leftArm": {
+          "pitch": -68,
+          "yaw": -22,
+          "roll": -40
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 9,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 4,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -92,
+          "yaw": 28,
+          "roll": 38
+        },
+        "leftArm": {
+          "pitch": -92,
+          "yaw": -28,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -100,
+          "yaw": 4,
+          "roll": -8
+        },
+        "leftArm": {
+          "pitch": -62,
+          "yaw": 16,
+          "roll": -36
+        },
+        "torso": {
+          "pitch": 8,
+          "yaw": -6,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -90,
+          "yaw": 18,
+          "roll": -22
+        },
+        "leftArm": {
+          "pitch": -50,
+          "yaw": -18,
+          "roll": -42
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 9,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -61,
+          "yaw": -16,
+          "roll": 40
+        },
+        "leftArm": {
+          "pitch": -61,
+          "yaw": 16,
+          "roll": -40
+        },
+        "torso": {
+          "pitch": -1,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -24,
+          "yaw": -4,
+          "roll": 16
+        },
+        "leftArm": {
+          "pitch": -24,
+          "yaw": 4,
+          "roll": -16
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

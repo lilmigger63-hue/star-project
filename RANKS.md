@@ -1,6 +1,6 @@
 # Fjerde klasserang — 0.4.1
 
-Færdighedstræet har **62 noder: 32 aktive evner og 30 passive noder**. Rang 4 låses op på K, koster ét perkpoint og gælder permanent for den valgte klasse. Den kan ikke tildeles en evneplads. Ingen nye kast eller animationer tilføjes.
+Version 0.4.1 udvidede færdighedstræet til **62 noder: 32 aktive evner og 30 passive noder**. Version 0.5.0 har **85 noder / 54 aktive / 31 passive**; rangreglerne herunder er uændrede. Rang 4 låses op på K, koster ét perkpoint og gælder permanent for den valgte klasse. Den kan ikke tildeles en evneplads. Rangnoderne giver ingen selvstændige kast eller animationer.
 
 | Klasse | Rang 4 / ID | Forudsætning | Karakter / færdighed | Effektive stats | Ekstra skade |
 | --- | --- | --- | --- | --- | --- |

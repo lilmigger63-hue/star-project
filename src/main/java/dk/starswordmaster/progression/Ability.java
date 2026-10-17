@@ -7,11 +7,15 @@ public record Ability(String id, Skill skill, int requirement, String parent,
  public Ability(String id,Skill skill,int requirement,String parent,PlayerProgress.PlayerClass exclusiveClass,boolean active,double mana,double stamina,int cooldownTicks){this(id,skill,requirement,parent,exclusiveClass,active,mana,stamina,cooldownTicks,1,null);}
  public enum DamageKind { NONE,SWORD,MAGIC,ENCHANTED_SWORD }
  public DamageKind damageKind(){return switch(id){
-  case "quick_cut","heavy_cut","heavy_sweep","riposte","aura_wave","rapid_slash","crushing_edge","piercing_thrust","seismic_cut"->DamageKind.SWORD;
-  case "spark","frost_touch","fire_burst","ice_lance","frost_nova","flame_lance","ember_ring","ice_prison"->DamageKind.MAGIC;
-  case "flame_blade","frost_blade","glacier_sweep"->DamageKind.ENCHANTED_SWORD;
+  case "astral_crescent","falling_star","phantom_blades","celestial_rush","sovereign_judgment","heavenly_sword_domain","quick_cut","heavy_cut","heavy_sweep","riposte","aura_wave","rapid_slash","crushing_edge","piercing_thrust","seismic_cut"->DamageKind.SWORD;
+  case "static_spark","chain_lightning","heavens_wrath","water_bolt","tidal_wave","ocean_prison","stone_spike","worldbreaker","shadow_bolt","curse_mark","eclipse_nova","spark","frost_touch","fire_burst","ice_lance","frost_nova","flame_lance","ember_ring","ice_prison"->DamageKind.MAGIC;
+  case "aqua_blade","quake_blade","shadow_edge","flame_blade","frost_blade","glacier_sweep"->DamageKind.ENCHANTED_SWORD;
   default->DamageKind.NONE;
  };}
+ public boolean classAllowed(PlayerProgress.PlayerClass cls){
+  if(id.equals("quake_blade"))return cls==SWORDSMAN||cls==SPELLBLADE;
+  return exclusiveClass==null||exclusiveClass==cls;
+ }
  public static final Map<String,Ability> ALL;
  static {
   var a=new LinkedHashMap<String,Ability>();
@@ -67,8 +71,33 @@ public record Ability(String id, Skill skill, int requirement, String parent,
   training(a,"endurance_training",Skill.SWORD,"guard_training",PlayerProgress.Stat.ENDURANCE);
   training(a,"spirit_training",Skill.FIRE,"fire_affinity",PlayerProgress.Stat.SPIRIT);
   training(a,"restorative_training",Skill.SUPPORT,"restorative_affinity",PlayerProgress.Stat.SPIRIT);
+  // Basics remain open to every class; advanced elemental and sword branches retain class gates.
+  expansion(a,"aura_sense",Skill.SWORD,3,"quick_cut",null,false,0,0,0,10);
+  expansion(a,"static_spark",Skill.LIGHTNING,1,"spark",null,true,14,0,50,1);
+  expansion(a,"chain_lightning",Skill.LIGHTNING,5,"static_spark",null,true,30,0,140,10);
+  expansion(a,"thunder_step",Skill.LIGHTNING,8,"chain_lightning",SPELLBLADE,true,22,6,160,10);
+  expansion(a,"heavens_wrath",Skill.LIGHTNING,20,"chain_lightning",MAGE,true,65,0,500,25);
+  expansion(a,"water_bolt",Skill.WATER,1,"frost_touch",null,true,14,0,50,1);
+  expansion(a,"tidal_wave",Skill.WATER,5,"water_bolt",null,true,30,0,160,10);
+  expansion(a,"aqua_blade",Skill.WATER,8,"tidal_wave",SPELLBLADE,true,26,6,140,10);
+  expansion(a,"ocean_prison",Skill.WATER,15,"tidal_wave",MAGE,true,40,0,240,20);
+  expansion(a,"stone_spike",Skill.EARTH,1,"heavy_cut",null,true,16,0,60,1);
+  expansion(a,"earthen_wall",Skill.EARTH,5,"stone_spike",null,true,24,0,220,10);
+  expansion(a,"quake_blade",Skill.EARTH,10,"earthen_wall",null,true,34,10,180,15);
+  expansion(a,"worldbreaker",Skill.EARTH,20,"earthen_wall",MAGE,true,70,0,600,25);
+  expansion(a,"shadow_bolt",Skill.DARK,1,"light",null,true,16,0,60,1);
+  expansion(a,"curse_mark",Skill.DARK,5,"shadow_bolt",null,true,24,0,140,10);
+  expansion(a,"shadow_edge",Skill.DARK,8,"curse_mark",SPELLBLADE,true,28,6,160,10);
+  expansion(a,"eclipse_nova",Skill.DARK,20,"curse_mark",MAGE,true,70,0,600,25);
+  expansion(a,"astral_crescent",Skill.SWORD,8,"aura_wave",SWORDSMAN,true,24,7,100,12);
+  expansion(a,"falling_star",Skill.SWORD,12,"seismic_cut",SWORDSMAN,true,34,10,180,18);
+  expansion(a,"phantom_blades",Skill.SWORD,15,"rapid_slash",SWORDSMAN,true,32,9,160,20);
+  expansion(a,"celestial_rush",Skill.SWORD,12,"quick_dash",SWORDSMAN,true,28,8,160,18);
+  expansion(a,"sovereign_judgment",Skill.SWORD,25,"astral_sword_sovereign",SWORDSMAN,true,50,14,320,30);
+  expansion(a,"heavenly_sword_domain",Skill.SWORD,30,"sovereign_judgment",SWORDSMAN,true,80,18,700,40);
   ALL=Collections.unmodifiableMap(a);
  }
+ private static void expansion(Map<String,Ability> a,String id,Skill s,int req,String parent,PlayerProgress.PlayerClass cls,boolean active,double mana,double stamina,int cooldown,int character){a.put(id,new Ability(id,s,req,parent,cls,active,mana,stamina,cooldown,character,null));}
  private static void training(Map<String,Ability> a,String prefix,Skill skill,String parent,PlayerProgress.Stat stat){
   for(int tier=1;tier<=3;tier++){String id=prefix+"_"+tier;a.put(id,new Ability(id,skill,tier*5,parent,null,false,0,0,0,1,stat));parent=id;}
  }

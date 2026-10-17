@@ -34,9 +34,10 @@ public final class AbilityPresentationClient {
   if(client.world==null)return;
   if(world!=client.world){clear();world=client.world;}
   if(!ledger.accept(e.caster(),e.sequence(),e.sentAt(),world.getTime()))return;
+  ClientVisualState.put(e.caster(),e.visual());
   cancel(e.caster());if(e.ability().isEmpty())return;
   var style=AbilityPresentation.ALL.get(e.ability());
-  if(style==null||style.elapsed(e.sentAt(),world.getTime())>=style.ticks()||!finite(e.origin())||!finite(e.impact()))return;
+  if(style==null||style.elapsed(e.sentAt(),world.getTime())>=style.ticks()||!finite(e.origin())||!finite(e.impact())||e.impacts().stream().anyMatch(p->!finite(p)))return;
   if(active.size()>=ParticleBudget.MAX_CASTERS)cancel(active.keySet().iterator().next());
   active.put(e.caster(),new Running(e,style,world.getTime()));
  }
@@ -59,16 +60,22 @@ public final class AbilityPresentationClient {
    boolean interrupted=player!=r.player||player.hurtTime>r.lastHurt||!ItemStack.areItemsAndComponentsEqual(r.weapon,player.getMainHandStack())||(player.handSwinging&&!r.wasSwinging)||PalAbilityAnimations.attackActive(player);
    if(interrupted){stop(r);iterator.remove();continue;}
    if(firstFrame){
-    PalAbilityAnimations.play(player,r.style,r.age);
+    PalAbilityAnimations.play(player,r.style,r.age,r.event.visual().power());
     // Gameplay is still instantaneous: target accents appear on confirmation, never after cosmetic wind-up.
-    if(r.age<=2&&r.event.impact().squaredDistanceTo(r.event.origin().add(0,1,0))>1)
-     for(var point:ParticlePattern.impact(r.style))emit(client,r.style,point,r.event.impact().add(point.x(),point.y(),point.z()),Vec3d.ZERO);
+    if(r.age<=2&&r.event.impact().squaredDistanceTo(r.event.origin().add(0,1,0))>1){
+     var accents=ParticlePattern.impact(r.style);for(int i=0;i<accents.size();i++){
+      var point=VisualPowerScaling.scale(accents.get(i),r.event.visual().power());
+      var target=r.event.impacts().size()>1?r.event.impacts().get(i%r.event.impacts().size()):r.event.impact();
+      emit(client,r.style,point,target.add(point.x(),point.y(),point.z()),Vec3d.ZERO,r.event.visual());
+     }
+    }
    }
    r.lastHurt=player.hurtTime;r.wasSwinging=player.handSwinging;
-   if(firstFrame||r.age%2==0)for(var point:ParticlePattern.points(r.style,r.age)){
+   if(firstFrame||r.age%2==0)for(var raw:ParticlePattern.points(r.style,r.age)){
+    var point=VisualPowerScaling.scale(raw,r.event.visual().power());
     Vec3d at=position(r,point,player);
-    var drift=point.ink()==ParticlePattern.Ink.EMBER||point.ink()==ParticlePattern.Ink.SHARD?new Vec3d(0,0.015,0):Vec3d.ZERO;
-    emit(client,r.style,point,at,drift);
+    var drift=switch(point.ink()){case EMBER,SHARD,SHADOW->new Vec3d(0,.015,0);case DROPLET->new Vec3d(0,-.025,0);default->Vec3d.ZERO;};
+    emit(client,r.style,point,at,drift,r.event.visual());
    }
    r.age++;
   }
@@ -77,10 +84,15 @@ public final class AbilityPresentationClient {
   double mirror=player.getMainArm()==net.minecraft.util.Arm.LEFT?-1:1;
   if(p.space()==ParticlePattern.Space.RAY||p.space()==ParticlePattern.Space.HAND){
    Vec3d start=r.event.origin().add(0,1.25,0),end=r.event.impact();
+   double fraction=Math.clamp(p.z(),0,1);
+   if(p.space()==ParticlePattern.Space.RAY&&r.event.ability().equals("chain_lightning")&&!r.event.impacts().isEmpty()){
+    double segment=fraction*r.event.impacts().size();int index=Math.min(r.event.impacts().size()-1,(int)segment);
+    start=index==0?start:r.event.impacts().get(index-1);end=r.event.impacts().get(index);fraction=Math.min(1,segment-index);
+   }
    Vec3d forward=p.space()==ParticlePattern.Space.HAND?player.getRotationVec(1):end.subtract(start).normalize();
    Vec3d right=new Vec3d(forward.z,0,-forward.x);if(right.lengthSquared()<1e-8)right=new Vec3d(1,0,0);else right=right.normalize();
    Vec3d up=forward.crossProduct(right).normalize();
-   var base=p.space()==ParticlePattern.Space.HAND?player.getEntityPos().add(0,1.25,0).add(forward.multiply(p.z())):start.lerp(end,Math.clamp(p.z(),0,1));
+   var base=p.space()==ParticlePattern.Space.HAND?player.getEntityPos().add(0,1.25,0).add(forward.multiply(p.z())):start.lerp(end,fraction);
    return base.add(right.multiply(p.x()*mirror)).add(up.multiply(p.y()));
   }
   Vec3d base=switch(p.space()){case IMPACT->r.event.impact().subtract(0,1,0);case ORIGIN->r.event.origin();default->player.getEntityPos();};
@@ -88,10 +100,16 @@ public final class AbilityPresentationClient {
   return base.add(x*Math.cos(yaw)+p.z()*Math.sin(yaw),p.y(),-x*Math.sin(yaw)+p.z()*Math.cos(yaw));
  }
  private static void emit(MinecraftClient client,AbilityPresentation style,ParticlePattern.Point point,Vec3d at,Vec3d velocity){
+  emit(client,style,point,at,velocity,VisualState.DEFAULT);
+ }
+ private static void emit(MinecraftClient client,AbilityPresentation style,ParticlePattern.Point point,Vec3d at,Vec3d velocity,VisualState visual){
   if(client.player==null)return;var mode=client.options.getParticles().getValue();
-  if(mode==ParticlesMode.MINIMAL||(mode==ParticlesMode.DECREASED&&world.random.nextInt(3)==0)||!budget.take(client.player.squaredDistanceTo(at)))return;
-  if(FantasyParticles.emit(client,point.ink(),ParticlePattern.color(style.element(),point.tone()),at,velocity,point.life(),point.size(),point.angle()))return;
-  ParticleEffect fallback=switch(style.element()){case FIRE->ParticleTypes.SMALL_FLAME;case FROST->ParticleTypes.SNOWFLAKE;case STAR->ParticleTypes.END_ROD;case HEALING->ParticleTypes.HAPPY_VILLAGER;case STEEL->ParticleTypes.CRIT;};
+  double distance=client.player.squaredDistanceTo(at);
+  if(mode==ParticlesMode.MINIMAL||(mode==ParticlesMode.DECREASED&&world.random.nextInt(3)==0)||(VfxQuality.level()==0&&world.random.nextBoolean())||(distance>1024&&world.random.nextBoolean())||!budget.take(distance))return;
+  int color=ParticlePattern.color(style.element(),point.tone());var ability=dk.starswordmaster.progression.Ability.ALL.get(style.abilityId());
+  if(visual.auraUnlocked()&&ability!=null&&ability.stamina()>0)color=point.tone()==0?AuraColors.shade(visual.auraColor(),.8f):AuraColors.highlight(visual.auraColor(),visual.rank()==4?.8f:.45f);
+  if(FantasyParticles.emit(client,point.ink(),color,at,velocity,point.life(),point.size(),point.angle()))return;
+  ParticleEffect fallback=switch(style.element()){case FIRE->ParticleTypes.SMALL_FLAME;case FROST->ParticleTypes.SNOWFLAKE;case STAR->ParticleTypes.END_ROD;case HEALING->ParticleTypes.HAPPY_VILLAGER;case STEEL->ParticleTypes.CRIT;case LIGHTNING->ParticleTypes.ELECTRIC_SPARK;case WATER->ParticleTypes.DRIPPING_WATER;case EARTH->ParticleTypes.CRIT;case DARK->ParticleTypes.PORTAL;};
   world.addParticleClient(fallback,at.x,at.y,at.z,velocity.x,velocity.y,velocity.z);
  }
  private static void stop(Running running){if(running.player!=null)PalAbilityAnimations.stop(running.player);}

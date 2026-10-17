@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_worldbreaker",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Draw the mountain overhead, suspend its weight, then shatter the seal with a monumental double slam. Builds on ground_slam.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 28,
+    "stopTick": 30,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -30,
+          "yaw": -24,
+          "roll": 50
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": 24,
+          "roll": -50
+        },
+        "torso": {
+          "pitch": 13,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 6,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -112,
+          "yaw": -24,
+          "roll": 36
+        },
+        "leftArm": {
+          "pitch": -98,
+          "yaw": 28,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": -6,
+          "yaw": -12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -160,
+          "yaw": -24,
+          "roll": 42
+        },
+        "leftArm": {
+          "pitch": -154,
+          "yaw": 26,
+          "roll": -46
+        },
+        "torso": {
+          "pitch": -14,
+          "yaw": -12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -12,
+          "yaw": 32,
+          "roll": -46
+        },
+        "leftArm": {
+          "pitch": -18,
+          "yaw": -28,
+          "roll": -48
+        },
+        "torso": {
+          "pitch": 28,
+          "yaw": 24,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": -26,
+          "roll": 56
+        },
+        "leftArm": {
+          "pitch": -72,
+          "yaw": 24,
+          "roll": -58
+        },
+        "torso": {
+          "pitch": -4,
+          "yaw": -14,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 23,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -30,
+          "yaw": 16,
+          "roll": -28
+        },
+        "leftArm": {
+          "pitch": -38,
+          "yaw": -12,
+          "roll": -30
+        },
+        "torso": {
+          "pitch": 22,
+          "yaw": 12,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 28,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -28,
+          "yaw": 2,
+          "roll": 8
+        },
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 4,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 30,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

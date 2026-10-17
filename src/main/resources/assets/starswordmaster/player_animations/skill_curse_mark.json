@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_curse_mark",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Trace a hooked sigil, seal its center with two fingers and pull the curse thread taut. Builds on shadow_summon.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 16,
+    "stopTick": 18,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -58,
+          "yaw": -18,
+          "roll": 34
+        },
+        "leftArm": {
+          "pitch": -32,
+          "yaw": 28,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": -8,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -82,
+          "yaw": 48,
+          "roll": 54
+        },
+        "leftArm": {
+          "pitch": -78,
+          "yaw": -46,
+          "roll": -52
+        },
+        "torso": {
+          "pitch": 8,
+          "yaw": -9,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -116,
+          "yaw": 16,
+          "roll": 58
+        },
+        "leftArm": {
+          "pitch": -68,
+          "yaw": -36,
+          "roll": -58
+        },
+        "torso": {
+          "pitch": -4,
+          "yaw": 8,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -94,
+          "yaw": 4,
+          "roll": 10
+        },
+        "leftArm": {
+          "pitch": -108,
+          "yaw": -26,
+          "roll": -42
+        },
+        "torso": {
+          "pitch": 7,
+          "yaw": -6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 11,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -88,
+          "yaw": 24,
+          "roll": 42
+        },
+        "leftArm": {
+          "pitch": -96,
+          "yaw": -30,
+          "roll": -68
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 8,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -72,
+          "yaw": 40,
+          "roll": 38
+        },
+        "leftArm": {
+          "pitch": -54,
+          "yaw": -12,
+          "roll": -30
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 12,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -28,
+          "yaw": 8,
+          "roll": 14
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": -8,
+          "roll": -16
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": -1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 18,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

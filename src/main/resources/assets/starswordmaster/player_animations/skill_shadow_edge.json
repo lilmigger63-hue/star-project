@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_shadow_edge",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Draw shadow along the blade, cut a low hooked arc and fold the trailing darkness inward. Builds on sword_release.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 15,
+    "stopTick": 16,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -58,
+          "yaw": -36,
+          "roll": 46
+        },
+        "leftArm": {
+          "pitch": -94,
+          "yaw": 36,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": -14,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -94,
+          "yaw": -48,
+          "roll": 78
+        },
+        "leftArm": {
+          "pitch": -54,
+          "yaw": 28,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": -4,
+          "yaw": -24,
+          "roll": 4
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -130,
+          "yaw": -46,
+          "roll": 72
+        },
+        "leftArm": {
+          "pitch": -110,
+          "yaw": -24,
+          "roll": -54
+        },
+        "torso": {
+          "pitch": -8,
+          "yaw": -24,
+          "roll": 3
+        }
+      },
+      {
+        "tick": 7,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -42,
+          "yaw": 40,
+          "roll": -84
+        },
+        "leftArm": {
+          "pitch": -68,
+          "yaw": 28,
+          "roll": -58
+        },
+        "torso": {
+          "pitch": 13,
+          "yaw": 24,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -55,
+          "yaw": 48,
+          "roll": -96
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": -28,
+          "roll": -24
+        },
+        "torso": {
+          "pitch": 5,
+          "yaw": 27,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -98,
+          "yaw": 32,
+          "roll": -46
+        },
+        "leftArm": {
+          "pitch": -76,
+          "yaw": -32,
+          "roll": -40
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 12,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 15,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -30,
+          "yaw": 2,
+          "roll": -6
+        },
+        "leftArm": {
+          "pitch": -16,
+          "yaw": 2,
+          "roll": -10
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_quake_blade",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Take a weighted crown guard, drive the sword into the low line and absorb two ground pulses. Builds on ground_slam.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 20,
+    "stopTick": 22,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -45,
+          "yaw": -18,
+          "roll": 28
+        },
+        "leftArm": {
+          "pitch": -36,
+          "yaw": 20,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": -2,
+          "yaw": -6,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 4,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -126,
+          "yaw": -20,
+          "roll": 34
+        },
+        "leftArm": {
+          "pitch": -114,
+          "yaw": 30,
+          "roll": -40
+        },
+        "torso": {
+          "pitch": -8,
+          "yaw": -12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 7,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -158,
+          "yaw": -16,
+          "roll": 26
+        },
+        "leftArm": {
+          "pitch": -148,
+          "yaw": 22,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": -12,
+          "yaw": -8,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -16,
+          "yaw": 24,
+          "roll": -36
+        },
+        "leftArm": {
+          "pitch": -32,
+          "yaw": -18,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 28,
+          "yaw": 18,
+          "roll": -4
+        }
+      },
+      {
+        "tick": 12,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -36,
+          "yaw": 24,
+          "roll": -38
+        },
+        "leftArm": {
+          "pitch": -42,
+          "yaw": -20,
+          "roll": -36
+        },
+        "torso": {
+          "pitch": 17,
+          "yaw": 20,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -50,
+          "yaw": 20,
+          "roll": -30
+        },
+        "leftArm": {
+          "pitch": -48,
+          "yaw": -12,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": 13,
+          "yaw": 14,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -28,
+          "yaw": 2,
+          "roll": 8
+        },
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 4,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

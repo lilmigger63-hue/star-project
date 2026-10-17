@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 public class AnimePresentationTest {
  @Test public void everyAbilityHasItsOwnSpatialChoreography(){
   var signatures=new HashMap<String,String>();
-  AbilityPresentation.ALL.forEach((id,p)->{var signature=new StringBuilder();for(int t=0;t<p.ticks();t+=2)for(var v:ParticlePattern.points(p,t))signature.append(String.format(Locale.ROOT,"%.4f,%.4f,%.4f:%s;",v.x(),v.y(),v.z(),v.space()));assertNull("Duplicate VFX geometry for "+id,signatures.put(signature.toString(),id));});assertEquals(32,signatures.size());
+  AbilityPresentation.ALL.forEach((id,p)->{var signature=new StringBuilder();for(int t=0;t<p.ticks();t+=2)for(var v:ParticlePattern.points(p,t))signature.append(String.format(Locale.ROOT,"%.4f,%.4f,%.4f:%s;",v.x(),v.y(),v.z(),v.space()));assertNull("Duplicate VFX geometry for "+id,signatures.put(signature.toString(),id));});assertEquals(54,signatures.size());
  }
  @Test public void particleFrameBudgetAndGeometryStayBounded(){
   for(var p:AbilityPresentation.ALL.values())for(int t=-1;t<=p.ticks()+1;t++){

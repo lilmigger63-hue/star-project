@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "style_ground_slam",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Reusable ground slam anchors.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 20,
+    "stopTick": 22,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -45,
+          "yaw": -18,
+          "roll": 28
+        },
+        "leftArm": {
+          "pitch": -36,
+          "yaw": 20,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": -2,
+          "yaw": -6,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -112,
+          "yaw": -24,
+          "roll": 36
+        },
+        "leftArm": {
+          "pitch": -98,
+          "yaw": 28,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": -6,
+          "yaw": -12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -158,
+          "yaw": -16,
+          "roll": 26
+        },
+        "leftArm": {
+          "pitch": -148,
+          "yaw": 22,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": -12,
+          "yaw": -8,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 11,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -20,
+          "yaw": 18,
+          "roll": -28
+        },
+        "leftArm": {
+          "pitch": -28,
+          "yaw": -14,
+          "roll": -30
+        },
+        "torso": {
+          "pitch": 26,
+          "yaw": 14,
+          "roll": -3
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -36,
+          "yaw": 24,
+          "roll": -38
+        },
+        "leftArm": {
+          "pitch": -42,
+          "yaw": -20,
+          "roll": -36
+        },
+        "torso": {
+          "pitch": 17,
+          "yaw": 20,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 17,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -66,
+          "yaw": -6,
+          "roll": 20
+        },
+        "leftArm": {
+          "pitch": -54,
+          "yaw": 12,
+          "roll": -26
+        },
+        "torso": {
+          "pitch": 6,
+          "yaw": -3,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -28,
+          "yaw": 2,
+          "roll": 8
+        },
+        "leftArm": {
+          "pitch": -22,
+          "yaw": 4,
+          "roll": -12
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

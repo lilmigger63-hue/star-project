@@ -13,18 +13,21 @@ public final class AbilityPresentationEvents {
  private static final Map<UUID,Active> active=new HashMap<>();
  private AbilityPresentationEvents(){}
  public static void start(ServerPlayerEntity player,String ability,Vec3d impact){
+  start(player,ability,impact,List.of());
+ }
+ public static void start(ServerPlayerEntity player,String ability,Vec3d impact,List<Vec3d> impacts){
   var p=AbilityPresentation.ALL.get(ability);if(p==null)return;
   active.put(player.getUuid(),new Active(player.getEntityWorld().getTime()+p.ticks(),player.getMainHandStack().copy()));
-  send(player,ability,impact);
+  send(player,ability,impact,impacts);
  }
- public static void cancel(ServerPlayerEntity player){if(active.remove(player.getUuid())!=null)send(player,"",player.getEntityPos());}
+ public static void cancel(ServerPlayerEntity player){if(active.remove(player.getUuid())!=null)send(player,"",player.getEntityPos(),List.of());}
  public static void tick(ServerPlayerEntity player){
   var p=active.get(player.getUuid());if(p==null)return;
   if(!player.isAlive()||!ItemStack.areItemsAndComponentsEqual(p.weapon(),player.getMainHandStack()))cancel(player);
   else if(player.getEntityWorld().getTime()>=p.until())active.remove(player.getUuid());
  }
- private static void send(ServerPlayerEntity player,String ability,Vec3d impact){
-  var event=new AbilityPresentationPayload(player.getUuid(),player.getId(),sequences.merge(player.getUuid(),1L,Long::sum),player.getEntityWorld().getTime(),ability,player.getEntityPos(),impact);
+ private static void send(ServerPlayerEntity player,String ability,Vec3d impact,List<Vec3d> impacts){
+  var event=new AbilityPresentationPayload(player.getUuid(),player.getId(),sequences.merge(player.getUuid(),1L,Long::sum),player.getEntityWorld().getTime(),ability,player.getEntityPos(),impact,ServerVisualState.state(player),impacts);
   var recipients=new HashSet<>(PlayerLookup.tracking(player));recipients.add(player);
   for(var recipient:recipients)if(ServerPlayNetworking.canSend(recipient,AbilityPresentationPayload.ID))ServerPlayNetworking.send(recipient,event);
  }

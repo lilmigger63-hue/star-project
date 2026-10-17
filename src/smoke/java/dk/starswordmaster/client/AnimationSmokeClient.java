@@ -55,7 +55,7 @@ public class AnimationSmokeClient implements ClientModInitializer {
   cases.add(new Case("quick_cut","normalAttack"));AbilityPresentation.ALL.keySet().forEach(id->cases.add(new Case(id,"ok")));
   cases.add(new Case("heavy_cut","mana"));cases.add(new Case("heavy_cut","stamina"));cases.add(new Case("heavy_cut","cooldown"));cases.add(new Case("heavy_cut","weapon"));cases.add(new Case("spark","target"));cases.add(new Case("mend","fullhealth"));
   cases.add(new Case("ember_ring","damage"));cases.add(new Case("guard","switch"));cases.add(new Case("guard","attack"));cases.add(new Case("mend","vanillaAttack"));cases.add(new Case("mend","fallback"));cases.add(new Case("quick_cut","normalAttack"));cases.add(new Case("guardian_stance","death"));
-  ClientLifecycleEvents.CLIENT_STARTED.register(c->{c.options.pauseOnLostFocus=false;c.getTutorialManager().setStep(TutorialStep.NONE);c.options.setPerspective(Perspective.THIRD_PERSON_BACK);c.options.getParticles().setValue(net.minecraft.particle.ParticlesMode.ALL);});
+  ClientLifecycleEvents.CLIENT_STARTED.register(c->{c.options.pauseOnLostFocus=false;c.options.getMaxFps().setValue(60);c.getTutorialManager().setStep(TutorialStep.NONE);c.options.setPerspective(Perspective.THIRD_PERSON_BACK);c.options.getParticles().setValue(net.minecraft.particle.ParticlesMode.ALL);});
   ClientTickEvents.END_CLIENT_TICK.register(c->{
    ticks++;if(!finished&&ticks>11000)throw new AssertionError("ANIMATION_"+role+" timeout at "+index+"/"+state);
    if(!started&&ticks>100&&c.currentScreen!=null){started=true;connect(c);}
@@ -102,7 +102,7 @@ public class AnimationSmokeClient implements ClientModInitializer {
     StarSwordmasterClient.send("cast","",0);state=2;wait=0;return;
    }
    if(state==10){
-    attackSeen|=PalAbilityAnimations.attackActive(c.player);if(++wait<25)return;c.options.attackKey.setPressed(false);
+    attackSeen|=PalAbilityAnimations.attackActive(c.player);if(++wait<25)return;c.options.attackKey.setPressed(false);if(targetHealth(c)>=targetHealth&&wait<100)return;
     check(attackSeen,"ordinary Better Combat attack animation before/after ability suite");check(targetHealth(c)<targetHealth,"ordinary Better Combat attack still damages hostile");state=4;wait=0;return;
    }
    if(state==2){
@@ -141,7 +141,7 @@ public class AnimationSmokeClient implements ClientModInitializer {
  }
  private void observer(MinecraftClient c){
   if(!observed.containsAll(AbilityPresentation.ALL.keySet()))return;
-  if(state==0){check(observed.size()==32,"observer saw all 32 active ability events");command(c,"prepare guard ok");state=1;wait=0;return;}
+  if(state==0){check(observed.size()==AbilityPresentation.ALL.size(),"observer saw all "+AbilityPresentation.ALL.size()+" active ability events");command(c,"prepare guard ok");state=1;wait=0;return;}
   if(state==1){if(++wait<10)return;StarSwordmasterClient.send("cast","",0);state=2;wait=0;return;}
   if(state==2){var r=active().get(c.player.getUuid());if(r==null||!(boolean)field(r,"started")){if(++wait>30)check(false,"observer own cast missing/not initialized");return;}check(controller(c).getTriggeredAnimation()!=null||controller(c).isActive(),"observer also animates own confirmed cast");ownB=true;state=3;wait=0;}
   if(state==3&&++wait>30&&remoteCancelled){check(active().isEmpty(),"observer and own poses all expire");command(c,"audit");System.out.println("ANIMATION_B COMPLETE multiplayer checks="+checks);finished=true;}

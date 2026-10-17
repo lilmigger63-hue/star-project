@@ -17,7 +17,7 @@ public class PresentationParticleResourceTest {
 
     @Test
     public void everyRegisteredInkHasItsOwnBoundedPixelSprite() throws Exception {
-        assertEquals(6, ParticlePattern.Ink.values().length);
+        assertEquals(12, ParticlePattern.Ink.values().length);
         Set<Integer> silhouettes = new HashSet<>();
         for (var ink : ParticlePattern.Ink.values()) {
             String id = ink.name().toLowerCase(Locale.ROOT);

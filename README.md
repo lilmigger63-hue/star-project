@@ -1,11 +1,13 @@
 # star-project
 to mods
 
-## Star Swordmaster 0.4.1 downloads
+## Star Swordmaster 0.5.0 downloads
 
-- [Download the mod (.jar)](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.4.1/star-swordmaster-0.4.1.jar)
-- [Checksums](releases/0.4.1/SHA256SUMS.txt)
+- [Download the mod (.jar)](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.5.0/star-swordmaster-0.5.0.jar)
+- [Checksums](releases/0.5.0/SHA256SUMS.txt)
 - [Validation and limitations](VALIDATION.md)
+
+Version **0.5.0** tilføjer 16 besværgelser i lyn, vand, jord og mørke, seks sværdteknikker og en passiv auraoplåsning. Træet har **85 noder / 54 aktive evner**. Sværdauraen følger den faktiske klinge og får en personlig, vedvarende HSV-farve; rang og level gør den kraftigere uden at ændre grundfarven. Alle 54 evners kosmetiske størrelse og armbevægelse skalerer sikkert med level. VFX-kvalitet kan vælges nederst i H. [Nyt indhold og krav](EXPANSION.md), [animationer og effekter](ABILITY_PRESENTATION.md).
 
 Version **0.4.1** tilføjer en fjerde passiv rang til hver klasse ved karakterlevel 25 og færdighedslevel 20, med præcise effektive statbonusser og +5% skade til klassens kategori. Træet har **62 noder**, inklusive 15 valgfrie passive træningstrin; H viser effektive stats og rangtitel. Gamle ranks, fordelte stats, point og gemmeformat bevares. [Rangkrav, bonusser og alle nye grene](RANKS.md).
 
@@ -28,7 +30,7 @@ Selvstændig Fabric-mod til Minecraft **1.21.10**. Din egen karakter udvikler si
    - [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat)
    - [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config)
    - [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). Den kompatible fil hedder `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; udgiverens metadata angiver også Minecraft 1.21.10.
-3. Læg **star-swordmaster-0.4.1.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
+3. Læg **star-swordmaster-0.5.0.jar** i installationens `mods`-mappe. Behold kun én version af Star Swordmaster.
 4. Start Minecraft. I co-op skal alle klienter og serveren have samme version af modden og dens afhængigheder.
 
 Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker er ikke kompatibilitetstestet; Better Combat og afhængighederne ovenfor er testet sammen med denne mod.
@@ -53,7 +55,7 @@ Brug gerne en separat Minecraft-profil til første afprøvning. Andre modpakker 
 - Træk i træets baggrund for at flytte udsnittet; scroll for at zoome. Hold musen over en evne for krav, pris og effekt. Lærte evner har guldmarkering, tilgængelige har turkis markering, og klassebegrænsede grene har rød markering.
 
 ## Indhold
-62 noder: **32 aktive evner** og 30 passive specialiseringer, træningsnoder og klasse-/rangperks. Se [RANKS.md](RANKS.md) for de nye passive bonusser og krav.
+85 noder: **54 aktive evner** og 31 passive specialiseringer, træningsnoder og klasse-/rangperks. Se [RANKS.md](RANKS.md) for de nye passive bonusser og krav.
 
 Grundmagi: Gnister, Frostgreb, Stjernelys, Lægende lys og Fornyelse. Sværdteknikker: Lynsnit, Sværdskridt, Kraftslag, Stormfejning, Stjerneparade og Modhug.
 
@@ -103,7 +105,7 @@ Version 0.3.4 ændrer ikke moddens schema-1-data. Serveren anvender én modifier
 Bygningen, automatiske progression-/persistens-/viewporttests og rigtig Fabric-opstart med Better Combat er verificeret. En lokal Minecraft-klient bruges også til at teste klassevalg, rang, evnetildeling, evner og heling mod en rigtig server. Se `VALIDATION.md` for endelige resultater.
 Grafikken er original, foreløbig pixelgrafik. Balanceværdier og XP-kurver er fastlagt i kildekoden i denne version. Lydafspilning kunne ikke verificeres i cloudmiljøet. Der er endnu ingen historiequests eller NPC'er fra universet.
 
-Engelske evnenavne findes, men effektbeskrivelserne er foreløbig på dansk.
+De nye evner, elementer og auraindstillinger har danske og engelske tekster. Nogle ældre effektbeskrivelser er fortsat på dansk.
 
 ## Byg fra kildekoden
 Brug Java 21. På Linux/macOS: `./gradlew build`. På Windows: `gradlew.bat build`.
@@ -119,6 +121,8 @@ Stat-effekttesten bruger `./gradlew runSmokeEffectsServer`, `./gradlew runSmokeE
 
 Ressource-HUD-testen bruger `./gradlew runSmokeResourcesServer`, `./gradlew runSmokeResourcesA` og `./gradlew runSmokeResourcesB` i tre terminaler. Klargør en isoleret testverden `run/resources-server/ResourceSmoke`, accepteret EULA, server.properties bundet til `127.0.0.1:25569` i offline-mode og runtime-mods under hver af `run/resources-server`, `run/resources-a` og `run/resources-b`. Serveropgaven nulstiller kun testprofilerne ResourceSmokeA/B (level 10 og 100). `./gradlew runSmokeResourcesSingleplayer` bruger i stedet `run/resources-sp/saves/ResourceSmoke` og mods under `run/resources-sp/mods`. Singleplayer-opgaven bevarer profilen ved genindlæsning, så gentagne friske testforløb kræver en ny testprofil/testverden. Brug kun testverdener. Testene dækker rigtige serverhandlinger, ressourceopdateringer, F1, manglende snapshots, GUI-skalering, H/K, respawn og genindlæsning. Testkommandoer og testkilder indgår ikke i release-JAR'en.
 
-Animationstesten bruger `./gradlew runSmokeAnimationsServer`, `./gradlew runSmokeAnimationsA` og `./gradlew runSmokeAnimationsB` med hver sin `run/animations-*`-mappe. Serveren skal have en isoleret `AnimationSmoke`-testverden, accepteret EULA, `127.0.0.1:25570`, offline-mode, `allow-flight=true`, difficulty easy og OP til AnimationSmokeA/B. Alle tre mapper skal have de sædvanlige runtime-mods i `mods/`. `./gradlew runSmokeAnimationsSingleplayer` bruger `run/animations-sp/saves/AnimationSmoke` med cheats aktiveret. Scenarierne erstatter testspillernes progression og klargør/skaber/fjerner testmobs, så brug kun testverdener. De tester alle 32 aktive evner, PAL-klip og partikler, Better Combat før/efter, afvist brug, afbrydelser, manglende klip, multiplayer-observation og genindlæsning. Testkoden og testkommandoerne indgår ikke i den almindelige JAR.
+Animationstesten bruger `./gradlew runSmokeAnimationsServer`, `./gradlew runSmokeAnimationsA` og `./gradlew runSmokeAnimationsB` med hver sin `run/animations-*`-mappe. Serveren skal have en isoleret `AnimationSmoke`-testverden, accepteret EULA, `127.0.0.1:25570`, offline-mode, `allow-flight=true`, difficulty easy og OP til AnimationSmokeA/B. Alle tre mapper skal have de sædvanlige runtime-mods i `mods/`. `./gradlew runSmokeAnimationsSingleplayer` bruger `run/animations-sp/saves/AnimationSmoke` med cheats aktiveret. Scenarierne erstatter testspillernes progression og klargør/skaber/fjerner testmobs, så brug kun testverdener. De tester alle 54 aktive evner, PAL-klip og partikler, Better Combat før/efter, afvist brug, afbrydelser, manglende klip, multiplayer-observation og genindlæsning. Testkoden og testkommandoerne indgår ikke i den almindelige JAR.
 
 Leveling-testen bruger `./gradlew runSmokeLevelingServer`, `./gradlew runSmokeLevelingA` og `./gradlew runSmokeLevelingB`. Klargør de normale runtime-mods i `run/leveling-{server,a,b}/mods`, en isoleret verden `LevelSmoke`, EULA, server på `127.0.0.1:25571` i offline-mode med `allow-flight=true` og OP til LevelSmokeA/B. `./gradlew runSmokeLevelingSingleplayer` bruger `run/leveling-sp/saves/LevelSmoke` med cheats. Testene erstatter kun testprofilernes data; brug aldrig almindelige verdener. De kontrollerer normale XP-kilder ved level 7/8, H/K, flere levels, gammel level-100-data, 100-cifret XP, fire skalaer, vanilla-XP samt død/respawn og genindlæsning. Smoke-kode indgår ikke i mod-JAR’en.
+
+De nye auratests køres med `./gradlew runSmokeExpansionSingleplayer` eller `runSmokeExpansionServer`, `runSmokeExpansionA` og `runSmokeExpansionB`. De bruger isolerede `run/expansion-*`-mapper, verdenen `ExpansionSmoke`, port `25572`, offline testlogin og samme runtime-mods. Testene erstatter kun testprofilernes progression og kræver egne testverdener. De kontrollerer faktiske GPU-lag, native sværdtransformer, fire rangtrin, begge hænder/perspektiver, personlige multiplayerfarver, våbenskift, Better Combat, en ny ultimativ evne, død, genforbindelse og dimensionsskift. Singleplayer-profilen kontrollerer desuden alle 22 nye faktiske kampeffekter og de kompakte netværks-codecs.

@@ -11,7 +11,7 @@ public class PassiveTrainingTest {
    long before=p.effectiveStat(a.statBonus());var points=p.points();assertTrue(a.id(),p.unlock(a.id()));assertFalse(p.unlock(a.id()));assertFalse(p.assign(0,a.id()));
    assertEquals(before+1,p.effectiveStat(a.statBonus()));assertEquals(points.subtract(java.math.BigInteger.ONE),p.points());count++;
   }
-  assertEquals(15,count);assertEquals(62,Ability.ALL.size());assertEquals(32,Ability.ALL.values().stream().filter(Ability::active).count());
+  assertEquals(15,count);assertEquals(85,Ability.ALL.size());assertEquals(54,Ability.ALL.values().stream().filter(Ability::active).count());
   assertEquals(available,p.statPoints());assertEquals(3,p.effectiveStat(PlayerProgress.Stat.STRENGTH));assertEquals(3,p.effectiveStat(PlayerProgress.Stat.AGILITY));assertEquals(3,p.effectiveStat(PlayerProgress.Stat.ENDURANCE));assertEquals(6,p.effectiveStat(PlayerProgress.Stat.SPIRIT));
   for(var s:PlayerProgress.Stat.values())assertEquals(0,p.stat(s));var restored=PlayerProgress.fromProperties(p.toProperties());assertEquals(p.learned(),restored.learned());assertEquals(p.bonuses(),restored.bonuses());var before=restored.toProperties();for(int i=0;i<20;i++)restored=PlayerProgress.fromProperties(restored.toProperties());assertEquals(before,restored.toProperties());
  }

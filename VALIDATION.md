@@ -1,4 +1,22 @@
-# Validering — Star Swordmaster 0.4.1
+# Validering — Star Swordmaster 0.5.0
+
+## Ultimate magic, personlige auraer og 85 noder — 0.5.0
+
+Verificeret 17. oktober 2026:
+- `./gradlew build smokeClasses` med Java 21: **157 JUnit-tests**, nul fejl/spring og **37 selvstændige progressionskontroller**. Minecraft 1.21.10, Fabric, Better Combat 3.0.0+1.21.10 og PAL 1.1.3 bevares; ingen nye afhængigheder.
+- Registrering: **85 noder / 54 aktive / 31 passive**. Alle 22 nye evner har oprindelige 32×32-ikoner, forskellige PAL-klip og forskellige rumlige mønstre. Alle **73 PAL-ressourcer** kontrolleres for format, tid, neutral afslutning og sikre poser; tolv pixelpartikelsilhuetter har nærmeste-nabo-filter. De tidligere grafikressourcer ændres ikke.
+- Domænetests kontrollerer klasse-/level-/forældrekrav, ressource-/cooldown-/perkregnskab, gamle gemte data, nye færdigheders nulstandard, rankskade-kategorier, UUID-HSV-farver, farvevariation, lys-/mørke nuancer og sikker, monoton kosmetisk skalering ved ekstremt store BigInteger-levels. Ingen schema-migration; de nye practice-nøgler er bagudkompatible, og aurafarven kræver intet gemmefelt.
+- Den native integrerede server afprøver **alle 22 nye faktiske kampeffekter**: skade, kædens fem træf/80 %-aftagning, områdegrænse på otte, kontrol/buffs, tomme/for langt væk/bagudrettede mål, holdallierede og kæledyr, korrekt sværdkrav, ingen dobbeltskade og ingen omkostninger i den rene effekthelper. Originale evner delegeres fortsat til original logik.
+- En rigtig singleplayer-klient gennemfører **586 animationskontroller**: alle **54 aktive evner** giver faktisk PAL-armbevægelse og atlaspartikler. Better Combat angriber og giver skade før/efter. Manglende mana/stamina, cooldown, forkert våben, manglende mål og fuldt liv afvises uden præsentation. Håndspejling, lagprioritet 1999/2000, dubletter, forsinkede pakker, skade-/våben-/angrebs-/dødsafbrydelse, fallback ved manglende klip, genforbindelse og partikelgrænsen på 256 kontrolleres.
+- Den separate native auratest i singleplayer gennemfører **92 kontroller**: fire rangtrin i første-/tredjeperson, korrekt fuldt oplyst shader og faktisk GPU-lagrækkefølge, identiske aura-/sværdmodelmatricer, centerlinje over otte af otte uigennemsigtige klingepixels, begge hænder, unequip, Better Combat, ny ultimativ teknik, død/respawn, genindlæsning og dimensionsskift frem/tilbage. Shaderen tegner efter genstandslaget og bevarer depth test. Den sidste visuelle rangkontrast er desuden kontrolleret af geometritests.
+- Native registry-backed codec-kontroller bekræfter højst 384 bytes for otte træfpositioner, under 40 bytes for appearance, nøjagtigt roundtrip af power/farve/baner, afvisning af for stor træfliste og sikker clamping af ugyldig visuel metadata.
+
+- En dedikeret Fabric-server med **to samtidige Minecraft-klienter** gennemfører yderligere **588 + 112 animationskontroller**: observatøren ser alle 54 serverbekræftede PAL-animationer og pixelpartikler, afbrydelser synkroniseres, og begge klienter kan bruge egne evner. Venlige kæledyr bevarer fuldt liv.
+
+- Den færdige aurakode gennemfører **96 + 96 kontroller på to samtidige klienter** mod den dedikerede server: forskellige personlige farver, fire rangtrin, begge perspektiver/hænder, faktisk native GPU-rendering og korrekt rækkefølge efter sværdlaget, identisk modeltransform/teksturplacering, gyldig ultimativ teknik, Better Combat, unequip, død/respawn, genforbindelse og dimensionstur frem/tilbage. En ekstra kontrol bekræfter kompatibilitet med native hjælpebuffere med immutable maps. Rang 4-screenshots for begge spillere er visuelt kontrolleret: bred orange henholdsvis blå aura med hvide facetter.
+- Slutkommandoen `./gradlew build smokeClasses test --rerun` består. Den remappede **0.5.0**-JAR har korrekt ZIP-integritet, alle 73 PAL-klip og ingen smoke-klasser; SHA-256 følger med i release-mappen. Uafhængig gennemgang fandt og fik rettet manglende self-sync ved dimensionsskift, forkert nodevalg ved lav zoom og generisk buffer-map-mutation.
+
+ Smoke-kilder, testkommandoer og verdener indgår ikke i release-JAR'en. Cloudkørsler bruger virtuel skærm og offline testlogin; lyd og langvarig balance er ikke verificeret.
 
 ## Fjerde klasserang og 62 noder i version 0.4.1
 

@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_shadow_bolt",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Hook a shadow from the opposite palm, twist it into a dart and cast it from a half-open guard. Builds on shadow_summon.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 13,
+    "stopTick": 14,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 1,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -36,
+          "yaw": 30,
+          "roll": 32
+        },
+        "leftArm": {
+          "pitch": -44,
+          "yaw": -28,
+          "roll": -32
+        },
+        "torso": {
+          "pitch": 6,
+          "yaw": -4,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -90,
+          "yaw": 46,
+          "roll": 34
+        },
+        "leftArm": {
+          "pitch": -62,
+          "yaw": -26,
+          "roll": -44
+        },
+        "torso": {
+          "pitch": 6,
+          "yaw": -12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -126,
+          "yaw": 34,
+          "roll": 66
+        },
+        "leftArm": {
+          "pitch": -114,
+          "yaw": -38,
+          "roll": -60
+        },
+        "torso": {
+          "pitch": -5,
+          "yaw": -12,
+          "roll": 3
+        }
+      },
+      {
+        "tick": 7,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -98,
+          "yaw": 6,
+          "roll": -16
+        },
+        "leftArm": {
+          "pitch": -84,
+          "yaw": 32,
+          "roll": -52
+        },
+        "torso": {
+          "pitch": 9,
+          "yaw": 14,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 9,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -80,
+          "yaw": 24,
+          "roll": -38
+        },
+        "leftArm": {
+          "pitch": -64,
+          "yaw": -22,
+          "roll": -48
+        },
+        "torso": {
+          "pitch": 3,
+          "yaw": 18,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 11,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -68,
+          "yaw": 32,
+          "roll": 30
+        },
+        "leftArm": {
+          "pitch": -62,
+          "yaw": -24,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": -6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 13,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -28,
+          "yaw": 8,
+          "roll": 14
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": -8,
+          "roll": -16
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": -1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

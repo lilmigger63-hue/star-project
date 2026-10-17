@@ -74,7 +74,7 @@ public final class FantasyParticles {
                 int life, float size, float angle) {
             super(world, p.x, p.y, p.z, sprite);
             maxAge = Math.clamp(life, 2, 12);
-            scale = Math.clamp(size, 0.08f, 1.5f) * 0.5f;
+            scale = Math.clamp(size, 0.08f, dk.starswordmaster.presentation.VisualPowerScaling.MAX_SPRITE) * 0.5f;
             setColor(((rgb >> 16) & 255) / 255f, ((rgb >> 8) & 255) / 255f, (rgb & 255) / 255f);
             setVelocity(Math.clamp(v.x, -0.35, 0.35), Math.clamp(v.y, -0.35, 0.35),
                     Math.clamp(v.z, -0.35, 0.35));

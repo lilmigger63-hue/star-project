@@ -13,7 +13,7 @@ public class AnimationResourceTest {
  private static final Set<String> AXES=Set.of("pitch","yaw","roll");
 
  @Test public void everyActiveAbilityHasItsOwnOriginalAnimation()throws Exception{
-  assertEquals(32,AbilityPresentation.ALL.size());
+  assertEquals(54,AbilityPresentation.ALL.size());
   var poses=new HashSet<String>();
   var rhythms=new HashSet<String>();
   for(var entry:AbilityPresentation.ALL.entrySet()){
@@ -37,6 +37,7 @@ public class AnimationResourceTest {
    assertEquals("Only declared original clips should ship",durations.keySet(),paths.filter(p->p.toString().endsWith(".json"))
      .map(p->p.getFileName().toString().replace(".json","")).collect(Collectors.toSet()));
   }
+  assertEquals("54 dedicated and 19 reusable original clips",73,durations.size());
   for(var entry:durations.entrySet())validateClip(entry.getKey(),entry.getValue());
  }
 
@@ -61,8 +62,13 @@ public class AnimationResourceTest {
   // Extra emote keys can disable locomotion or impose a global rotation.
   assertEquals(id,Set.of("isLoop","degrees","stopTick","beginTick","returnTick","endTick","moves"),emote.keySet());
   var neutral=new HashSet<String>();
+  var moves=emote.getAsJsonArray("moves");
+  assertEquals(id+" must begin at zero",0,moves.get(0).getAsJsonObject().get("tick").getAsInt());
+  assertEquals(id+" must finish at stopTick",duration,moves.get(moves.size()-1).getAsJsonObject().get("tick").getAsInt());
+  if(id.startsWith("skill_")||id.startsWith("style_"))
+   assertTrue(id+" must explicitly initialize every animated bone",moves.get(0).getAsJsonObject().keySet().containsAll(BONES));
   int previous=-1;
-  for(var frame:emote.getAsJsonArray("moves")){
+  for(var frame:moves){
    var move=frame.getAsJsonObject();
    int tick=move.get("tick").getAsInt();
    assertTrue(id+" invalid or unordered tick "+tick,tick>=previous&&tick>=0&&tick<=duration);
@@ -75,7 +81,8 @@ public class AnimationResourceTest {
     for(var value:bone.entrySet()){
      double angle=value.getValue().getAsDouble();
      assertTrue(id+" invalid angle",Double.isFinite(angle)&&Math.abs(angle)<=160);
-     if(field.getKey().equals("torso")&&id.startsWith("skill_"))assertTrue(id+" torso must preserve aim",Math.abs(angle)<=28);
+     if(field.getKey().equals("torso")&&(id.startsWith("skill_")||id.startsWith("style_")))assertTrue(id+" torso must preserve aim",Math.abs(angle)<=28);
+     if(tick==0&&(id.startsWith("skill_")||id.startsWith("style_")))assertEquals(id+" must begin neutral",0,angle,0);
      if(tick==duration)assertEquals(id+" must finish neutral",0,angle,0);
     }
     if(tick==duration)neutral.add(field.getKey());

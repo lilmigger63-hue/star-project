@@ -21,8 +21,24 @@ public final class SkillTreeLayout {
   node("endurance_training_1",530,60);node("endurance_training_2",630,120);node("endurance_training_3",730,180);
   node("spirit_training_1",-490,-100);node("spirit_training_2",-600,-150);node("spirit_training_3",-710,-200);
   node("restorative_training_1",530,-120);node("restorative_training_2",630,-190);node("restorative_training_3",730,-260);
+  node("aura_sense",-80,60);
+  node("static_spark",-900,-310);node("chain_lightning",-1040,-440);node("thunder_step",-1150,-300);node("heavens_wrath",-1180,-650);
+  node("water_bolt",880,-350);node("tidal_wave",1020,-460);node("aqua_blade",1140,-350);node("ocean_prison",1160,-680);
+  node("stone_spike",-900,550);node("earthen_wall",-1030,680);node("quake_blade",-1150,550);node("worldbreaker",-1160,890);
+  node("shadow_bolt",900,460);node("curse_mark",1030,600);node("shadow_edge",1160,470);node("eclipse_nova",1160,850);
+  node("astral_crescent",-540,850);node("falling_star",-300,900);node("phantom_blades",-650,1000);node("celestial_rush",-810,820);node("sovereign_judgment",-350,1100);node("heavenly_sword_domain",0,1260);
   NODES=List.copyOf(nodes);nodes.clear();
  }
  private SkillTreeLayout(){}
  private static void node(String id,double x,double y){nodes.add(new Node(id,x,y));}
+ public static Node hitNode(TreeViewport view,double x,double y,double centerX,double centerY){
+  int radius=nodeSize(view.zoom())/2+frameWidth(view.zoom());Node closest=null;double best=Double.POSITIVE_INFINITY;
+  for(var node:NODES){
+   double dx=x-(int)view.screenX(node.x(),centerX),dy=y-(int)view.screenY(node.y(),centerY),distance=dx*dx+dy*dy;
+   if(Math.abs(dx)<=radius&&Math.abs(dy)<=radius&&distance<best){closest=node;best=distance;}
+  }
+  return closest;
+ }
+ public static int nodeSize(double zoom){return Math.max(5,(int)(26*zoom));}
+ public static int frameWidth(double zoom){return Math.max(1,(int)Math.round(2*zoom));}
 }

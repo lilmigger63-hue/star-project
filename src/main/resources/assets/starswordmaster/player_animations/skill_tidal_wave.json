@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_tidal_wave",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Scoop a low tide, roll the crest between the hands and push the whole wave outward. Builds on water_weave.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 20,
+    "stopTick": 22,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -20,
+          "yaw": 16,
+          "roll": 50
+        },
+        "leftArm": {
+          "pitch": -28,
+          "yaw": -18,
+          "roll": -50
+        },
+        "torso": {
+          "pitch": 11,
+          "yaw": -6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 4,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": 38,
+          "roll": 48
+        },
+        "leftArm": {
+          "pitch": -100,
+          "yaw": -16,
+          "roll": -30
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 7,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -140,
+          "yaw": 24,
+          "roll": 54
+        },
+        "leftArm": {
+          "pitch": -122,
+          "yaw": -12,
+          "roll": -52
+        },
+        "torso": {
+          "pitch": -8,
+          "yaw": 11,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 10,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -88,
+          "yaw": -40,
+          "roll": 88
+        },
+        "leftArm": {
+          "pitch": -86,
+          "yaw": 40,
+          "roll": -88
+        },
+        "torso": {
+          "pitch": 10,
+          "yaw": -8,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 13,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -70,
+          "yaw": -30,
+          "roll": 72
+        },
+        "leftArm": {
+          "pitch": -78,
+          "yaw": 28,
+          "roll": -78
+        },
+        "torso": {
+          "pitch": 6,
+          "yaw": 4,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 17,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -60,
+          "yaw": 22,
+          "roll": 28
+        },
+        "leftArm": {
+          "pitch": -56,
+          "yaw": -14,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -24,
+          "yaw": 8,
+          "roll": 12
+        },
+        "leftArm": {
+          "pitch": -26,
+          "yaw": -6,
+          "roll": -14
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

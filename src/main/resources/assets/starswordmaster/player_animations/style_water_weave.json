@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "style_water_weave",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Reusable water weave anchors.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 20,
+    "stopTick": 22,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 2,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -34,
+          "yaw": 18,
+          "roll": 32
+        },
+        "leftArm": {
+          "pitch": -48,
+          "yaw": -22,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 5,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": 38,
+          "roll": 48
+        },
+        "leftArm": {
+          "pitch": -100,
+          "yaw": -16,
+          "roll": -30
+        },
+        "torso": {
+          "pitch": 1,
+          "yaw": 12,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -130,
+          "yaw": 12,
+          "roll": 44
+        },
+        "leftArm": {
+          "pitch": -74,
+          "yaw": -42,
+          "roll": -70
+        },
+        "torso": {
+          "pitch": -6,
+          "yaw": -8,
+          "roll": -2
+        }
+      },
+      {
+        "tick": 11,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -90,
+          "yaw": -34,
+          "roll": 72
+        },
+        "leftArm": {
+          "pitch": -126,
+          "yaw": 6,
+          "roll": -40
+        },
+        "torso": {
+          "pitch": -3,
+          "yaw": -16,
+          "roll": -1
+        }
+      },
+      {
+        "tick": 14,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": -20,
+          "roll": 46
+        },
+        "leftArm": {
+          "pitch": -98,
+          "yaw": 30,
+          "roll": -64
+        },
+        "torso": {
+          "pitch": 5,
+          "yaw": 8,
+          "roll": 2
+        }
+      },
+      {
+        "tick": 17,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -60,
+          "yaw": 22,
+          "roll": 28
+        },
+        "leftArm": {
+          "pitch": -56,
+          "yaw": -14,
+          "roll": -34
+        },
+        "torso": {
+          "pitch": 2,
+          "yaw": 6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 20,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -24,
+          "yaw": 8,
+          "roll": 12
+        },
+        "leftArm": {
+          "pitch": -26,
+          "yaw": -6,
+          "roll": -14
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 2,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 22,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

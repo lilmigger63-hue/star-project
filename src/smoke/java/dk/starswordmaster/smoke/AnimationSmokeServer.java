@@ -36,7 +36,7 @@ public class AnimationSmokeServer implements ModInitializer {
   AbilityPresentationEvents.cancel(player);var a=Ability.ALL.get(id);if(a==null)throw new AssertionError("Unknown fixture ability");
   var properties=new Properties();properties.setProperty("schema","1");properties.setProperty("xp","200000");properties.setProperty("class",(a.exclusiveClass()==null?PlayerProgress.PlayerClass.SWORDSMAN:a.exclusiveClass()).name());
   properties.setProperty("mana",mode.equals("mana")?"0":"9999");properties.setProperty("stamina",mode.equals("stamina")?"0":"9999");
-  for(var skill:Skill.values())properties.setProperty("practice."+skill,"10000");properties.setProperty("learned",String.join(",",Ability.ALL.keySet()));properties.setProperty("slot.0",id);
+  for(var skill:Skill.values())properties.setProperty("practice."+skill,"250000");properties.setProperty("learned",String.join(",",Ability.ALL.keySet()));properties.setProperty("slot.0",id);
   if(mode.equals("cooldown"))properties.setProperty("cooldown."+id,"999");
   var data=PlayerProgress.fromProperties(properties);if(!data.learned().contains(id))throw new AssertionError("Invalid fixture prerequisites "+id);
   try{var sf=StarSwordmaster.class.getDeclaredField("store");sf.setAccessible(true);var store=sf.get(null);var pf=PlayerStore.class.getDeclaredField("players");pf.setAccessible(true);((Map<UUID,PlayerProgress>)pf.get(store)).put(player.getUuid(),data);}catch(ReflectiveOperationException e){throw new AssertionError(e);}

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.networking.v1.*;
 import net.fabricmc.fabric.api.event.lifecycle.v1.*;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.entity.mob.HostileEntity;
@@ -36,18 +37,22 @@ public final class StarSwordmaster implements ModInitializer {
   PayloadTypeRegistry.playC2S().register(ActionPayload.ID,ActionPayload.CODEC);
   PayloadTypeRegistry.playS2C().register(SnapshotPayload.ID,SnapshotPayload.CODEC);
   PayloadTypeRegistry.playS2C().register(AbilityPresentationPayload.ID,AbilityPresentationPayload.CODEC);
-  ServerLifecycleEvents.SERVER_STARTED.register(server->{store=new PlayerStore(server.getSavePath(WorldSavePath.ROOT).resolve("data/starswordmaster"));ticks=0;AbilityPresentationEvents.clear();combatUntil.clear();practiceAt.clear();requests.clear();LOG.info("Star Swordmaster ready: 5 skill slots, permanent classes at level 10");});
+  PayloadTypeRegistry.playS2C().register(VisualStatePayload.ID,VisualStatePayload.CODEC);
+  EntityTrackingEvents.START_TRACKING.register((entity,viewer)->{if(entity instanceof ServerPlayerEntity subject)ServerVisualState.send(viewer,subject);});
+  EntityTrackingEvents.STOP_TRACKING.register((entity,viewer)->{if(entity instanceof ServerPlayerEntity subject)ServerVisualState.remove(viewer,subject);});
+  ServerLifecycleEvents.SERVER_STARTED.register(server->{store=new PlayerStore(server.getSavePath(WorldSavePath.ROOT).resolve("data/starswordmaster"));ticks=0;AbilityPresentationEvents.clear();ServerVisualState.clear();combatUntil.clear();practiceAt.clear();requests.clear();LOG.info("Star Swordmaster ready: 5 skill slots, permanent classes at level 10");});
   ServerLifecycleEvents.SERVER_STOPPING.register(server->{if(store!=null)store.saveAll();});
-  ServerPlayConnectionEvents.JOIN.register((handler,sender,server)->{StatAttributes.apply(handler.player,progress(handler.player));sync(handler.player);});
-  ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer,newPlayer,alive)->{AbilityPresentationEvents.cancel(oldPlayer);StatAttributes.apply(newPlayer,progress(newPlayer));if(!alive)newPlayer.setHealth(newPlayer.getMaxHealth());});
-  ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->{AbilityPresentationEvents.forget(handler.player.getUuid());if(store!=null)store.forget(handler.player.getUuid());combatUntil.remove(handler.player.getUuid());practiceAt.remove(handler.player.getUuid());requests.remove(handler.player.getUuid());});
+  ServerPlayConnectionEvents.JOIN.register((handler,sender,server)->{StatAttributes.apply(handler.player,progress(handler.player));sync(handler.player);ServerVisualState.send(handler.player,handler.player);});
+  ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer,newPlayer,alive)->{AbilityPresentationEvents.cancel(oldPlayer);StatAttributes.apply(newPlayer,progress(newPlayer));ServerVisualState.send(newPlayer,newPlayer);if(!alive)newPlayer.setHealth(newPlayer.getMaxHealth());});
+  ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player,origin,destination)->{AbilityPresentationEvents.cancel(player);ServerVisualState.send(player,player);});
+  ServerPlayConnectionEvents.DISCONNECT.register((handler,server)->{AbilityPresentationEvents.forget(handler.player.getUuid());ServerVisualState.forget(handler.player.getUuid());if(store!=null)store.forget(handler.player.getUuid());combatUntil.remove(handler.player.getUuid());practiceAt.remove(handler.player.getUuid());requests.remove(handler.player.getUuid());});
   ServerPlayNetworking.registerGlobalReceiver(ActionPayload.ID,(payload,context)->context.server().execute(()->handle(context.player(),payload)));
   ServerTickEvents.END_SERVER_TICK.register(server->{
    ticks++;if(ticks%20==0)requests.clear();
    for(var p:server.getPlayerManager().getPlayerList()){
     AbilityPresentationEvents.tick(p);var data=progress(p);StatAttributes.apply(p,data);
     if(p.isAlive())data.tick(ticks<combatUntil.getOrDefault(p.getUuid(),0L));
-    if(ticks%5==0)sync(p);
+    if(ticks%5==0)sync(p);if(ticks%20==0)ServerVisualState.sync(p);
    }
    if(ticks%200==0&&store!=null)store.saveAll();
   });
@@ -75,7 +80,7 @@ public final class StarSwordmaster implements ModInitializer {
   }catch(IllegalArgumentException ignored){}
   if(!ok)player.sendMessage(Text.literal("Kan ikke bruges: kontrollér krav, ressourcer og cooldown."),true);
   if(ok&&!request.action().equals("cast")){if(request.action().equals("stat")||request.action().equals("unlock"))StatAttributes.apply(player,p);store.save(player.getUuid());}
-  sync(player);
+  sync(player);ServerVisualState.sync(player);
  }
  public static void sync(ServerPlayerEntity player){
   if(store==null||!ServerPlayNetworking.canSend(player,SnapshotPayload.ID))return;

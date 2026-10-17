@@ -45,9 +45,9 @@ public class UltimateRankTest {
   }
  }
  @Test public void rankFourKeepsMasteryAndOnlyBoostsItsOffensiveCategory(){
-  Set<String> swords=Set.of("quick_cut","heavy_cut","heavy_sweep","riposte","aura_wave","rapid_slash","crushing_edge","piercing_thrust","seismic_cut","flame_blade","frost_blade","glacier_sweep");
-  Set<String> magic=Set.of("spark","frost_touch","fire_burst","ice_lance","frost_nova","flame_lance","ember_ring","ice_prison");
-  Set<String> enchanted=Set.of("flame_blade","frost_blade","glacier_sweep");
+  Set<String> swords=Set.of("astral_crescent","falling_star","phantom_blades","celestial_rush","sovereign_judgment","heavenly_sword_domain","aqua_blade","quake_blade","shadow_edge","quick_cut","heavy_cut","heavy_sweep","riposte","aura_wave","rapid_slash","crushing_edge","piercing_thrust","seismic_cut","flame_blade","frost_blade","glacier_sweep");
+  Set<String> magic=Set.of("static_spark","chain_lightning","heavens_wrath","water_bolt","tidal_wave","ocean_prison","stone_spike","worldbreaker","shadow_bolt","curse_mark","eclipse_nova","spark","frost_touch","fire_burst","ice_lance","frost_nova","flame_lance","ember_ring","ice_prison");
+  Set<String> enchanted=Set.of("aqua_blade","quake_blade","shadow_edge","flame_blade","frost_blade","glacier_sweep");
   for(int c=0;c<3;c++){
    var p=ready(c,25,20);assertEquals(1.15,p.damageMultiplier(),1e-9);assertTrue(p.unlock(IDS[c]));
    assertEquals(1+p.strengthDamageBonus()+.15,p.damageMultiplier(),1e-9);

@@ -4,8 +4,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.*;
 public class UltimateTreeLayoutTest {
- @Test public void rendersAll62RegisteredNodesExactlyOnceWithRoomAfterMastery(){
-  var nodes=SkillTreeLayout.NODES;Set<String> ids=new HashSet<>();for(var n:nodes)assertTrue(ids.add(n.id()));assertEquals(62,nodes.size());assertEquals(Ability.ALL.keySet(),ids);
+ @Test public void rendersAll85RegisteredNodesExactlyOnceWithRoomAfterMastery(){
+  var nodes=SkillTreeLayout.NODES;Set<String> ids=new HashSet<>();for(var n:nodes)assertTrue(ids.add(n.id()));assertEquals(85,nodes.size());assertEquals(Ability.ALL.keySet(),ids);
   for(var n:nodes)if(Ability.ALL.get(n.id()).characterRequirement()==25){var parent=nodes.stream().filter(p->p.id().equals(Ability.ALL.get(n.id()).parent())).findFirst().orElseThrow();assertTrue(Math.hypot(n.x()-parent.x(),n.y()-parent.y())>=200);}
   for(int i=0;i<nodes.size();i++)for(int j=0;j<i;j++)assertTrue(nodes.get(i).id()+" / "+nodes.get(j).id(),Math.hypot(nodes.get(i).x()-nodes.get(j).x(),nodes.get(i).y()-nodes.get(j).y())>=60);
  }

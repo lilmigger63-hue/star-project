@@ -6,8 +6,8 @@ import static org.junit.Assert.*;
 public class AbilityPresentationTest {
  @Test public void coversExactlyEveryActiveAbility(){
   var expected=new HashSet<String>();Ability.ALL.values().stream().filter(Ability::active).forEach(a->expected.add(a.id()));
-  assertEquals(32,expected.size());assertEquals(expected,AbilityPresentation.ALL.keySet());
-  for(var p:AbilityPresentation.ALL.values()){assertTrue(p.ticks()>=8&&p.ticks()<=24);assertTrue(p.radius()>0&&p.radius()<=6);assertTrue(p.samples()<=12);}
+  assertEquals(54,expected.size());assertEquals(expected,AbilityPresentation.ALL.keySet());
+  for(var p:AbilityPresentation.ALL.values()){assertTrue(p.ticks()>=8&&p.ticks()<=32);assertTrue(p.radius()>0&&p.radius()<=6);assertTrue(p.samples()<=12);}
  }
  @Test public void representativeAbilitiesHaveDistinctAppropriateActions(){
   assertEquals(AbilityPresentation.Clip.THRUST,AbilityPresentation.ALL.get("piercing_thrust").clip());

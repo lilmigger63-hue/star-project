@@ -1,0 +1,187 @@
+{
+  "version": 3,
+  "name": "skill_heavenly_sword_domain",
+  "author": "Star Swordmaster",
+  "description": "Original expansion choreography. Draw an oath across the heart, crown the domain overhead and unfold a cathedral of celestial swords. Builds on overhead_cast.",
+  "emote": {
+    "isLoop": false,
+    "degrees": true,
+    "beginTick": 0,
+    "returnTick": 0,
+    "endTick": 30,
+    "stopTick": 32,
+    "moves": [
+      {
+        "tick": 0,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -78,
+          "yaw": 36,
+          "roll": 38
+        },
+        "leftArm": {
+          "pitch": -74,
+          "yaw": -34,
+          "roll": -38
+        },
+        "torso": {
+          "pitch": 4,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 7,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -118,
+          "yaw": 42,
+          "roll": 56
+        },
+        "leftArm": {
+          "pitch": -112,
+          "yaw": -40,
+          "roll": -54
+        },
+        "torso": {
+          "pitch": -4,
+          "yaw": -6,
+          "roll": 1
+        }
+      },
+      {
+        "tick": 11,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -160,
+          "yaw": 8,
+          "roll": 32
+        },
+        "leftArm": {
+          "pitch": -156,
+          "yaw": -8,
+          "roll": -36
+        },
+        "torso": {
+          "pitch": -14,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 16,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -146,
+          "yaw": -30,
+          "roll": 82
+        },
+        "leftArm": {
+          "pitch": -146,
+          "yaw": 30,
+          "roll": -82
+        },
+        "torso": {
+          "pitch": -9,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 21,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -74,
+          "yaw": -60,
+          "roll": 106
+        },
+        "leftArm": {
+          "pitch": -74,
+          "yaw": 60,
+          "roll": -106
+        },
+        "torso": {
+          "pitch": 7,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 26,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -106,
+          "yaw": -22,
+          "roll": 62
+        },
+        "leftArm": {
+          "pitch": -100,
+          "yaw": 22,
+          "roll": -66
+        },
+        "torso": {
+          "pitch": -2,
+          "yaw": 0,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 30,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -32,
+          "yaw": -8,
+          "roll": 22
+        },
+        "leftArm": {
+          "pitch": -30,
+          "yaw": 8,
+          "roll": -24
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 1,
+          "roll": 0
+        }
+      },
+      {
+        "tick": 32,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "leftArm": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        },
+        "torso": {
+          "pitch": 0,
+          "yaw": 0,
+          "roll": 0
+        }
+      }
+    ]
+  }
+}

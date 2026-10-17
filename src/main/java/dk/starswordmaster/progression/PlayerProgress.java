@@ -54,7 +54,7 @@ public final class PlayerProgress {
   if(c==null||c==PlayerClass.UNINITIATED||playerClass!=PlayerClass.UNINITIATED||level().compareTo(BigInteger.TEN)<0)return false;
   playerClass=c;return true;
  }
- private boolean eligible(Ability a){return a!=null&&(a.exclusiveClass()==null||a.exclusiveClass()==playerClass)&&level().compareTo(BigInteger.valueOf(a.characterRequirement()))>=0&&skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||learned.contains(a.parent()));}
+ private boolean eligible(Ability a){return a!=null&&a.classAllowed(playerClass)&&level().compareTo(BigInteger.valueOf(a.characterRequirement()))>=0&&skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||learned.contains(a.parent()));}
  public boolean canUnlock(String id){return points().signum()>0&&!learned.contains(id)&&eligible(Ability.ALL.get(id));}
  public boolean unlock(String id){
   if(!canUnlock(id))return false;

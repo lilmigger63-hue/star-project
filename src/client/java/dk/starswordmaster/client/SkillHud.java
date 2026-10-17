@@ -56,7 +56,7 @@ public final class SkillHud {
  }
  static boolean visible(MinecraftClient mc){return StarSwordmasterClient.ready&&StarSwordmasterClient.data!=null&&mc.player!=null&&!mc.player.isSpectator()&&!mc.options.hudHidden;}
  public static Text name(String id){return Text.translatable("ability.starswordmaster."+id);}
- public static int color(Ability a){return switch(a.skill()){case FIRE->0xFFFF873E;case FROST->0xFF54CBFF;case SUPPORT->0xFF77E98B;case AURA->0xFFB784FF;case SWORD->a.exclusiveClass()==null?0xFFFFD27B:0xFFC698FF;};}
+ public static int color(Ability a){return switch(a.skill()){case LIGHTNING->0xFF9AABFF;case WATER->0xFF3FDCDD;case EARTH->0xFFC4A163;case DARK->0xFFB366D4;case FIRE->0xFFFF873E;case FROST->0xFF54CBFF;case SUPPORT->0xFF77E98B;case AURA->0xFFB784FF;case SWORD->a.exclusiveClass()==null?0xFFFFD27B:0xFFC698FF;};}
  public static void icon(DrawContext c,String id,int x,int y,int size,boolean learned){
   int border=id.isEmpty()?0xFF536273:learned?0xFFE1BD70:0xFF49586E;
   c.fill(x-1,y-1,x+size+1,y+size+1,border);c.fill(x,y,x+size,y+size,0xFF0C1424);

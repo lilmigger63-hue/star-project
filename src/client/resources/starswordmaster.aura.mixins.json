@@ -1,0 +1,7 @@
+{
+ "required": true,
+ "package": "dk.starswordmaster.client.mixin.aura",
+ "compatibilityLevel": "JAVA_21",
+ "client": ["AuraItemModelManagerMixin", "AuraItemRenderStateMixin", "AuraLayerRenderStateMixin", "AuraFrameMixin", "AuraBufferedLayerMixin"],
+ "injectors": {"defaultRequire": 1}
+}

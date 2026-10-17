@@ -2,7 +2,7 @@ package dk.starswordmaster.presentation;
 import java.util.*;
 /** Deterministic cosmetic choreography. One point is one particle, never a gameplay projectile. */
 public final class ParticlePattern {
- public enum Ink { STREAK,ARC,SIGIL,SHARD,FLASH,EMBER }
+ public enum Ink { STREAK,ARC,SIGIL,SHARD,FLASH,EMBER,BOLT,DROPLET,ROCK,SHADOW,RUNE,BLADE }
  public enum Space { BODY,HAND,RAY,IMPACT,ORIGIN }
  public record Point(double x,double y,double z,Space space,Ink ink,float size,int life,float angle,int tone){
   public Point(double x,double y,double z){this(x,y,z,Space.BODY,Ink.STREAK,0.2f,6,0,0);}
@@ -47,6 +47,28 @@ public final class ParticlePattern {
     case "ember_ring"->{double flame=r*(0.2+0.8*t),petal=1-0.12*Math.cos(4*a+t*5);yield mark(Math.cos(a+t*0.8)*flame*petal,0.18+0.45*Math.abs(wave),Math.sin(a+t*0.8)*flame*petal,Space.BODY,i%4==0?Ink.SIGIL:Ink.EMBER,0.42,7,-a,i%2);}
     case "ice_prison"->{double corner=(i%4)*Math.PI/2+Math.PI/4;yield mark(Math.cos(corner)*r,0.15+u*2.1,Math.sin(corner)*r,Space.IMPACT,i%4==0?Ink.SIGIL:Ink.SHARD,0.4,7,Math.PI/2+corner,i%2);}
     case "restoration"->{double flower=r*(0.25+0.75*Math.sin(t*Math.PI))* (0.8+0.15*Math.cos(5*a));yield mark(Math.cos(a-t*4)*flower,0.2+1.8*t,Math.sin(a-t*4)*flower,Space.BODY,i%3==0?Ink.SIGIL:Ink.FLASH,0.35,8,a-t*3,1);}
+    case "static_spark"->mark((i%2==0?-1:1)*(.08+.08*Math.sin(a+t*19)),.06*Math.cos(a),Math.min(1,t*1.9+u*.2),Space.RAY,Ink.BOLT,.25,3,a,1);
+    case "chain_lightning"->mark((i%3-1)*.16*Math.sin(t*31+a),Math.cos(a+t*17)*.12,u,Space.RAY,i%4==0?Ink.FLASH:Ink.BOLT,.3,3,a+t*8,i%2);
+    case "thunder_step"->mark((i%2==0?-1:1)*(.25+u*.3),.4+u,-.3-t*2-u*.4,Space.ORIGIN,Ink.BOLT,.45,4,Math.PI/3,i%2);
+    case "heavens_wrath"->{double turn=a+t*.8,reach=r*(.3+.6*u);yield mark(Math.cos(turn)*reach,.2+(1-t)*4+Math.sin(a*3+t*12)*.3,Math.sin(turn)*reach,Space.IMPACT,i%4==0?Ink.RUNE:Ink.BOLT,.6,4,Math.PI/2,i%2);}
+    case "water_bolt"->mark(Math.cos(a+t*8)*.11,Math.sin(a+t*8)*.11,Math.min(1,t*1.7+u*.26),Space.RAY,Ink.DROPLET,.24,6,a+t*3,1);
+    case "tidal_wave"->{double fan=-1+u*2;yield mark(Math.sin(fan)*r*(.4+t*.5),.2+1.5*Math.sin(u*Math.PI)*(1-t*.5),t*r+.35*Math.cos(fan),Space.BODY,i%3==0?Ink.ARC:Ink.DROPLET,.55,7,fan+t,i%2);}
+    case "aqua_blade"->{double turn=sweep+.2*Math.sin(a+t*5);yield mark(Math.sin(turn)*r,.9+.25*Math.cos(a+t*4),Math.cos(turn)*r,Space.BODY,i%3==0?Ink.BLADE:Ink.DROPLET,.5,5,-turn,i%2);}
+    case "ocean_prison"->{double turn=a+t*7;yield mark(Math.cos(turn)*r*(.55+.2*Math.sin(t*Math.PI)),.15+u*2.4,Math.sin(turn)*r*(.55+.2*Math.sin(t*Math.PI)),Space.IMPACT,i%3==0?Ink.RUNE:Ink.DROPLET,.4,7,-turn,1);}
+    case "stone_spike"->mark(Math.cos(a)*.4,.1+u*1.9*Math.sin(t*Math.PI),Math.sin(a)*.4,Space.IMPACT,i==0?Ink.RUNE:Ink.ROCK,.38,6,a,i%2);
+    case "earthen_wall"->mark((u-.5)*2.5,.3+(i%3)*.55,1.0+.1*Math.sin(t*4+a),Space.BODY,i%4==0?Ink.RUNE:Ink.ROCK,.62,7,a,1);
+    case "quake_blade"->{double fan=(i%3)*Math.PI*2/3,reach=r*(.15+.8*t)*(.5+u*.5);yield mark(Math.cos(fan)*reach,.1+Math.sin(t*Math.PI)*.4,Math.sin(fan)*reach,Space.BODY,i%3==0?Ink.RUNE:Ink.ROCK,.6,7,fan+t,i%2);}
+    case "worldbreaker"->{double reach=r*(.15+.8*t)*(i%2==0?1:.6);yield mark(Math.cos(a)*reach,.15+Math.sin(t*Math.PI)*(1+u*1.8),Math.sin(a)*reach,Space.BODY,i%3==0?Ink.RUNE:Ink.ROCK,.85,8,a+t*3,i%2);}
+    case "shadow_bolt"->mark(Math.sin(a+t*5)*(.08+.12*u),Math.cos(a+t*5)*.12,Math.min(1,t*1.5+u*.35),Space.RAY,i%3==0?Ink.SHADOW:Ink.FLASH,.3,7,-a,0);
+    case "curse_mark"->{double turn=a-t*3;yield mark(Math.cos(turn)*.65,1+Math.sin(turn)*.65,.2*Math.sin(a*3),Space.IMPACT,i%2==0?Ink.RUNE:Ink.SHADOW,.35,8,-turn,i%2);}
+    case "shadow_edge"->mark(Math.sin(sweep)*r,1.05+.4*Math.sin(a),Math.cos(sweep)*r*(.7+.25*u),Space.BODY,i%3==0?Ink.BLADE:Ink.SHADOW,.55,6,sweep-Math.PI/2,i%2);
+    case "eclipse_nova"->{double reach=r*(.2+.75*t),petal=.8+.15*Math.cos(6*a);yield mark(Math.cos(a-t)*reach*petal,.3+.9*Math.sin(a+t*3)*(1-t),Math.sin(a-t)*reach*petal,Space.BODY,i%3==0?Ink.RUNE:Ink.SHADOW,.7,8,a-t, i%2);}
+    case "astral_crescent"->{double turn=-1.4+t*2.8+u*.25;yield mark(Math.sin(turn)*r,.8+.3*Math.sin(turn),Math.cos(turn)*r,Space.BODY,i%3==0?Ink.BLADE:Ink.ARC,.65,5,-turn,1);}
+    case "falling_star"->{double reach=r*(.2+.7*t),star=i%2==0?1:.45;yield mark(Math.cos(a)*reach*star,.12+(1-t)*.6,Math.sin(a)*reach*star,Space.BODY,i%3==0?Ink.RUNE:Ink.FLASH,.55,6,a+t,i%2);}
+    case "phantom_blades"->{int phase=(int)(t*4);double turn=(phase%2==0?1:-1)*(-1+2*(t*4%1));yield mark(Math.sin(turn)*r*(.65+u*.3),.75+u*.65,Math.cos(turn)*r,Space.BODY,Ink.BLADE,.5,3,turn+(phase-1)*.6,i%2);}
+    case "celestial_rush"->mark((i%2==0?-1:1)*(.15+u*.4),.35+u*1.2,-.2-t*2.4-u*.6,Space.ORIGIN,i%3==0?Ink.BLADE:Ink.STREAK,.55,5,.2+t,i%2);
+    case "sovereign_judgment"->{double drop=.2+t*2.8;yield mark((u-.5)*.5,1.1+Math.cos(drop)*r*.5,Math.sin(drop)*r*(.6+.35*u),Space.BODY,i%3==0?Ink.RUNE:Ink.BLADE,.95,6,Math.PI/2-drop,i%2);}
+    case "heavenly_sword_domain"->{double orbit=a+t*2,reach=r*(.25+.65*Math.sin(t*Math.PI));yield mark(Math.cos(orbit)*reach,.2+(i%3==0?1.6:0),Math.sin(orbit)*reach,Space.BODY,i%3==0?Ink.BLADE:Ink.RUNE,.85,8,-orbit+Math.PI/2,i%2);}
     default->mark(Math.cos(spin)*r,0.2+1.8*t,Math.sin(spin)*r,Space.BODY,Ink.STREAK,0.2,5,a,0);
    };
    // Only cosmetic anticipation, after the server-confirmed instantaneous gameplay effect.
@@ -58,9 +80,9 @@ public final class ParticlePattern {
  }
  /** Immediate impact accents remain separate from subsequent traces; at most the previous eight points. */
  public static List<Point> impact(AbilityPresentation p){
-  var out=new ArrayList<Point>();boolean heavy=p.clip()==AbilityPresentation.Clip.HEAVY||p.clip()==AbilityPresentation.Clip.CHANNEL;int n=Math.min(8,p.samples());
-  for(int i=0;i<n;i++){double a=i*Math.PI*2/n,r=heavy?0.42:0.18;Ink ink=switch(p.element()){case FIRE->Ink.EMBER;case FROST->Ink.SHARD;case HEALING->Ink.SIGIL;default->Ink.FLASH;};out.add(mark(Math.cos(a)*r,Math.sin(a)*r,0,Space.IMPACT,ink,heavy?0.55:0.25,4,a,1));}
+  var out=new ArrayList<Point>();boolean heavy=p.clip()==AbilityPresentation.Clip.HEAVY||p.clip()==AbilityPresentation.Clip.CHANNEL||p.ticks()>=22;int n=Math.min(8,p.samples());
+  for(int i=0;i<n;i++){double a=i*Math.PI*2/n,r=heavy?0.42:0.18;Ink ink=switch(p.element()){case FIRE->Ink.EMBER;case FROST->Ink.SHARD;case HEALING->Ink.SIGIL;case LIGHTNING->Ink.BOLT;case WATER->Ink.DROPLET;case EARTH->Ink.ROCK;case DARK->Ink.SHADOW;default->Ink.FLASH;};out.add(mark(Math.cos(a)*r,Math.sin(a)*r,0,Space.IMPACT,ink,heavy?0.55:0.25,4,a,1));}
   return List.copyOf(out);
  }
- public static int color(AbilityPresentation.Element element,int tone){return switch(element){case STEEL->tone==0?0xD0E7FF:0xFFF0B0;case FIRE->tone==0?0xFF5926:0xFFD46A;case FROST->tone==0?0x44CFFF:0xD9FBFF;case STAR->tone==0?0xA97CFF:0xF4E2A3;case HEALING->tone==0?0x44E79A:0xD8FFC4;};}
+ public static int color(AbilityPresentation.Element element,int tone){return switch(element){case STEEL->tone==0?0xD0E7FF:0xFFF0B0;case FIRE->tone==0?0xFF5926:0xFFD46A;case FROST->tone==0?0x44CFFF:0xD9FBFF;case STAR->tone==0?0xA97CFF:0xF4E2A3;case HEALING->tone==0?0x44E79A:0xD8FFC4;case LIGHTNING->tone==0?0x7699FF:0xE9EAFF;case WATER->tone==0?0x24C5D3:0xBDFBFF;case EARTH->tone==0?0xA07942:0xF7DA91;case DARK->tone==0?0x44245F:0xA169C7;};}
 }

@@ -33,7 +33,8 @@ public final class AbilityEffects {
   if(id.equals("guardian_stance")&&player.hasStatusEffect(StatusEffects.RESISTANCE))return false;
   boolean affected=false;
   float scale=(float)progress.damageMultiplier(a);
-  switch(id){
+  var expanded=ExpandedAbilityEffects.apply(player,progress,a);
+  if(expanded!=null)affected=expanded.affected();else switch(id){
    case "spark"->{affected=hit(player,target,3*scale);if(affected)target.setOnFireFor(3);}
    case "frost_touch"->{affected=hit(player,target,2*scale);if(affected)slow(target,80);}
    case "light"->{player.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION,900,0));affected=true;}
@@ -70,10 +71,12 @@ public final class AbilityEffects {
   }
   if(!affected)return false;
   progress.cast(slot);
+  ServerVisualState.activated(player,a);
   if(!id.equals("quick_dash")&&!id.equals("arcane_step")&&!id.equals("light"))StarSwordmaster.practice(player,a.skill(),10);
   if(target!=null||Set.of("heavy_sweep","frost_nova","fire_burst","crushing_edge","glacier_sweep","seismic_cut","ember_ring").contains(id))StarSwordmaster.combat(player);
   var world=player.getEntityWorld();Vec3d at=target==null?player.getEntityPos().add(0,1,0):target.getEntityPos().add(0,1,0);
-  AbilityPresentationEvents.start(player,id,at);
+  if(expanded!=null)at=expanded.impact();
+  AbilityPresentationEvents.start(player,id,at,expanded==null?List.of():expanded.impacts());
   world.playSound(null,player.getX(),player.getY(),player.getZ(),a.stamina()>0?SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP:SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,SoundCategory.PLAYERS,0.7f,1.1f);
   return true;
  }
