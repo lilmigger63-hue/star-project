@@ -94,9 +94,9 @@ public final class MagicCircleRenderer {
   int tile=switch(snapshot.element()){case FIRE->0;case FROST->1;case LIGHTNING->2;case WATER->3;case EARTH->4;case DARK->5;case HEALING->6;default->7;};
   float radius=snapshot.profile().radius();
   for(int layer=0;layer<snapshot.profile().layers();layer++){
-   float angle=snapshot.age()*(layer==1?-.042f:.025f)+(layer==2?.4f:0);
+   float angle=MagicCircleMesh.layerAngle(layer,snapshot.age(),snapshot.element());
    float c=(float)Math.cos(angle),s=(float)Math.sin(angle),size=radius*(layer==1?1.13f:layer==2?.82f:1);
-   int alpha=Math.clamp((int)(255*snapshot.profile().alpha()*(layer==0?1:.84f)),0,255);
+   int alpha=Math.clamp((int)(255*snapshot.profile().alpha()*(layer==0?1:.84f)*MagicCircleMesh.layerBrightness(layer,snapshot.age(),snapshot.element())),0,255);
    for(int corner=0;corner<4;corner++){
     float x=(corner==0||corner==3?-size:size),y=(corner<2?-size:size);
     float u=(tile+(corner==0||corner==3?0:1))/8f,v=(layer+(corner<2?0:1))/3f;

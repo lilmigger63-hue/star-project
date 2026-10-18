@@ -108,3 +108,16 @@ loom.runs {
  smokeRadialA { client(); source sourceSets.smoke; runDir 'run/radial-a'; programArg '--username'; programArg 'RadialA'; vmArg '-Dstarsmoke.radial=true' }
  smokeRadialB { client(); source sourceSets.smoke; runDir 'run/radial-b'; programArg '--username'; programArg 'RadialB'; vmArg '-Dstarsmoke.radial=true'; vmArg '-Dstarsmoke.radial.role=B' }
 }
+
+loom.runs {
+ smokeOverhaulSingleplayer { client(); source sourceSets.smoke; runDir 'run/overhaul-sp'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true' }
+ smokeOverhaulServer { server(); source sourceSets.smoke; runDir 'run/overhaul-server'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true' }
+ smokeOverhaulA { client(); source sourceSets.smoke; runDir 'run/overhaul-a'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true' }
+ smokeOverhaulB { client(); source sourceSets.smoke; runDir 'run/overhaul-b'; programArg '--username'; programArg 'AnimationSmokeB'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.role=B'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true' }
+}
+
+loom.runs {
+ smokeOverhaulShowcase { client(); source sourceSets.smoke; runDir 'run/overhaul-showcase'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true'; vmArg '-Dstarsmoke.overhaul.showcase=true' }
+}
+
+loom.runs { smokeOverhaulCodec { server(); source sourceSets.smoke; runDir 'run/overhaul-codec'; vmArg '-Dstarsmoke.overhaul.codec=true' } }

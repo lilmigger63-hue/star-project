@@ -27,6 +27,8 @@ public class AnimationSmokeServer implements ModInitializer {
   ServerLivingEntityEvents.AFTER_DAMAGE.register((e,s,b,a,blocked)->{if(s.isOf(DamageTypes.PLAYER_ATTACK)&&s.getAttacker() instanceof ServerPlayerEntity p&&a>0)System.out.println("ANIMATION_SERVER PASS: Better Combat ordinary attack hit for "+p.getGameProfile().name());});
   CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("staranimtest")
    .then(literal("prepare").then(argument("ability",StringArgumentType.word()).then(argument("mode",StringArgumentType.word()).executes(c->{prepare(c.getSource().getPlayerOrThrow(),StringArgumentType.getString(c,"ability"),StringArgumentType.getString(c,"mode"));return 1;}))))
+   .then(literal("move_target").executes(c->{var t=targets.get(c.getSource().getPlayerOrThrow().getUuid());if(t!=null){t.refreshPositionAndAngles(t.getX()+1,t.getY(),t.getZ(),t.getYaw(),t.getPitch());}return 1;}))
+   .then(literal("remove_target").executes(c->{var t=targets.get(c.getSource().getPlayerOrThrow().getUuid());if(t!=null)t.discard();return 1;}))
    .then(literal("damage").executes(c->{var p=c.getSource().getPlayerOrThrow();p.getAbilities().invulnerable=false;p.damage(p.getEntityWorld(),p.getDamageSources().magic(),2);p.getAbilities().invulnerable=true;return 1;}))
    .then(literal("weapon").executes(c->{c.getSource().getPlayerOrThrow().equipStack(EquipmentSlot.MAINHAND,new ItemStack(Items.STICK));return 1;}))
    .then(literal("die").executes(c->{var p=c.getSource().getPlayerOrThrow();p.getAbilities().invulnerable=false;p.kill(p.getEntityWorld());return 1;}))

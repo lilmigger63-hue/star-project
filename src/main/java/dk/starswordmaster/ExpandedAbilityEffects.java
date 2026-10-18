@@ -30,7 +30,8 @@ public final class ExpandedAbilityEffects {
   "sovereign_judgment","heavenly_sword_domain");
  private ExpandedAbilityEffects() {}
 
- public record Result(boolean affected,Vec3d impact,List<Vec3d> impacts) {
+ public record Result(boolean affected,Vec3d impact,List<Vec3d> impacts,int targetId) {
+  public Result(boolean affected,Vec3d impact,List<Vec3d> impacts){this(affected,impact,impacts,-1);}
   public Result {
    impacts=List.copyOf(impacts);
    if(impacts.size()>MAX_TARGETS)throw new IllegalArgumentException("Too many ability impacts");
@@ -109,7 +110,7 @@ public final class ExpandedAbilityEffects {
  private static Result single(ServerPlayerEntity player,double range,float damage,Consumer<HostileEntity> afterHit) {
   var target=target(player,range);
   if(target==null||!hit(player,target,damage))return rejected(player);
-  afterHit.accept(target);return result(player,List.of(impact(target)));
+  afterHit.accept(target);return new Result(true,impact(target),List.of(impact(target)),target.getId());
  }
  private static Result damageTargets(ServerPlayerEntity player,List<HostileEntity> targets,float damage,
                                      Consumer<HostileEntity> afterHit) {

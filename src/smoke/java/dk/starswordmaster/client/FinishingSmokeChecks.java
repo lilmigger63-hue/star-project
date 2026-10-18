@@ -12,6 +12,7 @@ public final class FinishingSmokeChecks {
  private static final EnumSet<AbilityPresentation.Element> ELEMENTS=EnumSet.noneOf(AbilityPresentation.Element.class);
  private static final EnumSet<EarthFormationMesh.Kind> EARTH=EnumSet.noneOf(EarthFormationMesh.Kind.class);
  private static final Set<String> HANDS=new HashSet<>();
+ private static final Set<String> ELEMENT_HANDS=new HashSet<>();
  private static final Map<BlockPos,Integer> BLOCKS=new LinkedHashMap<>();
  private static int checks;
  private FinishingSmokeChecks(){}
@@ -38,7 +39,7 @@ public final class FinishingSmokeChecks {
    var alignments=CircleSmokeCapture.alignments().stream().filter(a->a.entityId()==client.player.getId()).toList();
    check(!alignments.isEmpty()&&alignments.stream().allMatch(a->a.matrixError()<.001f&&a.centerError()<.001f),ability+" exact PAL/native arm matrix alignment");
    check(CircleSmokeCapture.unmatchedNativeArms==0&&CircleSmokeCapture.pending()==0,ability+" all extracted circles matched real native arm draws");
-   ELEMENTS.add(style.element());HANDS.add((first?"first":"third")+(dominant==0?"Left":"Right"));
+   ELEMENTS.add(style.element());String handView=(first?"first":"third")+(dominant==0?"Left":"Right");HANDS.add(handView);ELEMENT_HANDS.add(style.element().name()+handView);
   }
   var kind=EarthFormationMesh.kind(ability);
   if(kind!=null){
@@ -69,6 +70,7 @@ public final class FinishingSmokeChecks {
   check(ELEMENTS.equals(expected),"all eight magical element circle renderers observed: "+ELEMENTS);
   check(EARTH.size()==EarthFormationMesh.Kind.values().length,"all four actual terrain formations observed: "+EARTH);
   check(HANDS.containsAll(Set.of("firstRight","firstLeft","thirdRight","thirdLeft")),"native first/third person and both dominant arms verified: "+HANDS);
+  if(Boolean.getBoolean("starsmoke.overhaul"))for(var element:expected)for(String hand:List.of("firstRight","firstLeft","thirdRight","thirdLeft"))check(ELEMENT_HANDS.contains(element.name()+hand),"actual native circle coverage "+element+" / "+hand);
   return checks-before;
  }
  private static boolean dual(AbilityPresentation.Clip clip){return switch(clip){case DUAL_CAST,WATER_WEAVE,HEAL,CHANNEL,LIGHTNING_CHANNEL,EARTH_RAISE,SHADOW_SUMMON,OVERHEAD_CAST,AURA,GUARD,GROUND_SLAM->true;default->false;};}

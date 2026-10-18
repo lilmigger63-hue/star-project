@@ -2,11 +2,13 @@
 
 A Fabric mod for **Minecraft 1.21.10 / Java 21** with permanent classes, sword mastery, magic and a branching skill tree. The current tree contains **85 nodes: 54 active abilities and 31 passive nodes**. All player-facing mod text is English, including when Minecraft uses Danish; vanilla and other mods keep their selected language.
 
+Version **0.8.0** adds individually assembled closed 3D constructs and refined original PAL performances for all 54 active abilities. Existing hand circles, native sword auras, terrain formations and gameplay remain. [VFX_OVERHAUL.md](VFX_OVERHAUL.md) documents actual geometry, quality levels, presentation-only v3 networking and limits.
+
 The finishing pass uses charcoal, slate, aged iron, bronze and antique gold across the skill tree, character status and HUD. Existing original skill icons and the constellation artwork are retained beneath subdued panels. Learned, available, class-locked and unavailable nodes have distinct frames and small state marks; selected nodes have an outer gold frame. See [VALIDATION.md](VALIDATION.md) for the checks actually completed for the current build.
 
 ## Downloads and installation
 
-Download **0.7.0**: [mod JAR](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.7.0/star-swordmaster-0.7.0.jar) · [SHA-256](releases/0.7.0/SHA256SUMS.txt) · [validation](VALIDATION.md) · [changelog](CHANGELOG.md). Use 0.7.0 on the server and all clients. Historical release directories remain unchanged.
+Download **0.8.0**: [mod JAR](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.8.0/star-swordmaster-0.8.0.jar) · [SHA-256](releases/0.8.0/SHA256SUMS.txt) · [validation](VALIDATION.md) · [changelog](CHANGELOG.md). Use 0.8.0 on the server and all clients. Historical release directories remain unchanged.
 
 1. Create a Minecraft **1.21.10** installation with **Fabric Loader 0.19.5** and **Java 21**.
 2. Install [Fabric API 0.138.4+1.21.10](https://modrinth.com/mod/fabric-api), [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat), [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config) and [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). The PAL file is named `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; its publisher also lists Minecraft 1.21.10 compatibility.

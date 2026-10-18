@@ -76,7 +76,7 @@ public final class AbilityEffects {
   if(target!=null||Set.of("heavy_sweep","frost_nova","fire_burst","crushing_edge","glacier_sweep","seismic_cut","ember_ring").contains(id))StarSwordmaster.combat(player);
   var world=player.getEntityWorld();Vec3d at=target==null?player.getEntityPos().add(0,1,0):target.getEntityPos().add(0,1,0);
   if(expanded!=null)at=expanded.impact();
-  AbilityPresentationEvents.start(player,id,at,expanded==null?List.of():expanded.impacts());
+  AbilityPresentationEvents.start(player,id,at,expanded==null?List.of():expanded.impacts(),expanded!=null?expanded.targetId():target==null?-1:target.getId());
   world.playSound(null,player.getX(),player.getY(),player.getZ(),a.stamina()>0?SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP:SoundEvents.BLOCK_AMETHYST_BLOCK_CHIME,SoundCategory.PLAYERS,0.7f,1.1f);
   return true;
  }

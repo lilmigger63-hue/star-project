@@ -4,6 +4,14 @@ package dk.starswordmaster.circles;
 public final class MagicCircleMesh {
  public static final int MAX_LAYERS=3;
  private MagicCircleMesh(){}
+ public static float layerAngle(int layer,float age,dk.starswordmaster.presentation.AbilityPresentation.Element element){
+  float speed=switch(element){case LIGHTNING->.044f;case WATER->.021f;case EARTH->.016f;case DARK->.029f;default->.025f;};
+  return (Float.isFinite(age)?age:0)*speed*(layer==1?-1.65f:layer==2?.68f:1);
+ }
+ public static float layerBrightness(int layer,float age,dk.starswordmaster.presentation.AbilityPresentation.Element element){
+  float rate=element==dk.starswordmaster.presentation.AbilityPresentation.Element.LIGHTNING?1.5f:.24f;
+  return .93f+.07f*(float)Math.sin((Float.isFinite(age)?age:0)*rate+layer*1.7f);
+ }
  public record Profile(float radius,float alpha,int layers){}
  public static Profile profile(float age,int duration,float power,int rank,int swordLevel,int quality,double distanceSquared){
   float p=Float.isFinite(power)?Math.clamp(power,0,1):0;

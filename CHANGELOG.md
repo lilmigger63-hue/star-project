@@ -1,3 +1,12 @@
+# 0.8.0 — Volumetric elemental and sword presentation
+
+- All 54 active abilities use distinct cached closed 3D solids, whole-part quality levels and five cosmetic stages.
+- Refined all 54 original upper-body PAL performances, preserving exact duration, mirroring, native locomotion/aim and Better Combat priority.
+- Element-specific rune rotation/pulse retains native hand attachment. Personal sword-aura hues, particles and actual terrain formations remain.
+- Hollow Eclipse Nova, smaller central frost core, visible celestial sword hilts and depth-writing construct materials improve clarity.
+- Optional authoritative target ID on presentation channel v3 attaches curses/cages to actual moving victims; missing targets safely fall back. Match client/server versions.
+- No gameplay, progression, resource costs, damage, cooldowns, vanilla XP or save format changes.
+
 # 0.7.0 — Radial skill tree and kill XP
 
 - Eight deterministic constellation arms, true prerequisite routes, fit/focus navigation and separate narrow-screen details.

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Reproduce the 32 original, hand-keyed PAL v3 ability performances.
+"""Reproduce all 54 original, hand-keyed PAL v3 ability performances.
 
 Each row is tick, right-arm rotation, left-arm rotation, torso rotation.
 Angles are degrees in pitch/yaw/roll order. Only upper-body rotations are
 written: no root motion, head control, leg control or model-part disabling.
 The performances are authored individually, rather than retiming a stock pose.
+Original anchors are retained below and in generate_expansion_assets.py. A bounded
+five-stage refinement samples those anchors, preserving exact end/stop ticks.
 """
 import json
 from pathlib import Path
@@ -251,17 +253,100 @@ def frame(tick, right=NEUTRAL, left=NEUTRAL, torso=NEUTRAL, easing="EASEINOUTSIN
     return result
 
 
+def authored_clips():
+    # Import data only: expansion artwork/styles are never rewritten by this tool.
+    from generate_expansion_assets import CLIPS as expansion, STYLES
+    clips = dict(CLIPS)
+    for ability, (duration, style, ticks, description, replacements) in expansion.items():
+        poses = list(STYLES[style][1])
+        for index, pose in replacements.items():
+            poses[index] = pose
+        clips[ability] = duration, description, [(tick, *pose) for tick, pose in zip(ticks, poses)]
+    return clips
+
+
+# Zero-based decisive gesture in each individually authored performance. This is
+# cosmetic timing only; server hits and Better Combat priority remain untouched.
+RELEASE = {
+    'spark':2, 'frost_touch':2, 'light':2, 'mend':2, 'renew':2,
+    'quick_cut':2, 'rapid_slash':1, 'quick_dash':2, 'heavy_cut':2,
+    'heavy_sweep':3, 'crushing_edge':3, 'guard':2, 'mirror_guard':2,
+    'guardian_stance':2, 'riposte':2, 'piercing_thrust':2, 'aura_wave':2,
+    'blade_focus':2, 'fire_burst':2, 'ice_lance':2, 'sanctuary':2,
+    'restoration':2, 'frost_nova':3, 'flame_blade':2, 'frost_blade':2,
+    'flame_lance':2, 'frost_ward':2, 'arcane_step':2, 'glacier_sweep':3,
+    'seismic_cut':2, 'ember_ring':2, 'ice_prison':2,
+    'static_spark':2, 'chain_lightning':3, 'thunder_step':3, 'heavens_wrath':4,
+    'water_bolt':3, 'tidal_wave':3, 'aqua_blade':3, 'ocean_prison':3,
+    'stone_spike':3, 'earthen_wall':3, 'quake_blade':3, 'worldbreaker':3,
+    'shadow_bolt':3, 'curse_mark':3, 'shadow_edge':3, 'eclipse_nova':3,
+    'astral_crescent':3, 'falling_star':3, 'phantom_blades':3,
+    'celestial_rush':3, 'sovereign_judgment':4, 'heavenly_sword_domain':3,
+}
+
+
+def refine(duration, keys, release_index, settle_ticks=()):
+    """Author a short load, crisp release, weighted follow-through and soft settle.
+
+    Keep each clip's original rhythm, adding explicit anticipation/release anchors.
+    PAL uses whole ticks, so release is the nearest tick to 22% of the clip.
+    Only rotations are ever emitted; root, legs and look direction stay native.
+    """
+    end = keys[-1][0]
+    release = max(2, round(duration * .22))
+    load = max(1, release - 1)
+    follow = min(end - 1, max(release + 1, round(duration * .42)))
+    source = [(0, NEUTRAL, NEUTRAL, NEUTRAL), *keys, (duration, NEUTRAL, NEUTRAL, NEUTRAL)]
+    anchors = [(0, 0), (load, keys[release_index-1][0]),
+               (release, keys[release_index][0]),
+               (follow, keys[min(release_index+1, len(keys)-2)][0]),
+               (end, end), (duration, duration)]
+
+    def sample(tick):
+        for (a, sa), (b, sb) in zip(anchors, anchors[1:]):
+            if tick <= b:
+                original = sa + (sb-sa) * (tick-a)/(b-a)
+                break
+        for a, b in zip(source, source[1:]):
+            if original <= b[0]:
+                weight = (original-a[0])/(b[0]-a[0])
+                return [[x+(y-x)*weight for x,y in zip(pa,pb)] for pa,pb in zip(a[1:],b[1:])]
+        return [list(NEUTRAL)] * 3
+
+    moves = []
+    for tick in sorted({0, load, release, follow, duration, *(key[0] for key in keys), *settle_ticks}):
+        pose = sample(tick)
+        # Shoulder counter-rotation gives a readable loaded silhouette without
+        # enlarging hand sigils or forcing player aim/body position.
+        if tick == load:
+            pose[0][2] += 9
+            pose[1][2] -= 7
+        if tick == release:
+            pose[0][1] += 8
+            pose[0][2] -= 12
+            pose[1][2] += 8
+        if tick == follow:
+            pose[0][2] -= 7
+            pose[1][1] += 5
+        pose = [tuple(round(max(-limit,min(limit,angle)),3) for angle in bone)
+                for bone,limit in zip(pose,(160,160,28))]
+        easing = 'EASEOUTCUBIC' if tick == release else 'EASEOUTSINE' if tick == follow else 'EASEINOUTSINE'
+        moves.append(frame(tick, *pose, easing=easing))
+    return moves
+
+
 def main():
     target = Path(__file__).resolve().parents[1] / "src/main/resources/assets/starswordmaster/player_animations"
-    for ability, (duration, description, keys) in CLIPS.items():
-        moves = [frame(0)]
-        moves.extend(frame(*key) for key in keys)
-        moves.append(frame(duration))
+    clips = authored_clips()
+    for ability, (duration, description, keys) in clips.items():
+        # Static Spark deliberately snaps back through a short conducting-hand settle,
+        # distinct from Rapid Slash's equally short multi-cut cadence.
+        moves = refine(duration, keys, RELEASE[ability], (9,) if ability == 'static_spark' else ())
         data = {
             "version": 3,
             "name": f"skill_{ability}",
             "author": "Star Swordmaster",
-            "description": f"Original anime fantasy choreography. {description}",
+            "description": f"Original five-stage fantasy choreography. {description}",
             "emote": {
                 "isLoop": False,
                 "returnTick": 0,
@@ -273,7 +358,7 @@ def main():
             },
         }
         target.joinpath(f"skill_{ability}.json").write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
-    print(f"Generated {len(CLIPS)} original PAL ability clips")
+    print(f"Generated {len(clips)} original PAL ability clips")
 
 
 if __name__ == "__main__":

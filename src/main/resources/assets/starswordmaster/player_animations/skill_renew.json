@@ -2,7 +2,7 @@
   "version": 3,
   "name": "skill_renew",
   "author": "Star Swordmaster",
-  "description": "Original anime fantasy choreography. Spiral one hand over the heart, lift the other, and open into renewal.",
+  "description": "Original five-stage fantasy choreography. Spiral one hand over the heart, lift the other, and open into renewal.",
   "emote": {
     "isLoop": false,
     "returnTick": 0,
@@ -15,133 +15,190 @@
         "tick": 0,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "leftArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "torso": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         }
       },
       {
         "tick": 2,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -45,
-          "yaw": 36,
-          "roll": 18
+          "pitch": -62.778,
+          "yaw": 38.667,
+          "roll": 26.0
         },
         "leftArm": {
-          "pitch": -22,
-          "yaw": -15,
-          "roll": -12
+          "pitch": -38.0,
+          "yaw": -18.111,
+          "roll": -18.222
         },
         "torso": {
-          "pitch": 3,
-          "yaw": -4,
-          "roll": 1
+          "pitch": 3.444,
+          "yaw": -5.778,
+          "roll": 1.444
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEINOUTSINE",
+        "rightArm": {
+          "pitch": -85.0,
+          "yaw": 42.0,
+          "roll": 45.0
+        },
+        "leftArm": {
+          "pitch": -58.0,
+          "yaw": -22.0,
+          "roll": -33.0
+        },
+        "torso": {
+          "pitch": 4.0,
+          "yaw": -8.0,
+          "roll": 2.0
+        }
+      },
+      {
+        "tick": 4,
+        "easing": "EASEOUTCUBIC",
+        "rightArm": {
+          "pitch": -116.0,
+          "yaw": 13.0,
+          "roll": 30.0
+        },
+        "leftArm": {
+          "pitch": -96.0,
+          "yaw": 12.0,
+          "roll": -40.0
+        },
+        "torso": {
+          "pitch": -4.0,
+          "yaw": 5.0,
+          "roll": -1.0
         }
       },
       {
         "tick": 5,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -85,
-          "yaw": 42,
-          "roll": 36
+          "pitch": -108.0,
+          "yaw": -0.75,
+          "roll": 39.0
         },
         "leftArm": {
-          "pitch": -58,
-          "yaw": -22,
-          "roll": -26
+          "pitch": -101.5,
+          "yaw": 11.0,
+          "roll": -43.5
         },
         "torso": {
-          "pitch": 4,
-          "yaw": -8,
-          "roll": 2
+          "pitch": -3.5,
+          "yaw": 5.75,
+          "roll": -1.25
+        }
+      },
+      {
+        "tick": 8,
+        "easing": "EASEOUTSINE",
+        "rightArm": {
+          "pitch": -84.0,
+          "yaw": -18.0,
+          "roll": 23.0
+        },
+        "leftArm": {
+          "pitch": -118.0,
+          "yaw": 13.0,
+          "roll": -30.0
+        },
+        "torso": {
+          "pitch": -2.0,
+          "yaw": 8.0,
+          "roll": -2.0
         }
       },
       {
         "tick": 10,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -116,
-          "yaw": 5,
-          "roll": 42
+          "pitch": -72.889,
+          "yaw": -14.889,
+          "roll": 26.444
         },
         "leftArm": {
-          "pitch": -96,
-          "yaw": 12,
-          "roll": -48
+          "pitch": -102.889,
+          "yaw": 6.889,
+          "roll": -27.778
         },
         "torso": {
-          "pitch": -4,
-          "yaw": 5,
-          "roll": -1
+          "pitch": -1.556,
+          "yaw": 6.667,
+          "roll": -1.556
         }
       },
       {
         "tick": 14,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -84,
-          "yaw": -18,
-          "roll": 30
+          "pitch": -50.667,
+          "yaw": -8.667,
+          "roll": 19.333
         },
         "leftArm": {
-          "pitch": -118,
-          "yaw": 8,
-          "roll": -30
+          "pitch": -72.667,
+          "yaw": 4.667,
+          "roll": -23.333
         },
         "torso": {
-          "pitch": -2,
-          "yaw": 8,
-          "roll": -2
+          "pitch": -0.667,
+          "yaw": 4.0,
+          "roll": -0.667
         }
       },
       {
         "tick": 17,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -34,
-          "yaw": -4,
-          "roll": 14
+          "pitch": -34.0,
+          "yaw": -4.0,
+          "roll": 14.0
         },
         "leftArm": {
-          "pitch": -50,
-          "yaw": 3,
-          "roll": -20
+          "pitch": -50.0,
+          "yaw": 3.0,
+          "roll": -20.0
         },
         "torso": {
-          "pitch": 0,
-          "yaw": 2,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 2.0,
+          "roll": 0.0
         }
       },
       {
         "tick": 20,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "leftArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "torso": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         }
       }
     ]

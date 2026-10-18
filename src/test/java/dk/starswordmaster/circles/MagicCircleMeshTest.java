@@ -24,6 +24,13 @@ public class MagicCircleMeshTest {
   assertTrue(Float.isFinite(profile.radius()));
   assertTrue(Float.isFinite(profile.alpha()));
  }
+ @Test public void layeredRunesCounterRotateWithBoundedElementPulse(){
+  for(var e:dk.starswordmaster.presentation.AbilityPresentation.Element.values())for(int i=0;i<80;i++){
+   float a=MagicCircleMesh.layerAngle(0,i,e),b=MagicCircleMesh.layerAngle(1,i,e);
+   assertTrue(Float.isFinite(a)&&Float.isFinite(b));if(i>0)assertTrue(a*b<0);
+   float light=MagicCircleMesh.layerBrightness(2,i,e);assertTrue(light>=.86f&&light<=1);
+  }
+ }
  @Test public void handsAndGlobalGeometryAreBounded(){
   var frame=new CircleFrameBudget();
   assertTrue(frame.take(1,0));

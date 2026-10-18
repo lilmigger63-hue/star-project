@@ -2,7 +2,7 @@
   "version": 3,
   "name": "skill_frost_blade",
   "author": "Star Swordmaster",
-  "description": "Original anime fantasy choreography. Set a high frozen edge, carve a crisp descending diagonal and arrest its weight.",
+  "description": "Original five-stage fantasy choreography. Set a high frozen edge, carve a crisp descending diagonal and arrest its weight.",
   "emote": {
     "isLoop": false,
     "returnTick": 0,
@@ -15,133 +15,171 @@
         "tick": 0,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "leftArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "torso": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         }
       },
       {
         "tick": 2,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -120,
-          "yaw": -24,
-          "roll": 44
+          "pitch": -148.0,
+          "yaw": -32.0,
+          "roll": 67.0
         },
         "leftArm": {
-          "pitch": -48,
-          "yaw": 20,
-          "roll": -24
+          "pitch": -70.0,
+          "yaw": 26.0,
+          "roll": -39.0
         },
         "torso": {
-          "pitch": -5,
-          "yaw": -12,
-          "roll": 2
+          "pitch": -7.0,
+          "yaw": -19.0,
+          "roll": 3.0
+        }
+      },
+      {
+        "tick": 3,
+        "easing": "EASEOUTCUBIC",
+        "rightArm": {
+          "pitch": -42.0,
+          "yaw": 36.0,
+          "roll": -78.0
+        },
+        "leftArm": {
+          "pitch": -44.0,
+          "yaw": -12.0,
+          "roll": -20.0
+        },
+        "torso": {
+          "pitch": 10.0,
+          "yaw": 17.0,
+          "roll": -3.0
         }
       },
       {
         "tick": 4,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -148,
-          "yaw": -32,
-          "roll": 58
+          "pitch": -38.5,
+          "yaw": 31.0,
+          "roll": -71.0
         },
         "leftArm": {
-          "pitch": -70,
-          "yaw": 26,
-          "roll": -32
+          "pitch": -38.0,
+          "yaw": -14.0,
+          "roll": -25.0
         },
         "torso": {
-          "pitch": -7,
-          "yaw": -19,
-          "roll": 3
+          "pitch": 10.5,
+          "yaw": 19.0,
+          "roll": -2.5
+        }
+      },
+      {
+        "tick": 5,
+        "easing": "EASEOUTSINE",
+        "rightArm": {
+          "pitch": -35.0,
+          "yaw": 34.0,
+          "roll": -83.0
+        },
+        "leftArm": {
+          "pitch": -32.0,
+          "yaw": -11.0,
+          "roll": -22.0
+        },
+        "torso": {
+          "pitch": 11.0,
+          "yaw": 21.0,
+          "roll": -2.0
         }
       },
       {
         "tick": 6,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -42,
-          "yaw": 28,
-          "roll": -66
+          "pitch": -42.8,
+          "yaw": 28.4,
+          "roll": -62.8
         },
         "leftArm": {
-          "pitch": -44,
-          "yaw": -12,
-          "roll": -28
+          "pitch": -31.6,
+          "yaw": -12.0,
+          "roll": -20.4
         },
         "torso": {
-          "pitch": 10,
-          "yaw": 17,
-          "roll": -3
+          "pitch": 9.0,
+          "yaw": 17.4,
+          "roll": -1.6
         }
       },
       {
         "tick": 7,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -35,
-          "yaw": 34,
-          "roll": -76
+          "pitch": -50.6,
+          "yaw": 22.8,
+          "roll": -49.6
         },
         "leftArm": {
-          "pitch": -32,
-          "yaw": -16,
-          "roll": -22
+          "pitch": -31.2,
+          "yaw": -8.0,
+          "roll": -18.8
         },
         "torso": {
-          "pitch": 11,
-          "yaw": 21,
-          "roll": -2
+          "pitch": 7.0,
+          "yaw": 13.8,
+          "roll": -1.2
         }
       },
       {
         "tick": 10,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -74,
-          "yaw": 6,
-          "roll": -10
+          "pitch": -74.0,
+          "yaw": 6.0,
+          "roll": -10.0
         },
         "leftArm": {
-          "pitch": -30,
-          "yaw": 4,
-          "roll": -14
+          "pitch": -30.0,
+          "yaw": 4.0,
+          "roll": -14.0
         },
         "torso": {
-          "pitch": 1,
-          "yaw": 3,
-          "roll": 0
+          "pitch": 1.0,
+          "yaw": 3.0,
+          "roll": 0.0
         }
       },
       {
         "tick": 12,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "leftArm": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         },
         "torso": {
-          "pitch": 0,
-          "yaw": 0,
-          "roll": 0
+          "pitch": 0.0,
+          "yaw": 0.0,
+          "roll": 0.0
         }
       }
     ]

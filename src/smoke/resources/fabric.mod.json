@@ -26,7 +26,8 @@
    "dk.starswordmaster.smoke.AnimationSmokeServer",
    "dk.starswordmaster.smoke.LevelingSmokeServer",
    "dk.starswordmaster.smoke.ExpansionSmokeServer",
-   "dk.starswordmaster.smoke.RadialSmokeServer"
+   "dk.starswordmaster.smoke.RadialSmokeServer",
+   "dk.starswordmaster.smoke.OverhaulCodecSmokeServer"
   ]
  },
  "mixins": [

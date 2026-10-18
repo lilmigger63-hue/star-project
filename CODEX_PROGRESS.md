@@ -1,6 +1,7 @@
-# Objective
-First ZIP complete: radial tree, free safe reset, kill-based XP, 0.7.0 artifact ready. Next: implement uploaded BDO VFX pack.
+# Current objective
 
-Base3166caa; branch feat/radial-level-overhaul. Java21 / Fabric1.21.10. 85IDs,54active. Build clean build smokeClasses passed213JUnit+37progression. Final native SP1174client/99server/39kills; MP A1174/B56/server102/native42. Cooldown bypass and hostileVex exclusion fixed with tests. No known material open issues. Release0.7.0 at releases/0.7.0/. Historical releases preserved.
+0.7.0 (radial tree/reset/kill XP) is published at commit 776b4bf. VFX 0.8.0 is implemented on feat/bdo-vfx-overhaul; final clean build 222 JUnit +37 progression, 2 Python tests pass. Native SP2600, MP A1931/B117, final showcase582, codec8 passed. Fresh review found no important defect. All54 closed solids/PAL refinement, native circles and Earth preserved, target-ID presentation v3 only. Next publish/verify0.8.0, then immediately implement queued tree performance/class evolution request.
 
-Next safe action: publish and verify0.7.0, then read all VFX references, audit existing presentation and implement separately. VFX specs: /workspace/attachments/7267e7d1-5beb-4d63-9a0f-c7dc47e6721e/unpacked/star_swordmaster_vfx_overhaul.
+Next task's COMPLETE user brief: sediment file_000000009dd08210ad162b871fe0f6ed, downloaded /workspace/attachments/c3d631a0-794c-46fc-a0ab-3a43560200c9/Pasted text.txt (17,333 bytes). Earlier 7,398-byte version was truncated and superseded. Requirements: optimize per-pixel tree lines FIRST (batch/cull/cache/LOD/profile), then spread geometry1.5–2x, class selection5 (including loader), separate automatic evolution at10/20/30 with derived modest damage/resource bonuses, preserve existing skill-based ranks/perks. Titles: Blade Adept/Swordmaster/Astral Champion; Arcanist/Archmage/Celestial Magus; Runic Knight/Arcane Battlemaster/Eclipse Knight. No perk costs for evolution, no repeated notifications on reconnect, late selection derives stage. Full spec remains binding. Do not start it until0.8.0 delivered.
+
+Toolchain JDK /workspace/toolchain/jdk, GRADLE_USER_HOME=/workspace/toolchain/gradle. Native display :99 via /workspace/toolchain/gui/usr/bin/Xvfb; processes must restart after environment reset. Runtime deps/profile worlds in run/overhaul-*; no real player worlds touched.

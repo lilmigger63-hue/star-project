@@ -86,7 +86,7 @@ Particle safeguards remain **at most 12 pattern points per update**, normally ev
 
 ## Activation, combat and networking
 
-The server sends one compact presentation event after a valid cast and resource spending. UUID/entity ID, sequence, world time, ability ID, origin and impact remain authoritative. Versioned v2 payloads include compact server-computed rank/power/color and at most eight actual hit positions; event size is below 384 bytes and appearance updates below 40 bytes. Clients generate cosmetic geometry locally. There are no particle streams, new gameplay projectiles or C2S animation permissions. Duplicate, expired and unknown events are rejected. A late valid event plays only its remaining original lifetime.
+The server sends one compact presentation event after a valid cast and resource spending. UUID/entity ID, sequence, world time, ability ID, origin and impact remain authoritative. Versioned v3 payloads include compact server-computed rank/power/color and at most eight actual hit positions plus one optional authoritative victim ID; event size is below 384 bytes and appearance updates below 40 bytes. Clients generate cosmetic geometry locally. There are no particle streams, new gameplay projectiles or C2S animation permissions. Duplicate, expired and unknown events are rejected. A late valid event plays only its remaining original lifetime.
 
 **Damage and healing keep their original timing.** Immediate impact flashes use existing server hit points. Visual anticipation, trails and recovery do not delay gameplay. Range, target selection, damage, costs, cooldowns, stats, XP and saves remain unchanged.
 
@@ -100,9 +100,11 @@ Install the same current version on server and clients. Runtime requirements rem
 
 Original asset generators live in `tools/`; historical generator locale metadata may predate English-only presentation, so preserve reviewed `en_us.json` and its identical English `da_dk.json` when regenerating art. Smoke sources in `src/smoke` are excluded from the mod JAR. See [EXPANSION.md](EXPANSION.md) for aura/scaling formulas and [VALIDATION.md](VALIDATION.md) for the build, singleplayer and multiplayer checks actually executed.
 
-## Finishing-pass mesh layers (0.6.0)
+## Volumetric mesh layers (0.8.0)
 
-Every row above additionally selects one cached mesh profile: curved crescents, crossed lances, jagged branching bolts, helices, waves, cages, radial rings, shields, blooms, halos or dash ribbons. Each ability retains its distinct original animation and particle choreography. Meshes are created once at resource initialization, not rebuilt per frame. The mesh frame cap is2,048 quads, with 64 casters and 64 blocks of draw distance, frustum culling and quality/distance LOD. Chain Lightning bounds include all confirmed targets; Curse Mark's seal attaches to its confirmed target rather than the caster.
+Every active ability now has a distinct cached assembly of closed, faceted solids. Complete primary volumes remain on Low; Normal and Ultra add whole ornaments. Anticipation, activation, primary action, impact and dissolution share the existing clip duration. Hand circles and Earth formations are retained. All 54 clip poses were refined while preserving their exact durations, mirroring, aim and Better Combat priority. [VFX_OVERHAUL.md](VFX_OVERHAUL.md) lists every actual mesh, anchor, per-quality face count, motion and performance limit.
+
+Curse Mark and target cages follow the exact optional victim ID confirmed by the server. Removal, death or ID replacement safely returns them to the original hit point. Existing immediate impact flashes retain original server timing. No extra gameplay projectiles or damage are created.
 
 Magic circles are original transparent pixel-art sigils extracted from actual native/PAL arm poses. Their palm plane mirrors with arm choice, rotates in two/three layers and dissolves with the existing animation. Native-frame deduplication caps them at 64 casters,128 hands and384 quads. The eight element palettes are distinct. First-person sword aura opacity is reduced to 65% of its third-person opacity to preserve sight; its size, RGB identity, rank progression and actual weapon attachment remain unchanged.
 

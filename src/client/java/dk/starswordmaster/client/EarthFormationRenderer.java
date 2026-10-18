@@ -3,6 +3,7 @@ package dk.starswordmaster.client;
 import dk.starswordmaster.network.AbilityPresentationPayload;
 import dk.starswordmaster.presentation.EarthFormationMesh;
 import dk.starswordmaster.presentation.EarthTerrainSampler;
+import dk.starswordmaster.presentation.WorldVfxBudget;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.world.*;
 import net.minecraft.block.BlockState;
@@ -88,6 +89,7 @@ public final class EarthFormationRenderer {
   return new Anchored(fitted,at,light,new Box(x-rock.width()*1.5,base-1,z-rock.depth()*1.5,x+rock.width()*1.5,base+height+1,z+rock.depth()*1.5));
  }
  private static void extract(WorldExtractionContext context){
+  WorldVfxBudget.SHARED.reset();
   frame=List.of();if(context.world()!=world||world==null||ACTIVE.isEmpty())return;
   var client=MinecraftClient.getInstance();int quality=Math.min(VfxQuality.level(),2-client.options.getParticles().getValue().getId());
   Vec3d camera=context.camera().getPos();float partial=context.tickCounter().getTickProgress(false);
@@ -100,7 +102,7 @@ public final class EarthFormationRenderer {
     if(distance>4096||!context.frustum().isVisible(anchor.bounds())||world.getChunkManager().getChunk(MathHelper.floor(anchor.base().x)>>4,MathHelper.floor(anchor.base().z)>>4,ChunkStatus.FULL,false)==null)continue;
     int lod=distance>1024?0:distance>256?Math.min(quality,1):quality;
     var faces=EarthFormationMesh.faces(anchor.rock().variant(),lod,formation.kind==EarthFormationMesh.Kind.WALL);
-    if(BUDGET.take(faces.size()))draws.add(new Draw(anchor,formation.kind,reveal,lod));
+    if(BUDGET.take(faces.size())&&WorldVfxBudget.SHARED.takeTerrain(faces.size()))draws.add(new Draw(anchor,formation.kind,reveal,lod));
    }
   }
   frame=List.copyOf(draws);

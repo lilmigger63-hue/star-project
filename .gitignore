@@ -5,3 +5,5 @@ production-test/
 dist/
 *.log
 *-current.png
+
+__pycache__/
