@@ -11,7 +11,8 @@ The XP requirement from level L to L+1 remains **50 + 20 × L**. The cumulative 
 - A reward that crosses level 8 from level 7 uses the original multiplier for the whole reward; the following reward uses ×1.5.
 - Half-XP persists between rewards/reloads without repeated rounding losses. An ordinary 100-XP reward becomes exactly 150.
 - Every gained level grants **5 stat points in H and 1 perk point in K**. Available points derive from level minus prior purchases, preventing duplicate rewards on multi-level gains, snapshots, death or reload.
-- XP continues to come from practice events and milestones. Practice counters can grow beyond skill level 100 so character XP can continue, while displayed skill levels and tree requirements remain 1–100. Vanilla XP is separate.
+- Character XP comes primarily from credited hostile-mob deaths: `max(1, ceil(maximum health × 3))`. The maximum-health attribute is read at death, never remaining health. Player melee, arrows and existing caster-owned magic receive credit; PvP, owned pets/summons, environmental deaths and duplicate callbacks do not grant XP. Monster-interface or MONSTER-spawn-group modded mobs are included. Vanilla XP is unchanged.
+- Practice counters and skill requirements remain intact, with displayed skill levels 1–100. Practice alone gives zero character XP by default. An optional server multiplier restores milestone character XP when desired.
 
 ## Existing saves
 
@@ -32,3 +33,24 @@ The following describes the historical 0.3.7 geometry, retained here to explain 
 The old skill bar was **182 × 22 GUI units**, with the same five slots and Z/X/C/V/B controls. It and the hotbar were centered on `GUI width / 2`. Vanilla's background started at `h−22`, but its selected-slot/offhand outer frame started at `h−23`; the old skill bar ended at that actual outer edge with zero gap, three units lower than 0.3.6. The resource portrait used `h−66` in side layout and `h−92` in stacked layout. Native XP/food/armor/air/locator shifts were then 44/76 units. Later HUD releases superseded these positions without changing leveling.
 
 See [VALIDATION.md](VALIDATION.md) for executed build and gameplay checks.
+
+## Server configuration
+
+Optional `config/starswordmaster-progression.json` is read on startup. Missing files and invalid fields use defaults; no new dependency is required.
+
+```json
+{
+  "killXpEnabled": true,
+  "healthMultiplier": 3.0,
+  "includePassiveMobs": false,
+  "practiceCharacterXpMultiplier": 0.0,
+  "showKillXp": true,
+  "excludedEntityIds": []
+}
+```
+
+Finite positive health and multiplier are multiplied using decimal arithmetic and rounded upward into BigInteger; there is no int/long truncation or per-kill cap. Optional passive inclusion still excludes players, owned or allied creatures. Exact awarded XP is coalesced in the actionbar once per second; a level-up message takes priority. Kill awards use the existing save lifecycle.
+
+Resetting the perk tree on K clears learned nodes and assignments, reduces derived rank/bonuses and clamps resources without filling them. The existing derived perk balance refunds exactly all purchases; repeated resets and reloads cannot grant extra points. Class, sword style, character XP, practice and manually allocated stats are preserved. The server validates and immediately saves/synchronizes the requesting player only.
+
+Active cooldown debt is retained through free reset, relearning and save/reload. Removed abilities cannot be cast; relearning does not bypass their remaining cooldown. Repeating a reset still grants no points.

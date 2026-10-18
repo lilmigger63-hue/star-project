@@ -44,11 +44,14 @@ public final class PlayerProgress {
  private BigInteger trainingLevel(Skill s){return practice.getOrDefault(s,BigInteger.ZERO).divide(BigInteger.valueOf(25)).sqrt().add(BigInteger.ONE);}
  public int skillLevel(Skill s){return trainingLevel(s).min(BigInteger.valueOf(100)).intValueExact();}
  public BigInteger points(){return level().subtract(BigInteger.ONE).subtract(BigInteger.valueOf(learned.size())).max(BigInteger.ZERO);}
- public void awardPractice(Skill s,int amount){
+ public void awardPractice(Skill s,int amount){awardPractice(s,amount,0);}
+ public void awardPractice(Skill s,int amount,double characterXpMultiplier){
   if(s==null||amount<=0)return;
   var before=trainingLevel(s);
   practice.put(s,practice.getOrDefault(s,BigInteger.ZERO).add(BigInteger.valueOf(Math.min(amount,20))));
-  awardXp(trainingLevel(s).subtract(before).multiply(BigInteger.valueOf(100)));
+  var reward=trainingLevel(s).subtract(before).multiply(BigInteger.valueOf(100));
+  if(Double.isFinite(characterXpMultiplier)&&characterXpMultiplier>0)
+   awardXp(new java.math.BigDecimal(reward).multiply(java.math.BigDecimal.valueOf(characterXpMultiplier)).toBigInteger());
  }
  public boolean chooseClass(PlayerClass c){
   if(c==null||c==PlayerClass.UNINITIATED||playerClass!=PlayerClass.UNINITIATED||level().compareTo(BigInteger.TEN)<0)return false;
@@ -61,6 +64,15 @@ public final class PlayerProgress {
   learned.add(id);return true;
  }
  public Set<String> learned(){return Collections.unmodifiableSet(learned);}
+ /** Refunds derived perk entitlement only; resources may shrink but never heal. */
+ public boolean resetLearnedSkills(){
+  boolean changed=!learned.isEmpty()||Arrays.stream(slots).anyMatch(id->!id.isEmpty());
+  if(!changed)return false;
+  learned.clear();Arrays.fill(slots,"");
+  // Positive cooldown debt survives free reset/relearning and reconnect; removed skills cannot cast.
+  mana=Math.min(mana,maxMana());stamina=Math.min(stamina,maxStamina());
+  return true;
+ }
  public int rank(){
   if(playerClass==PlayerClass.UNINITIATED)return 0;
   String basic=switch(playerClass){case SWORDSMAN->"aura_awaken";case MAGE->"mana_control";case SPELLBLADE->"element_binding";default->"";};
@@ -153,7 +165,10 @@ public final class PlayerProgress {
   }
   q.mana=number(p,"mana",q.maxMana());q.stamina=number(p,"stamina",q.maxStamina());
   for(int i=0;i<5;i++)q.assign(i,p.getProperty("slot."+i,""));
-  for(Ability a:Ability.ALL.values()){q.cooldowns.put(a.id(),integer(p,"cooldown."+a.id(),a.cooldownTicks()));int duration=p.containsKey("cooldownDuration."+a.id())?integer(p,"cooldownDuration."+a.id(),a.cooldownTicks()):q.cooldownTicks(a);q.cooldownDurations.put(a.id(),Math.max(q.cooldown(a.id()),duration));}
+  for(Ability a:Ability.ALL.values())if(a.active()){
+   int remaining=integer(p,"cooldown."+a.id(),a.cooldownTicks());
+   if(remaining>0){q.cooldowns.put(a.id(),remaining);int duration=p.containsKey("cooldownDuration."+a.id())?integer(p,"cooldownDuration."+a.id(),a.cooldownTicks()):q.cooldownTicks(a);q.cooldownDurations.put(a.id(),Math.max(remaining,duration));}
+  }
   return q;
  }
 }

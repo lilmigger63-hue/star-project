@@ -1,0 +1,1 @@
+a4a19dc53e21817406f81f091be3ea799a495b39f42a8a7c9331335aaca43688  releases/0.7.0/star-swordmaster-0.7.0.jar

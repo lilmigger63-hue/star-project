@@ -31,7 +31,7 @@ public class PointsSmokeServer implements ModInitializer {
   });
   ServerLivingEntityEvents.AFTER_DEATH.register((entity,source)->{if(entity instanceof net.minecraft.server.network.ServerPlayerEntity player&&player.getGameProfile().name().startsWith("PointsSmoke"))System.out.println("POINTS_SERVER PASS: actual death "+player.getGameProfile().name());});
   CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("starpointstest")
-   .then(literal("level").executes(c->{var p=c.getSource().getPlayerOrThrow();if(!p.getGameProfile().name().startsWith("PointsSmoke"))return 0;StarSwordmaster.practice(p,Skill.SWORD,5);StarSwordmaster.sync(p);return 1;}))
+   .then(literal("level").executes(c->{var p=c.getSource().getPlayerOrThrow();if(!p.getGameProfile().name().startsWith("PointsSmoke"))return 0;StarSwordmaster.practice(p,Skill.SWORD,5);StarSwordmaster.progress(p).awardXp(java.math.BigInteger.valueOf(100));StarSwordmaster.sync(p);return 1;}))
    .then(literal("die").executes(c->{var p=c.getSource().getPlayerOrThrow();if(!p.getGameProfile().name().startsWith("PointsSmoke"))return 0;p.getAbilities().invulnerable=false;p.kill(p.getEntityWorld());return 1;}))));
  }
 }

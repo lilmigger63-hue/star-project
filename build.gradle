@@ -101,3 +101,10 @@ loom.runs {
 loom.runs {
  smokeFinishingLifecycle { client(); source sourceSets.smoke; runDir 'run/finishing-lifecycle'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.finishing.lifecycle=true' }
 }
+
+loom.runs {
+ smokeRadialSingleplayer { client(); source sourceSets.smoke; runDir 'run/radial-sp'; programArg '--username'; programArg 'RadialA'; vmArg '-Dstarsmoke.radial=true'; vmArg '-Dstarsmoke.radial.singleplayer=true' }
+ smokeRadialServer { server(); source sourceSets.smoke; runDir 'run/radial-server'; vmArg '-Dstarsmoke.radial=true' }
+ smokeRadialA { client(); source sourceSets.smoke; runDir 'run/radial-a'; programArg '--username'; programArg 'RadialA'; vmArg '-Dstarsmoke.radial=true' }
+ smokeRadialB { client(); source sourceSets.smoke; runDir 'run/radial-b'; programArg '--username'; programArg 'RadialB'; vmArg '-Dstarsmoke.radial=true'; vmArg '-Dstarsmoke.radial.role=B' }
+}

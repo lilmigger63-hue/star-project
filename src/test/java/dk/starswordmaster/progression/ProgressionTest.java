@@ -3,13 +3,13 @@ import java.util.Properties;
 public class ProgressionTest {
  static int checks;
  static void check(boolean ok,String name){checks++;if(!ok)throw new AssertionError(name);}
- static PlayerProgress veteran(){var p=new PlayerProgress();for(int i=0;i<1200;i++)p.awardPractice(Skill.SWORD,20);return p;}
+ static PlayerProgress veteran(){var p=new PlayerProgress();p.awardXp(java.math.BigInteger.valueOf(10000));for(int i=0;i<1200;i++)p.awardPractice(Skill.SWORD,20);return p;}
  public static void main(String[] args){
   var p=new PlayerProgress();
   check(p.level().intValueExact()==1,"start weak");
   check(!p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"class gated below level 10");
   check(!p.chooseClass(PlayerProgress.PlayerClass.UNINITIATED),"cannot select starting class");
-  p=veteran();check(p.level().intValueExact()>=10,"practice raises level");
+  p=veteran();check(p.level().intValueExact()>=10,"character XP raises level independently of practice");
   check(p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"choose at level 10");
   check(!p.chooseClass(PlayerProgress.PlayerClass.MAGE),"permanent class");
   check(!p.unlock("sword_mastery"),"prerequisite needed");

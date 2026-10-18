@@ -48,7 +48,7 @@ public class ResourceHudSmokeServer implements ModInitializer {
   ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer,newPlayer,alive)->protect(newPlayer));
   CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("starhudtest")
    .then(literal("damage").executes(c->{pendingDamage.add(c.getSource().getPlayerOrThrow().getUuid());return 1;}))
-   .then(literal("level").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.practice(p,Skill.FROST,5);StarSwordmaster.sync(p);return 1;}))
+   .then(literal("level").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.practice(p,Skill.FROST,5);StarSwordmaster.progress(p).awardXp(java.math.BigInteger.valueOf(100));StarSwordmaster.sync(p);return 1;}))
    .then(literal("absorb").executes(c->{c.getSource().getPlayerOrThrow().addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION,600,0));return 1;}))
    .then(literal("poison").executes(c->{c.getSource().getPlayerOrThrow().addStatusEffect(new StatusEffectInstance(StatusEffects.POISON,200,0));return 1;}))
    .then(literal("wither").executes(c->{var p=c.getSource().getPlayerOrThrow();p.removeStatusEffect(StatusEffects.POISON);p.addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER,200,0));return 1;}))

@@ -8,6 +8,7 @@ public class DomainContractTest {
  @Test public void progression(){ProgressionTest.main(new String[0]);}
  @Test public void playersPersistSeparately() throws Exception {
   Path dir=Files.createTempDirectory("star-save-test");var store=new PlayerStore(dir);UUID a=UUID.randomUUID(),b=UUID.randomUUID();
+  store.get(a).awardXp(java.math.BigInteger.valueOf(100));
   for(int i=0;i<100;i++)store.get(a).awardPractice(Skill.SWORD,20);
   assertTrue(store.get(a).level().intValueExact()>store.get(b).level().intValueExact());store.saveAll();var restored=new PlayerStore(dir);
   assertEquals(store.get(a).level().intValueExact(),restored.get(a).level().intValueExact());assertEquals(1,restored.get(b).level().intValueExact());
@@ -24,7 +25,7 @@ public class DomainContractTest {
  }
  @Test public void advancedStylesAndMagicRespectClasses(){
   for(var cls:new PlayerProgress.PlayerClass[]{PlayerProgress.PlayerClass.SWORDSMAN,PlayerProgress.PlayerClass.MAGE,PlayerProgress.PlayerClass.SPELLBLADE}){
-   var p=new PlayerProgress();for(Skill skill:Skill.values())for(int i=0;i<500;i++)p.awardPractice(skill,20);assertTrue(p.chooseClass(cls));
+   var p=new PlayerProgress();p.awardXp(java.math.BigInteger.valueOf(10000));for(Skill skill:Skill.values())for(int i=0;i<500;i++)p.awardPractice(skill,20);assertTrue(p.chooseClass(cls));
    String[] route=switch(cls){
     case SWORDSMAN->new String[]{"quick_cut","quick_dash","rapid_slash"};
     case MAGE->new String[]{"spark","mana_control","fire_burst","flame_lance"};
@@ -37,12 +38,12 @@ public class DomainContractTest {
   }
  }
  @Test public void rankPerksGrantResourceBonuses(){
-  var p=new PlayerProgress();for(int i=0;i<500;i++)p.awardPractice(Skill.FIRE,20);assertTrue(p.chooseClass(PlayerProgress.PlayerClass.MAGE));p.unlock("spark");double capacity=p.maxMana();assertTrue(p.unlock("mana_control"));assertTrue(p.maxMana()>capacity);
+  var p=new PlayerProgress();p.awardXp(java.math.BigInteger.valueOf(10000));for(int i=0;i<500;i++)p.awardPractice(Skill.FIRE,20);assertTrue(p.chooseClass(PlayerProgress.PlayerClass.MAGE));p.unlock("spark");double capacity=p.maxMana();assertTrue(p.unlock("mana_control"));assertTrue(p.maxMana()>capacity);
  }
  @Test public void perkResourceBonusesSurviveSaveAndSnapshot(){
-  var p=new PlayerProgress();for(int i=0;i<500;i++)p.awardPractice(Skill.FIRE,20);assertTrue(p.chooseClass(PlayerProgress.PlayerClass.MAGE));assertTrue(p.unlock("spark"));assertTrue(p.unlock("mana_control"));for(int i=0;i<5000;i++)p.tick(false);
+  var p=new PlayerProgress();p.awardXp(java.math.BigInteger.valueOf(10000));for(int i=0;i<500;i++)p.awardPractice(Skill.FIRE,20);assertTrue(p.chooseClass(PlayerProgress.PlayerClass.MAGE));assertTrue(p.unlock("spark"));assertTrue(p.unlock("mana_control"));for(int i=0;i<5000;i++)p.tick(false);
   var q=PlayerProgress.fromProperties(p.toProperties());assertEquals(p.maxMana(),q.maxMana(),0);assertEquals(p.mana(),q.mana(),0);
-  var s=new PlayerProgress();for(int i=0;i<500;i++)s.awardPractice(Skill.SWORD,20);s.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN);s.unlock("quick_cut");s.unlock("aura_awaken");for(int i=0;i<5000;i++)s.tick(false);
+  var s=new PlayerProgress();s.awardXp(java.math.BigInteger.valueOf(10000));for(int i=0;i<500;i++)s.awardPractice(Skill.SWORD,20);s.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN);s.unlock("quick_cut");s.unlock("aura_awaken");for(int i=0;i<5000;i++)s.tick(false);
   var r=PlayerProgress.fromProperties(s.toProperties());assertEquals(s.stamina(),r.stamina(),0);
  }
  @Test public void classSelectionOpensAtExactlyLevelTen(){

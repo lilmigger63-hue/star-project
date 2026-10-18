@@ -21,8 +21,8 @@ public class LevelingSmokeServer implements ModInitializer {
    reset(p,p.getGameProfile().name().endsWith("B"));p.teleport(p.getEntityWorld(),p.getGameProfile().name().endsWith("B")?12.5:0.5,80,0.5,Set.of(),0,0,false);p.equipStack(EquipmentSlot.MAINHAND,new ItemStack(Items.IRON_SWORD));p.getHungerManager().setFoodLevel(6);
   }});
   CommandRegistrationCallback.EVENT.register((dispatcher,access,environment)->dispatcher.register(literal("starleveltest")
-   .then(literal("sword").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.practice(p,Skill.SWORD,5);StarSwordmaster.sync(p);return 1;}))
-   .then(literal("fire").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.practice(p,Skill.FIRE,5);StarSwordmaster.sync(p);return 1;}))
+   .then(literal("sword").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.practice(p,Skill.SWORD,5);StarSwordmaster.progress(p).awardXp(java.math.BigInteger.valueOf(100));StarSwordmaster.sync(p);return 1;}))
+   .then(literal("fire").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.practice(p,Skill.FIRE,5);StarSwordmaster.progress(p).awardXp(java.math.BigInteger.valueOf(100));StarSwordmaster.sync(p);return 1;}))
    .then(literal("bulk").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.progress(p).awardXp(BigInteger.valueOf(10000));StarSwordmaster.sync(p);return 1;}))
    .then(literal("legacy").executes(c->{reset(c.getSource().getPlayerOrThrow(),true);return 1;}))
    .then(literal("next").executes(c->{var p=c.getSource().getPlayerOrThrow();StarSwordmaster.progress(p).awardXp(BigInteger.valueOf(1400));StarSwordmaster.sync(p);return 1;}))

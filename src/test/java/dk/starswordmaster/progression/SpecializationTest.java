@@ -2,7 +2,7 @@ package dk.starswordmaster.progression;
 import org.junit.Test;
 import static org.junit.Assert.*;
 public class SpecializationTest {
- private PlayerProgress trained(){var p=new PlayerProgress();for(Skill s:Skill.values())for(int i=0;i<500;i++)p.awardPractice(s,20);return p;}
+ private PlayerProgress trained(){var p=new PlayerProgress();p.awardXp(java.math.BigInteger.valueOf(10000));for(Skill s:Skill.values())for(int i=0;i<500;i++)p.awardPractice(s,20);return p;}
  private void learn(PlayerProgress p,String... ids){for(String id:ids)assertTrue("Learn "+id,p.unlock(id));}
  @Test public void quickTrainingOnlyAppliesInQuickStyle(){var p=trained();learn(p,"quick_cut","quick_dash");var a=Ability.ALL.get("quick_cut");double original=p.manaCost(a);learn(p,"flow_training");assertEquals(original*0.9,p.manaCost(a),1e-8);assertEquals(a.stamina()*0.9,p.staminaCost(a),1e-8);assertEquals(36,p.cooldownTicks(a));p.setStyle(PlayerProgress.SwordStyle.HEAVY);assertEquals(original,p.manaCost(a),1e-8);assertEquals(40,p.cooldownTicks(a));}
  @Test public void heavyTrainingBoostsSwordButNotMagic(){var p=trained();learn(p,"heavy_cut","heavy_sweep","impact_training");p.setStyle(PlayerProgress.SwordStyle.HEAVY);assertEquals(p.damageMultiplier()*1.15,p.damageMultiplier(Ability.ALL.get("heavy_cut")),1e-8);assertEquals(p.damageMultiplier(),p.damageMultiplier(Ability.ALL.get("spark")),1e-8);p.setStyle(PlayerProgress.SwordStyle.QUICK);assertEquals(p.damageMultiplier(),p.damageMultiplier(Ability.ALL.get("heavy_cut")),1e-8);}
