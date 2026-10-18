@@ -46,8 +46,8 @@ public class DomainContractTest {
   var s=new PlayerProgress();s.awardXp(java.math.BigInteger.valueOf(10000));for(int i=0;i<500;i++)s.awardPractice(Skill.SWORD,20);s.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN);s.unlock("quick_cut");s.unlock("aura_awaken");for(int i=0;i<5000;i++)s.tick(false);
   var r=PlayerProgress.fromProperties(s.toProperties());assertEquals(s.stamina(),r.stamina(),0);
  }
- @Test public void classSelectionOpensAtExactlyLevelTen(){
-  var props=new Properties();props.setProperty("xp","1349");var nine=PlayerProgress.fromProperties(props);assertEquals(9,nine.level().intValueExact());assertFalse(nine.chooseClass(PlayerProgress.PlayerClass.MAGE));
-  props.setProperty("xp","1350");var ten=PlayerProgress.fromProperties(props);assertEquals(10,ten.level().intValueExact());assertTrue(ten.chooseClass(PlayerProgress.PlayerClass.MAGE));
+ @Test public void classSelectionOpensAtExactlyLevelFive(){
+  var props=new Properties();props.setProperty("xp","399");var four=PlayerProgress.fromProperties(props);assertEquals(4,four.level().intValueExact());assertFalse(four.chooseClass(PlayerProgress.PlayerClass.MAGE));
+  props.setProperty("xp","400");var five=PlayerProgress.fromProperties(props);assertEquals(5,five.level().intValueExact());assertTrue(five.chooseClass(PlayerProgress.PlayerClass.MAGE));
  }
 }

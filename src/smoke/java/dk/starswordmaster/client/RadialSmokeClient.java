@@ -21,6 +21,7 @@ import java.util.*;
 /** Actual window/input/network smoke; never mutates client progression to simulate a server result. */
 public final class RadialSmokeClient implements ClientModInitializer {
  private int ticks,stage,wait,checks,observerTicks;private boolean started,finished,single,reconnecting,sawDeath;private String role;
+ private java.util.concurrent.CompletableFuture<Void> reload;
  private Properties initial,resetSnapshot;private Set<String> learned;private BigInteger xp,level,points;private int learnedCount;
  private void check(boolean ok,String message){if(!ok)throw new AssertionError("RADIAL_"+role+" FAIL stage="+stage+": "+message);checks++;System.out.println("RADIAL_"+role+" PASS: "+message);}
  private void command(MinecraftClient c,String s){c.getNetworkHandler().sendChatCommand("starradial "+s);}
@@ -81,7 +82,9 @@ public final class RadialSmokeClient implements ClientModInitializer {
     case 19->{snapshot(c,"640x360-focus");size(c,854,480,1);}
     case 20->{check(c.currentScreen.width==854&&c.currentScreen.height==480,"real window 854x480 GUI");snapshot(c,"854x480-fit");click(c,(ButtonWidget)field(c.currentScreen,"focusButton"));}
     case 21->{snapshot(c,"854x480-focus");size(c,1280,720,2);}
-    case 22->{check(c.currentScreen.width==640&&c.currentScreen.height==360,"actual GUI scale two at 1280x720");snapshot(c,"1280x720-scale2-fit");System.out.println("RADIAL_A COMPLETE "+(single?"singleplayer":"multiplayer")+" checks="+checks);finished=true;}
+    case 22->{check(c.currentScreen.width==640&&c.currentScreen.height==360,"actual GUI scale two at 1280x720");snapshot(c,"1280x720-scale2-fit");reload=c.reloadResources();}
+    case 23->{if(!reload.isDone()){stage--;return;}check(!reload.isCompletedExceptionally(),"native resource reload completed");snapshot(c,"resource-reload-fit");select(c,"quick_cut");check(field(c.currentScreen,"selected").equals("quick_cut"),"node selection works after actual resource reload");size(c,1920,1080,3);}
+    case 24->{check(c.currentScreen.width==640&&c.currentScreen.height==360,"actual GUI scale three at1920x1080");snapshot(c,"1920x1080-scale3-fit");System.out.println("RADIAL_A COMPLETE "+(single?"singleplayer":"multiplayer")+" checks="+checks);finished=true;}
     default->{}
    }
   });

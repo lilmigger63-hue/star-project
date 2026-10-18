@@ -21,7 +21,7 @@ public final class StatusScreen extends Screen {
  private double scrollGrab;
  private List<Text> tooltip;
  private final List<ButtonWidget> statButtons=new ArrayList<>();
- private PlayerProgress pendingStatSnapshot;
+ private final SnapshotActionGuard statRequest=new SnapshotActionGuard(20);
  private static final int GOLD=DarkFantasyPalette.GOLD,WHITE=DarkFantasyPalette.TEXT,MUTED=DarkFantasyPalette.MUTED;
  public StatusScreen(){super(label("title"));}
  private static Text label(String key,Object... args){return Text.translatable("status.starswordmaster."+key,args);}
@@ -49,20 +49,19 @@ public final class StatusScreen extends Screen {
  private static Text qualityName(){return label("quality."+switch(VfxQuality.level()){case 0->"low";case 2->"ultra";default->"normal";});}
  private void spendStat(PlayerProgress.Stat stat){
   var data=StarSwordmasterClient.data;
-  if(!StarSwordmasterClient.ready||client==null||client.player==null||data==null||data.statPoints().signum()==0||pendingStatSnapshot==data)return;
-  pendingStatSnapshot=data;StarSwordmasterClient.send("stat",stat.name(),0);updateStatButtons();
+  if(!StarSwordmasterClient.ready||client==null||client.player==null||data==null||data.statPoints().signum()==0||statRequest.waitingFor(data))return;
+  statRequest.start(data);StarSwordmasterClient.send("stat",stat.name(),0);updateStatButtons();
  }
  private void updateStatButtons(){
   var data=StarSwordmasterClient.data;
-  if(pendingStatSnapshot!=data)pendingStatSnapshot=null;
   boolean ready=StarSwordmasterClient.ready&&client!=null&&client.player!=null&&data!=null;
   for(int i=0;i<statButtons.size();i++){
    var button=statButtons.get(i);int y=layout.statButtonY(i,scroll);
    button.setX(layout.statButtonX());button.setY(y);button.visible=ready&&layout.statButtonInView(y);
-   button.active=ready&&data.statPoints().signum()>0&&data.stat(PlayerProgress.Stat.values()[i])<Integer.MAX_VALUE&&pendingStatSnapshot==null;
+   button.active=ready&&data.statPoints().signum()>0&&data.stat(PlayerProgress.Stat.values()[i])<Integer.MAX_VALUE&&!statRequest.waitingFor(data);
   }
  }
- @Override public void tick(){updateStatButtons();}
+ @Override public void tick(){statRequest.tick();updateStatButtons();}
  private void text(DrawContext c,Text value,int x,int y,int maxWidth,int color){
   String full=value.getString(),visible=textRenderer.trimToWidth(full,Math.max(1,maxWidth));
   c.drawTextWithShadow(textRenderer,visible,x,y,color);
@@ -88,11 +87,17 @@ public final class StatusScreen extends Screen {
   row(c,"rank",rank,x,y+42,w);
   if(!d.rankNodeId().isEmpty()&&pointerX>=x&&pointerX<x+w&&pointerY>=y+42&&pointerY<y+52&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom())tooltip=List.of(SkillHud.name(d.rankNodeId()),Text.translatable("description.starswordmaster."+d.rankNodeId()));
   row(c,"style",label("style."+d.style().name().toLowerCase(Locale.ROOT)),x,y+53,w);
-  row(c,"total_xp",Text.literal(d.totalXp().toString()),x,y+64,w);
-  text(c,label("next_xp",d.xpInLevel().toString(),d.xpForNextLevel().toString()),x+8,y+77,w-16,MUTED);
-  bar(c,x+8,y+90,w-16,d.xpProgress(),0xFFBDA268);
-  row(c,"perk_points",Text.literal(d.perkPoints().toString()),x,y+103,w);
-  if(d.rank()==4)text(c,label("rank_damage."+d.playerClass().name().toLowerCase(Locale.ROOT)),x+8,y+113,w-16,GOLD);
+  row(c,"evolution",d.evolution().stage()>0?EvolutionText.title(d.evolution()):label("evolution.none"),x,y+64,w);
+  var evolutionEffects=EvolutionText.effects(d.evolution());
+  for(int i=0;i<evolutionEffects.size();i++)text(c,evolutionEffects.get(i),x+8,y+76+11*i,w-16,MUTED);
+  if(pointerX>=x&&pointerX<x+w&&pointerY>=y+64&&pointerY<y+100&&pointerY>=layout.bodyTop()&&pointerY<layout.bodyBottom()){
+   var lines=new ArrayList<Text>();lines.add(label("evolution"));lines.add(EvolutionText.title(d.evolution()));lines.addAll(evolutionEffects);lines.add(label("evolution.separate"));tooltip=List.copyOf(lines);
+  }
+  row(c,"total_xp",Text.literal(d.totalXp().toString()),x,y+108,w);
+  text(c,label("next_xp",d.xpInLevel().toString(),d.xpForNextLevel().toString()),x+8,y+121,w-16,MUTED);
+  bar(c,x+8,y+134,w-16,d.xpProgress(),0xFFBDA268);
+  row(c,"perk_points",Text.literal(d.perkPoints().toString()),x,y+147,w);
+  if(d.rank()==4)text(c,label("rank_damage."+d.playerClass().name().toLowerCase(Locale.ROOT)),x+8,y+157,w-16,GOLD);
  }
  private void stats(DrawContext c,StatusData d,int x,int y,int w){
   card(c,"stats",x,y,w,StatusLayout.STATS_HEIGHT);row(c,"stat_points",Text.literal(d.statPoints().toString()),x,y+20,w);int i=0;

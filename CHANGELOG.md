@@ -1,3 +1,11 @@
+# 0.9.0 — Tree performance and automatic class evolution
+
+- Cached native GUI line quads replace per-pixel submissions; clipping, viewport culling, overview LOD, text/progression/button caches and snapshot dedup reduce repeated work.
+- Controlled native fit-view CPU submission measured 93.4 ms → 1.30 ms before spacing expansion; this is not a hardware FPS claim.
+- All 85 nodes spread to 1.7× world spacing; real prerequisites, eight arms, fit/focus/hit navigation and free reset remain.
+- Permanent manual class selection at level 5; independent automatic class evolution at 10/20/30 with bounded derived damage/resource bonuses, H/K titles and coalesced milestone feedback.
+- Existing skill-based ranks 1–4, save format, XP, point budgets, HUD and all 54 ability presentations remain. Rejected H stat purchases recover even when unchanged snapshots are suppressed.
+
 # 0.8.0 — Volumetric elemental and sword presentation
 
 - All 54 active abilities use distinct cached closed 3D solids, whole-part quality levels and five cosmetic stages.

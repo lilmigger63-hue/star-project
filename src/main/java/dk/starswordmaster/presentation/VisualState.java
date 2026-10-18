@@ -7,6 +7,6 @@ public record VisualState(boolean auraUnlocked,int rank,int swordLevel,float pow
  public VisualState {rank=Math.clamp(rank,0,4);swordLevel=Math.clamp(swordLevel,1,100);power=VisualPowerScaling.safe(power);if(playerClass==null)playerClass=PlayerProgress.PlayerClass.UNINITIATED;auraColor&=0xFFFFFF;if(element==null)element=AbilityPresentation.Element.STAR;}
  public static VisualState from(UUID id,PlayerProgress p,AbilityPresentation.Element element){
   boolean aura=p.learned().contains("aura_sense")||p.learned().contains("aura_awaken")||p.learned().contains("element_binding")||p.learned().contains("thunder_step")||p.learned().contains("aqua_blade")||p.learned().contains("quake_blade")||p.learned().contains("shadow_edge");
-  return new VisualState(aura,aura?Math.max(1,p.rank()):p.rank(),p.skillLevel(Skill.SWORD),VisualPowerScaling.power(p.level()),p.playerClass(),AuraColors.forPlayer(id),element);
+  return new VisualState(aura,aura?Math.max(1,p.rank()):p.rank(),p.skillLevel(Skill.SWORD),VisualPowerScaling.safe(VisualPowerScaling.power(p.level())+.02f*p.evolution().stage()),p.playerClass(),AuraColors.forPlayer(id),element);
  }
 }

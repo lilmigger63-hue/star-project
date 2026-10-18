@@ -17,9 +17,9 @@ Angles run clockwise in screen coordinates, with zero pointing right.
 | Dark | Lower left, 135° | Ash purple |
 | Support | Left, 180° | Pale teal |
 
-`SkillTreeLayout` builds immutable geometry once from `Ability.ALL`. Actual parent depth, progression requirements and deterministic subtree lanes place nodes within their owning sector. Every child lies farther from the hub than its real parent, including links between sectors. Collision spacing is at least 64 world units. Class-specific advanced skills and training nodes remain in their owning branches.
+`SkillTreeLayout` builds immutable geometry once from `Ability.ALL`. Actual parent depth, progression requirements and deterministic subtree lanes place nodes within their owning sector. Every child lies farther from the hub than its real parent, including links between sectors. Collision spacing is at least 108.8 world units (1.7× the former 64). Class-specific advanced skills and training nodes remain in their owning branches.
 
-Muted brown spines and small forks are decoration: they do not create prerequisites, abilities or clickable nodes. The separate cached `EDGES` list contains only actual parent-child requirements. Unlearned links between sectors use ash purple; learned links use the child branch's theme; the selected skill's incoming link uses gold. Node frames distinguish learned, available, locked and class-locked states, with gold around the selection. Existing pixel-art ability icons remain in use.
+Muted brown spines and small forks are decoration: they do not create prerequisites, abilities or clickable nodes. The separate cached `EDGES` list contains only actual parent-child requirements. Unlearned links between sectors use ash purple; learned links use the child branch's theme; the selected skill's entire prerequisite chain uses gold. Node frames distinguish learned, available, locked and class-locked states, with gold around the selection. Existing pixel-art ability icons remain in use when readable; low-zoom overview uses small colored nodes while retaining every real skill and dependency.
 
 ## Navigation and actions
 
@@ -35,6 +35,8 @@ The header separates available perk points and stat points, and shows character 
 
 Automated geometry and viewport checks cover all 85 IDs, all eight sectors, real prerequisite routing, parent-depth ordering, node separation, padded bounds, decorative forks, hit testing, pointer-anchored zoom, small-area fitting and branch focus. Geometry and routes are cached; rendering does not traverse the ability graph or recompute the layout.
 
-Native screenshots and interactive verification of the new screen have **not yet been completed**. See `VALIDATION.md` for the release's recorded checks and any later screenshot verification.
+Native fit/focus/pan/selection/reset, narrow and wide windows, GUI scale changes and resource reload are exercised in the isolated radial smoke profiles. See `VALIDATION.md` for completed checks and `TREE_PERFORMANCE.md` for native before/after CPU measurements.
 
 Active cooldown debt is retained through free reset, relearning and save/reload. Removed abilities cannot be cast; relearning does not bypass their remaining cooldown. Repeating a reset still grants no points.
+
+`ClassEvolution` is independent of purchased ranks: manual class selection starts at level 5 and automatic titles/bonuses at levels 10, 20 and 30 appear in H and the K hub. See `CLASS_EVOLUTION.md`.

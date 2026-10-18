@@ -7,10 +7,10 @@ public class ProgressionTest {
  public static void main(String[] args){
   var p=new PlayerProgress();
   check(p.level().intValueExact()==1,"start weak");
-  check(!p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"class gated below level 10");
+  check(!p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"class gated below level 5");
   check(!p.chooseClass(PlayerProgress.PlayerClass.UNINITIATED),"cannot select starting class");
   p=veteran();check(p.level().intValueExact()>=10,"character XP raises level independently of practice");
-  check(p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"choose at level 10");
+  check(p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"choose after level 5");
   check(!p.chooseClass(PlayerProgress.PlayerClass.MAGE),"permanent class");
   check(!p.unlock("sword_mastery"),"prerequisite needed");
   check(!p.unlock("mana_control"),"class gate");

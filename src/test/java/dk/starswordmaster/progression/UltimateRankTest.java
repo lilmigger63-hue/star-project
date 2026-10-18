@@ -37,7 +37,7 @@ public class UltimateRankTest {
   long[][] expected={{3,2,0,0},{0,0,1,4},{2,1,0,2}};
   for(int c=0;c<3;c++){
    var p=ready(c,25,20);for(var s:PlayerProgress.Stat.values())assertTrue(p.spendStat(s));var available=p.statPoints();assertTrue(p.unlock(IDS[c]));
-   for(var s:PlayerProgress.Stat.values()){assertEquals(1,p.stat(s));assertEquals(1+expected[c][s.ordinal()],p.effectiveStat(s));}
+   for(var s:PlayerProgress.Stat.values()){assertEquals(1,p.stat(s));assertEquals(1+expected[c][s.ordinal()]+(c==0&&s==AGILITY?2:0),p.effectiveStat(s));}
    assertEquals(available,p.statPoints());assertEquals(0.025*p.effectiveStat(STRENGTH),p.strengthDamageBonus(),1e-9);
    assertEquals(5*p.effectiveStat(ENDURANCE),p.enduranceStaminaBonus());assertEquals(5*p.effectiveStat(SPIRIT),p.spiritManaBonus());
    assertEquals(Math.min(.4,.01*p.effectiveStat(AGILITY)),p.agilityCooldownReduction(),1e-9);
@@ -52,11 +52,14 @@ public class UltimateRankTest {
    var p=ready(c,25,20);assertEquals(1.15,p.damageMultiplier(),1e-9);assertTrue(p.unlock(IDS[c]));
    assertEquals(1+p.strengthDamageBonus()+.15,p.damageMultiplier(),1e-9);
    var boosted=c==0?swords:c==1?magic:enchanted;
-   for(var a:Ability.ALL.values())assertEquals(a.id(),p.damageMultiplier()*(boosted.contains(a.id())?1.05:1),p.damageMultiplier(a),1e-9);
+   for(var a:Ability.ALL.values()){
+    assertEquals(a.id(),boosted.contains(a.id())?.05:0,p.rankDamageBonus(a),1e-9);
+    assertEquals(a.id(),p.damageMultiplier()*(boosted.contains(a.id())?1.05:1)*(boosted.contains(a.id())?(c==2?1.06:1.08):1),p.damageMultiplier(a),1e-9);
+   }
    assertEquals(1,p.healingMultiplier(),0);
   }
   var p=ready(0,25,20);for(String id:new String[]{"heavy_cut","heavy_sweep","impact_training",IDS[0]})assertTrue(p.unlock(id));p.setStyle(PlayerProgress.SwordStyle.HEAVY);
-  assertEquals(p.damageMultiplier()*1.15*1.05,p.damageMultiplier(Ability.ALL.get("heavy_cut")),1e-9);
+  assertEquals(p.damageMultiplier()*1.15*1.05*1.08,p.damageMultiplier(Ability.ALL.get("heavy_cut")),1e-9);
  }
  @Test public void saveReloadSnapshotsAndReconnectNeverStackBonuses() throws Exception {
   Path dir=Files.createTempDirectory("ultimate-rank");

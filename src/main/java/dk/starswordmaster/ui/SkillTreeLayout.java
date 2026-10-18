@@ -37,6 +37,7 @@ public final class SkillTreeLayout {
  private static final Map<String,Node> BY_ID;
  private static final Map<String,Integer> DEPTH;
  private static final Map<Sector,Bounds> SECTOR_BOUNDS;
+ public static final double SPACING=1.7;
  private static final double NODE_SEPARATION=64;
  static {
   Map<String,Ability> catalogue=Ability.ALL;
@@ -72,6 +73,8 @@ public final class SkillTreeLayout {
    while(overlaps(node,nodes.values())){radius+=NODE_SEPARATION;node=polarNode(ability.id(),radius,angle);}
    nodes.put(node.id(),node);
   }
+  // Preserve lane ordering/topology, then expand the completed geometry uniformly.
+  nodes.replaceAll((id,n)->new Node(id,n.x()*SPACING,n.y()*SPACING));
   BY_ID=Map.copyOf(nodes);
   NODES=List.copyOf(nodes.values());
   List<Edge> edges=new ArrayList<>();
@@ -84,13 +87,13 @@ public final class SkillTreeLayout {
   Map<Sector,Bounds> sectorBounds=new EnumMap<>(Sector.class);
   for(var sector:Sector.values()){
    var group=NODES.stream().filter(n->sector(n)==sector).toList();
-   double end=group.stream().mapToDouble(n->Math.hypot(n.x(),n.y())).max().orElse(300)+65;
+   double end=group.stream().mapToDouble(n->Math.hypot(n.x(),n.y())).max().orElse(300*SPACING)+65*SPACING;
    double angle=Math.toRadians(sector.angle());
-   branches.add(new Branch(sector,List.of(polar(75,angle),polar(end,angle)),true));
+   branches.add(new Branch(sector,List.of(polar(75*SPACING,angle),polar(end,angle)),true));
    // Repeated paired forks give sparse sectors the drawn twig silhouette without invented abilities.
-   for(double radius=220;radius<end-60;radius+=155){
+   for(double radius=220*SPACING;radius<end-60*SPACING;radius+=155*SPACING){
     for(int side:new int[]{-1,1})branches.add(new Branch(sector,
-     List.of(polar(radius,angle),polar(radius+55,angle+side*0.09),polar(radius+110,angle+side*0.17)),false));
+     List.of(polar(radius,angle),polar(radius+55*SPACING,angle+side*0.09),polar(radius+110*SPACING,angle+side*0.17)),false));
    }
    sectorBounds.put(sector,bounds(group.stream().map(n->new Point(n.x(),n.y())).toList(),48));
   }
@@ -143,7 +146,7 @@ public final class SkillTreeLayout {
   double parentRadius=Math.hypot(parent.x(),parent.y()),childRadius=Math.hypot(child.x(),child.y());
   double from=Math.atan2(parent.y(),parent.x()),to=Math.atan2(child.y(),child.x());
   double turn=Math.IEEEremainder(to-from,Math.PI*2);
-  double radius=cross?Math.max(125,parentRadius-45):(parentRadius+childRadius)/2;
+  double radius=cross?Math.max(125*SPACING,parentRadius-45*SPACING):(parentRadius+childRadius)/2;
   points.add(polar(radius,from));
   int segments=cross?Math.max(2,(int)Math.ceil(Math.abs(turn)/0.15)):1;
   for(int i=1;i<=segments;i++)points.add(polar(radius,from+turn*i/segments));

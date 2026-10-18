@@ -1,1 +1,1 @@
-{"required":true,"package":"dk.starswordmaster.smoke.mixin","compatibilityLevel":"JAVA_21","client":["HudDrawCaptureMixin","AuraSubmissionCaptureMixin","AuraNativeModelCaptureMixin","AuraGpuLayerCaptureMixin","OverhaulSubmissionCaptureMixin"],"injectors":{"defaultRequire":1}}
+{"required":true,"package":"dk.starswordmaster.smoke.mixin","compatibilityLevel":"JAVA_21","client":["HudDrawCaptureMixin","AuraSubmissionCaptureMixin","AuraNativeModelCaptureMixin","AuraGpuLayerCaptureMixin","OverhaulSubmissionCaptureMixin","TreePerfRenderMixin"],"injectors":{"defaultRequire":1}}

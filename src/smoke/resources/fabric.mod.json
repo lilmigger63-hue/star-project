@@ -16,7 +16,9 @@
    "dk.starswordmaster.client.LevelingSmokeClient",
    "dk.starswordmaster.client.RankSmokeClient",
    "dk.starswordmaster.client.ExpansionSmokeClient",
-   "dk.starswordmaster.client.RadialSmokeClient"
+   "dk.starswordmaster.client.RadialSmokeClient",
+   "dk.starswordmaster.client.TreePerfClient",
+   "dk.starswordmaster.client.EvolutionSmokeClient"
   ],
   "main": [
    "dk.starswordmaster.smoke.SmokeServer",
@@ -27,7 +29,9 @@
    "dk.starswordmaster.smoke.LevelingSmokeServer",
    "dk.starswordmaster.smoke.ExpansionSmokeServer",
    "dk.starswordmaster.smoke.RadialSmokeServer",
-   "dk.starswordmaster.smoke.OverhaulCodecSmokeServer"
+   "dk.starswordmaster.smoke.OverhaulCodecSmokeServer",
+   "dk.starswordmaster.smoke.TreePerfServer",
+   "dk.starswordmaster.smoke.EvolutionSmokeServer"
   ]
  },
  "mixins": [

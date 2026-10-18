@@ -3,6 +3,7 @@ import java.util.*;
 import java.math.BigInteger;
 public final class PlayerProgress {
  public static final int STAT_POINTS_PER_LEVEL=5;
+ public static final int CLASS_SELECTION_LEVEL=5;
  public enum PlayerClass { UNINITIATED, SWORDSMAN, MAGE, SPELLBLADE }
  public enum Stat { STRENGTH, AGILITY, ENDURANCE, SPIRIT }
  public enum SwordStyle { QUICK, HEAVY, DEFENSIVE }
@@ -25,7 +26,7 @@ public final class PlayerProgress {
    case SPELLBLADE->switch(s){case STRENGTH,SPIRIT->2;case AGILITY->1;default->0;};
    default->0;
   };
-  return (long)stat(s)+bonus;
+  return (long)stat(s)+bonus+(s==Stat.AGILITY?evolution().agilityBonus():0);
  }
  public double strengthDamageBonus(){return 0.025*effectiveStat(Stat.STRENGTH);}
  public double agilityCooldownReduction(){return Math.min(0.4,effectiveStat(Stat.AGILITY)*0.01);}
@@ -54,7 +55,7 @@ public final class PlayerProgress {
    awardXp(new java.math.BigDecimal(reward).multiply(java.math.BigDecimal.valueOf(characterXpMultiplier)).toBigInteger());
  }
  public boolean chooseClass(PlayerClass c){
-  if(c==null||c==PlayerClass.UNINITIATED||playerClass!=PlayerClass.UNINITIATED||level().compareTo(BigInteger.TEN)<0)return false;
+  if(c==null||c==PlayerClass.UNINITIATED||playerClass!=PlayerClass.UNINITIATED||level().compareTo(BigInteger.valueOf(CLASS_SELECTION_LEVEL))<0)return false;
   playerClass=c;return true;
  }
  private boolean eligible(Ability a){return a!=null&&a.classAllowed(playerClass)&&level().compareTo(BigInteger.valueOf(a.characterRequirement()))>=0&&skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||learned.contains(a.parent()));}
@@ -96,15 +97,15 @@ public final class PlayerProgress {
  public double stamina(){return stamina;}
  // Keep the original resource formula; conversion remains finite at arbitrarily high character levels.
  private double resourceLevels(){return Math.min(Double.MAX_VALUE/4,level().subtract(BigInteger.ONE).doubleValue());}
- public double maxMana(){return 100+2*resourceLevels()+spiritManaBonus()+(learned.contains("mana_control")?20:0)+(learned.contains("arcane_mastery")?20:0);}
- public double maxStamina(){return 100+resourceLevels()+enduranceStaminaBonus()+(learned.contains("aura_awaken")?15:0)+(learned.contains("element_binding")?10:0);}
+ public double maxMana(){return 100+2*resourceLevels()+spiritManaBonus()+(learned.contains("mana_control")?20:0)+(learned.contains("arcane_mastery")?20:0)+evolution().manaBonus();}
+ public double maxStamina(){return 100+resourceLevels()+enduranceStaminaBonus()+(learned.contains("aura_awaken")?15:0)+(learned.contains("element_binding")?10:0)+evolution().staminaBonus();}
  public double manaCost(Ability a){
   double cost=a.mana();if(a.skill()==Skill.FIRE&&learned.contains("fire_affinity"))cost*=0.9;
-  if(a.stamina()>0&&style==SwordStyle.QUICK&&learned.contains("flow_training"))cost*=0.9;return cost;
+  if(a.stamina()>0&&style==SwordStyle.QUICK&&learned.contains("flow_training"))cost*=0.9;return cost*(1-evolution().manaDiscount());
  }
  public double staminaCost(Ability a){
   double cost=a.stamina();if(style==SwordStyle.DEFENSIVE&&learned.contains("guard_training"))cost*=0.75;
-  else if(style==SwordStyle.QUICK&&learned.contains("flow_training"))cost*=0.9;return cost;
+  else if(style==SwordStyle.QUICK&&learned.contains("flow_training"))cost*=0.9;return cost*(1-evolution().staminaDiscount());
  }
  public int cooldownTicks(Ability a){
   double factor=1-agilityCooldownReduction();
@@ -121,7 +122,7 @@ public final class PlayerProgress {
    default->0;
   };
  }
- public double damageMultiplier(Ability a){return damageMultiplier()*(a.stamina()>0&&style==SwordStyle.HEAVY&&learned.contains("impact_training")?1.15:1)*(1+rankDamageBonus(a));}
+ public double damageMultiplier(Ability a){return damageMultiplier()*(a.stamina()>0&&style==SwordStyle.HEAVY&&learned.contains("impact_training")?1.15:1)*(1+rankDamageBonus(a))*(1+evolution().damageBonus(a));}
  public double healingMultiplier(){return learned.contains("restorative_affinity")?1.25:1;}
  public boolean canCast(int slot){
   Ability a=Ability.ALL.get(slot(slot));
@@ -132,9 +133,10 @@ public final class PlayerProgress {
   Ability a=Ability.ALL.get(slot(slot));mana-=manaCost(a);stamina-=staminaCost(a);int duration=cooldownTicks(a);cooldowns.put(a.id(),duration);cooldownDurations.put(a.id(),duration);return true;
  }
  public PlayerClass playerClass(){return playerClass;}
+ public ClassEvolution evolution(){return ClassEvolution.from(playerClass,level());}
  public SwordStyle style(){return style;}
  public void setStyle(SwordStyle style){if(style!=null)this.style=style;}
- public double manaRegenPerTick(boolean combat){return (combat?0.04:0.15)*(1+bonuses().manaRegeneration());}
+ public double manaRegenPerTick(boolean combat){return (combat?0.04:0.15)*(1+bonuses().manaRegeneration())*(1+evolution().manaRegenerationBonus());}
  public void tick(boolean combat){
   cooldowns.replaceAll((id,t)->Math.max(0,t-1));
   mana=Math.min(maxMana(),mana+manaRegenPerTick(combat));
@@ -154,7 +156,7 @@ public final class PlayerProgress {
   PlayerProgress q=new PlayerProgress();q.experience=CharacterExperience.read(p);
   for(Skill s:Skill.values())q.practice.put(s,CharacterExperience.nonnegative(p,"practice."+s));
   try{q.playerClass=PlayerClass.valueOf(p.getProperty("class","UNINITIATED"));}catch(IllegalArgumentException ignored){}
-  if(q.level().compareTo(BigInteger.TEN)<0)q.playerClass=PlayerClass.UNINITIATED;
+  if(q.level().compareTo(BigInteger.valueOf(CLASS_SELECTION_LEVEL))<0)q.playerClass=PlayerClass.UNINITIATED;
   try{q.style=SwordStyle.valueOf(p.getProperty("style","QUICK"));}catch(IllegalArgumentException ignored){}
   for(Stat s:Stat.values()){int n=integer(p,"stat."+s,Integer.MAX_VALUE);q.stats.put(s,q.statPoints().min(BigInteger.valueOf(n)).intValueExact());}
     Set<String> requested=new LinkedHashSet<>(Arrays.asList(p.getProperty("learned","").split(",")));

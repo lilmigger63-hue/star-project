@@ -121,3 +121,14 @@ loom.runs {
 }
 
 loom.runs { smokeOverhaulCodec { server(); source sourceSets.smoke; runDir 'run/overhaul-codec'; vmArg '-Dstarsmoke.overhaul.codec=true' } }
+
+// Identical native render-thread benchmark fixtures before/after optimization.
+loom.runs {
+ smokeTreePerf { client(); source sourceSets.smoke; runDir 'run/tree-perf'; programArg '--username'; programArg 'TreePerf'; vmArg '-Dstarsmoke.treeperf=true'; vmArg '-Dstarsmoke.treeperf.label=baseline' }
+ smokeTreePerfOptimized { client(); source sourceSets.smoke; runDir 'run/tree-perf'; programArg '--username'; programArg 'TreePerf'; vmArg '-Dstarsmoke.treeperf=true'; vmArg '-Dstarsmoke.treeperf.label=optimized' }
+}
+
+loom.runs {
+ smokeEvolutionServer { server(); source sourceSets.smoke; runDir 'run/evolution-server'; vmArg '-Dstarsmoke.evolution=true' }
+ smokeEvolutionClient { client(); source sourceSets.smoke; runDir 'run/evolution-client'; programArg '--username'; programArg 'EvolutionSmoke'; vmArg '-Dstarsmoke.evolution=true' }
+}

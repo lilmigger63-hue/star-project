@@ -37,4 +37,9 @@ public class AuraIdentityTest {
   var p=new Properties();p.setProperty("xp","7200");p.setProperty("class","SPELLBLADE");p.setProperty("practice.LIGHTNING","10000");p.setProperty("learned","spark,static_spark,chain_lightning,thunder_step");var player=PlayerProgress.fromProperties(p);
   assertTrue(player.learned().contains("thunder_step"));assertTrue(VisualState.from(new UUID(1,2),player,AbilityPresentation.Element.LIGHTNING).auraUnlocked());
  }
+ @Test public void evolutionRefinesPowerWithoutReplacingPersonalHueOrRank(){
+  var props=new java.util.Properties();props.setProperty("xp","1350");var p=PlayerProgress.fromProperties(props);assertTrue(p.chooseClass(PlayerProgress.PlayerClass.MAGE));var id=new UUID(42,7);var visual=VisualState.from(id,p,AbilityPresentation.Element.FIRE);
+  assertEquals(VisualPowerScaling.safe(VisualPowerScaling.power(p.level())+.02f),visual.power(),0);assertEquals(AuraColors.forPlayer(id),visual.auraColor());assertEquals(p.rank(),visual.rank());
+  p.awardXp(BigInteger.TEN.pow(60));visual=VisualState.from(id,p,AbilityPresentation.Element.FIRE);assertEquals(1,visual.power(),0);assertEquals(AuraColors.forPlayer(id),visual.auraColor());assertEquals(1,visual.rank());
+ }
 }

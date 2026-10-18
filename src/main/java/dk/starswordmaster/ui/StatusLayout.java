@@ -1,7 +1,7 @@
 package dk.starswordmaster.ui;
 /** GUI-scaled bounds shared by rendering and scrolling. */
 public record StatusLayout(int x,int y,int width,int height) {
- public static final int CHARACTER_HEIGHT=122,STATS_HEIGHT=146;
+ public static final int CHARACTER_HEIGHT=166,STATS_HEIGHT=146;
  public static StatusLayout forScreen(int screenWidth,int screenHeight){
   int margin=Math.min(8,Math.min(screenWidth,screenHeight)/8);
   int w=Math.max(1,Math.min(520,screenWidth-2*margin)),h=Math.max(1,Math.min(392,screenHeight-2*margin));
