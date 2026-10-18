@@ -1,3 +1,12 @@
+# 0.10.0 — Complete combat presentation and progression overhaul
+
+- All 85 nodes directly purchasable with one perk point; remove learning class/level/practice/parent gates while preserving ability-use rules, permanent class choice and visual tree routes.
+- Future/fresh levels give three stat points and one perk point. A versioned fixed legacy credit preserves all old five-point allocations and unspent points without repeated grants.
+- Actual upper-body retarget from five verified CC0 motion packs blended into all 54 existing PAL performances; exact timing, native movement, mirroring and Better Combat priority retained.
+- Import 26 sharp atlas frames from seven verified CC0 effect sources, with age-driven slash/parry animation and bounded accent routing.
+- Native sword-position histories produce curved trails for normal attacks and skill poses, including first/third person and multiplayer, within existing aura/particle budgets. Preserve volumetric spells, personal aura hues and eased rotating hand circles.
+- Original license notices, reproducible extraction tools and exact asset provenance included. No new runtime dependencies or gameplay damage handlers.
+
 # 0.9.0 — Tree performance and automatic class evolution
 
 - Cached native GUI line quads replace per-pixel submissions; clipping, viewport culling, overview LOD, text/progression/button caches and snapshot dedup reduce repeated work.

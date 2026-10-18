@@ -1,8 +1,8 @@
 {
   "version": 3,
   "name": "skill_frost_blade",
-  "author": "Star Swordmaster",
-  "description": "Original five-stage fantasy choreography. Set a high frozen edge, carve a crisp descending diagonal and arrest its weight.",
+  "author": "Star Swordmaster / CC0 motion contributors (ASSET_CREDITS.md)",
+  "description": "Original six-phase choreography with bounded CC0 motion retargeting. Set a high frozen edge, carve a crisp descending diagonal and arrest its weight.",
   "emote": {
     "isLoop": false,
     "returnTick": 0,
@@ -34,14 +34,14 @@
         "tick": 2,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -148.0,
-          "yaw": -32.0,
-          "roll": 67.0
+          "pitch": -155.354,
+          "yaw": -40.326,
+          "roll": 73.726
         },
         "leftArm": {
-          "pitch": -70.0,
-          "yaw": 26.0,
-          "roll": -39.0
+          "pitch": -71.995,
+          "yaw": 25.019,
+          "roll": -47.873
         },
         "torso": {
           "pitch": -7.0,
@@ -53,14 +53,14 @@
         "tick": 3,
         "easing": "EASEOUTCUBIC",
         "rightArm": {
-          "pitch": -42.0,
-          "yaw": 36.0,
-          "roll": -78.0
+          "pitch": -54.594,
+          "yaw": 24.939,
+          "roll": -66.72
         },
         "leftArm": {
-          "pitch": -44.0,
-          "yaw": -12.0,
-          "roll": -20.0
+          "pitch": -49.191,
+          "yaw": -14.791,
+          "roll": -33.236
         },
         "torso": {
           "pitch": 10.0,
@@ -72,14 +72,14 @@
         "tick": 4,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -38.5,
-          "yaw": 31.0,
-          "roll": -71.0
+          "pitch": -56.768,
+          "yaw": 25.869,
+          "roll": -59.285
         },
         "leftArm": {
-          "pitch": -38.0,
-          "yaw": -14.0,
-          "roll": -25.0
+          "pitch": -42.911,
+          "yaw": -17.849,
+          "roll": -39.058
         },
         "torso": {
           "pitch": 10.5,
@@ -91,14 +91,14 @@
         "tick": 5,
         "easing": "EASEOUTSINE",
         "rightArm": {
-          "pitch": -35.0,
-          "yaw": 34.0,
-          "roll": -83.0
+          "pitch": -54.224,
+          "yaw": 28.182,
+          "roll": -70.409
         },
         "leftArm": {
-          "pitch": -32.0,
-          "yaw": -11.0,
-          "roll": -22.0
+          "pitch": -38.09,
+          "yaw": -15.999,
+          "roll": -37.41
         },
         "torso": {
           "pitch": 11.0,
@@ -110,14 +110,14 @@
         "tick": 6,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -42.8,
-          "yaw": 28.4,
-          "roll": -62.8
+          "pitch": -60.999,
+          "yaw": 21.232,
+          "roll": -50.264
         },
         "leftArm": {
-          "pitch": -31.6,
-          "yaw": -12.0,
-          "roll": -20.4
+          "pitch": -38.237,
+          "yaw": -17.298,
+          "roll": -36.19
         },
         "torso": {
           "pitch": 9.0,
@@ -129,14 +129,14 @@
         "tick": 7,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -50.6,
-          "yaw": 22.8,
-          "roll": -49.6
+          "pitch": -68.194,
+          "yaw": 15.826,
+          "roll": -37.374
         },
         "leftArm": {
-          "pitch": -31.2,
-          "yaw": -8.0,
-          "roll": -18.8
+          "pitch": -38.195,
+          "yaw": -13.635,
+          "roll": -34.218
         },
         "torso": {
           "pitch": 7.0,
@@ -148,14 +148,14 @@
         "tick": 10,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -74.0,
-          "yaw": 6.0,
-          "roll": -10.0
+          "pitch": -85.091,
+          "yaw": 2.702,
+          "roll": -2.561
         },
         "leftArm": {
-          "pitch": -30.0,
-          "yaw": 4.0,
-          "roll": -14.0
+          "pitch": -34.989,
+          "yaw": -0.291,
+          "roll": -23.097
         },
         "torso": {
           "pitch": 1.0,

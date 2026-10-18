@@ -23,7 +23,7 @@ public class DomainContractTest {
  @Test public void unknownAbilitiesAndInvalidSlotsCannotBeUsed(){
   var p=new PlayerProgress();assertFalse(p.unlock("nonexistent"));assertFalse(p.assign(0,"nonexistent"));assertFalse(p.cast(-1));assertFalse(p.cast(5));assertEquals(100,p.mana(),0.001);
  }
- @Test public void advancedStylesAndMagicRespectClasses(){
+ @Test public void advancedSkillsAreOpenWhileClassesRemainPermanent(){
   for(var cls:new PlayerProgress.PlayerClass[]{PlayerProgress.PlayerClass.SWORDSMAN,PlayerProgress.PlayerClass.MAGE,PlayerProgress.PlayerClass.SPELLBLADE}){
    var p=new PlayerProgress();p.awardXp(java.math.BigInteger.valueOf(10000));for(Skill skill:Skill.values())for(int i=0;i<500;i++)p.awardPractice(skill,20);assertTrue(p.chooseClass(cls));
    String[] route=switch(cls){
@@ -34,7 +34,7 @@ public class DomainContractTest {
    };
    for(String id:route)assertTrue("learn "+id,p.unlock(id));
    assertTrue(p.assign(4,route[route.length-1]));assertTrue(p.cast(4));
-   if(cls!=PlayerProgress.PlayerClass.MAGE)assertFalse(p.unlock("flame_lance"));
+   if(cls!=PlayerProgress.PlayerClass.MAGE)assertTrue(p.unlock("flame_lance"));
   }
  }
  @Test public void rankPerksGrantResourceBonuses(){

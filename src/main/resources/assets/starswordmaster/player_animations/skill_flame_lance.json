@@ -1,8 +1,8 @@
 {
   "version": 3,
   "name": "skill_flame_lance",
-  "author": "Star Swordmaster",
-  "description": "Original five-stage fantasy choreography. Draw a burning spear behind the shoulder, drive it and roll the spent hand away.",
+  "author": "Star Swordmaster / CC0 motion contributors (ASSET_CREDITS.md)",
+  "description": "Original six-phase choreography with bounded CC0 motion retargeting. Draw a burning spear behind the shoulder, drive it and roll the spent hand away.",
   "emote": {
     "isLoop": false,
     "returnTick": 0,
@@ -34,114 +34,114 @@
         "tick": 1,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -87.0,
-          "yaw": -37.0,
-          "roll": 33.0
+          "pitch": -89.712,
+          "yaw": -33.819,
+          "roll": 28.819
         },
         "leftArm": {
-          "pitch": -45.5,
-          "yaw": 26.5,
-          "roll": -30.0
+          "pitch": -42.908,
+          "yaw": 28.836,
+          "roll": -25.625
         },
         "torso": {
-          "pitch": -5.0,
-          "yaw": -14.5,
-          "roll": 2.25
+          "pitch": -4.927,
+          "yaw": -13.491,
+          "roll": 2.251
         }
       },
       {
         "tick": 2,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -138.0,
-          "yaw": -46.0,
-          "roll": 57.0
+          "pitch": -138.837,
+          "yaw": -35.673,
+          "roll": 57.949
         },
         "leftArm": {
-          "pitch": -62.0,
-          "yaw": 34.0,
-          "roll": -43.0
+          "pitch": -65.502,
+          "yaw": 45.313,
+          "roll": -44.506
         },
         "torso": {
-          "pitch": -8.0,
-          "yaw": -22.0,
-          "roll": 3.0
+          "pitch": -9.084,
+          "yaw": -18.846,
+          "roll": 2.515
         }
       },
       {
         "tick": 3,
         "easing": "EASEOUTCUBIC",
         "rightArm": {
-          "pitch": -90.0,
-          "yaw": 16.0,
-          "roll": -22.0
+          "pitch": -82.278,
+          "yaw": 14.348,
+          "roll": -18.266
         },
         "leftArm": {
-          "pitch": -28.0,
-          "yaw": -18.0,
-          "roll": -30.0
+          "pitch": -23.471,
+          "yaw": -23.927,
+          "roll": -22.983
         },
         "torso": {
-          "pitch": 12.0,
-          "yaw": 16.0,
-          "roll": -2.0
+          "pitch": 14.514,
+          "yaw": 15.041,
+          "roll": -1.318
         }
       },
       {
         "tick": 5,
         "easing": "EASEOUTSINE",
         "rightArm": {
-          "pitch": -104.0,
-          "yaw": 16.0,
-          "roll": -35.0
+          "pitch": -70.685,
+          "yaw": 11.277,
+          "roll": -56.697
         },
         "leftArm": {
-          "pitch": -18.0,
-          "yaw": -19.0,
-          "roll": -28.0
+          "pitch": -17.072,
+          "yaw": -49.244,
+          "roll": -17.712
         },
         "torso": {
-          "pitch": 9.0,
-          "yaw": 22.0,
-          "roll": -3.0
+          "pitch": 18.729,
+          "yaw": 19.242,
+          "roll": -6.645
         }
       },
       {
         "tick": 8,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -69.0,
-          "yaw": 5.0,
-          "roll": -7.0
+          "pitch": -45.473,
+          "yaw": 3.005,
+          "roll": -18.726
         },
         "leftArm": {
-          "pitch": -18.0,
-          "yaw": -10.0,
-          "roll": -20.0
+          "pitch": -18.618,
+          "yaw": -35.005,
+          "roll": -7.433
         },
         "torso": {
-          "pitch": 4.5,
-          "yaw": 10.0,
-          "roll": -1.5
+          "pitch": 12.255,
+          "yaw": 8.047,
+          "roll": -3.581
         }
       },
       {
         "tick": 11,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -34.0,
-          "yaw": -6.0,
-          "roll": 14.0
+          "pitch": -34.651,
+          "yaw": -3.397,
+          "roll": 8.423
         },
         "leftArm": {
-          "pitch": -18.0,
-          "yaw": 4.0,
-          "roll": -12.0
+          "pitch": -16.885,
+          "yaw": 2.007,
+          "roll": -6.579
         },
         "torso": {
-          "pitch": 0.0,
-          "yaw": -2.0,
-          "roll": 0.0
+          "pitch": 0.704,
+          "yaw": -1.814,
+          "roll": 0.005
         }
       },
       {

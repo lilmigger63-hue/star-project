@@ -9,6 +9,7 @@ Original anchors are retained below and in generate_expansion_assets.py. A bound
 five-stage refinement samples those anchors, preserving exact end/stop ticks.
 """
 import json
+from blend_combat_motion import blend, MOTION
 from pathlib import Path
 
 # id: (duration, choreography, [(tick, right arm, left arm, torso), ...])
@@ -338,15 +339,16 @@ def refine(duration, keys, release_index, settle_ticks=()):
 def main():
     target = Path(__file__).resolve().parents[1] / "src/main/resources/assets/starswordmaster/player_animations"
     clips = authored_clips()
+    assert set(clips)==set(MOTION), (set(clips)-set(MOTION),set(MOTION)-set(clips))
     for ability, (duration, description, keys) in clips.items():
         # Static Spark deliberately snaps back through a short conducting-hand settle,
         # distinct from Rapid Slash's equally short multi-cut cadence.
-        moves = refine(duration, keys, RELEASE[ability], (9,) if ability == 'static_spark' else ())
+        moves = blend(ability, refine(duration, keys, RELEASE[ability], (9,) if ability == 'static_spark' else ()), duration)
         data = {
             "version": 3,
             "name": f"skill_{ability}",
-            "author": "Star Swordmaster",
-            "description": f"Original five-stage fantasy choreography. {description}",
+            "author": "Star Swordmaster / CC0 motion contributors (ASSET_CREDITS.md)",
+            "description": f"Original six-phase choreography with bounded CC0 motion retargeting. {description}",
             "emote": {
                 "isLoop": False,
                 "returnTick": 0,

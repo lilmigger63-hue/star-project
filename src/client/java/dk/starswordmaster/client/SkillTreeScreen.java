@@ -152,7 +152,7 @@ public final class SkillTreeScreen extends Screen {
    for(var n:projection.nodes()){
     int x=n.x(),y=n.y();var state=progression.node(n.node().id());
     if(n.node().id().equals(selected))c.fill(x-3,y-3,x+size+3,y+size+3,DarkFantasyPalette.GOLD);
-    int frame=state.known()?DarkFantasyPalette.LEARNED:state.classLocked()?DarkFantasyPalette.CLASS_LOCKED:state.available()?DarkFantasyPalette.AVAILABLE:DarkFantasyPalette.LOCKED;
+    int frame=state.known()?DarkFantasyPalette.LEARNED:state.available()?DarkFantasyPalette.AVAILABLE:DarkFantasyPalette.LOCKED;
     c.fill(x-edge,y-edge,x+size+edge,y+size+edge,frame);
     if(projection.fullDetail())icon(c,n.node().id(),x,y,size,state.known()||state.available());
     else c.fill(x,y,x+size,y+size,state.known()||state.available()?SkillTreeLayout.sector(n.node()).color():DarkFantasyPalette.CHARCOAL);
@@ -190,12 +190,9 @@ public final class SkillTreeScreen extends Screen {
  }
  private List<Text> details(Ability a){
   var cached=tooltipCache.get(a.id());if(cached!=null)return cached;
-  var p=StarSwordmasterClient.data;var lines=new ArrayList<Text>();lines.add(SkillHud.name(a.id()));lines.add(Text.translatable("description.starswordmaster."+a.id()));lines.add(text("skill_requirement",Text.translatable("skill.starswordmaster."+a.skill().name().toLowerCase(Locale.ROOT)),a.requirement(),p.skillLevel(a.skill())));
-  if(!a.parent().isEmpty())lines.add(text("previous_ability",SkillHud.name(a.parent())));
-  if(a.characterRequirement()>1)lines.add(text("character_requirement",a.characterRequirement(),compact(p.level())));
-  if(a.exclusiveClass()!=null)lines.add(text("required_class",className(a.exclusiveClass())));
+  var p=StarSwordmasterClient.data;var lines=new ArrayList<Text>();lines.add(SkillHud.name(a.id()));lines.add(Text.translatable("description.starswordmaster."+a.id()));
   if(a.active())lines.add(text("cost_details",number(p.manaCost(a)),number(p.staminaCost(a)),number(p.cooldownTicks(a)/20.0)));
-  var state=progression.node(a.id());lines.add(text(state.known()?"learned":"price"));if(!state.known())lines.add(text(state.classLocked()?"state.class_locked":state.available()?"state.available":"state.locked"));
+  var state=progression.node(a.id());lines.add(text(state.known()?"learned":"price"));if(!state.known())lines.add(text(state.available()?"state.available":"state.no_points"));
   var result=List.copyOf(lines);tooltipCache.put(a.id(),result);return result;
  }
  @Override public boolean mouseClicked(Click click,boolean doubleClick){

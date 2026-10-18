@@ -31,7 +31,7 @@ public final class FantasyParticles {
                 // Safe vanilla /particle behavior; ability-specific parameters never use the protocol.
                 return (effect, world, x, y, z, vx, vy, vz, random) -> {
                     var sprite = readySprite(provider);
-                    return sprite == null ? null : new InkParticle(world, sprite, 0xFFFFFF,
+                    return sprite == null ? null : new InkParticle(world, provider, sprite, 0xFFFFFF,
                             new Vec3d(x, y, z), new Vec3d(vx, vy, vz), 8, 0.32f, 0);
                 };
             });
@@ -47,7 +47,7 @@ public final class FantasyParticles {
         }
         var sprite = readySprite(SPRITES.get(ink));
         if (sprite == null) return false;
-        client.particleManager.addParticle(new InkParticle(client.world, sprite, rgb, position,
+        client.particleManager.addParticle(new InkParticle(client.world, SPRITES.get(ink), sprite, rgb, position,
                 velocity, life, size, angle));
         return true;
     }
@@ -70,10 +70,12 @@ public final class FantasyParticles {
     }
 
     private static final class InkParticle extends BillboardParticle {
-        InkParticle(ClientWorld world, Sprite sprite, int rgb, Vec3d p, Vec3d v,
+        private final SpriteProvider frames;
+        InkParticle(ClientWorld world, SpriteProvider frames, Sprite sprite, int rgb, Vec3d p, Vec3d v,
                 int life, float size, float angle) {
             super(world, p.x, p.y, p.z, sprite);
-            maxAge = Math.clamp(life, 2, 12);
+            this.frames=frames;
+            maxAge = Math.clamp(life, 2, VfxQuality.level()==0?6:12);
             scale = Math.clamp(size, 0.08f, dk.starswordmaster.presentation.VisualPowerScaling.MAX_SPRITE) * 0.5f;
             setColor(((rgb >> 16) & 255) / 255f, ((rgb >> 8) & 255) / 255f, (rgb & 255) / 255f);
             setVelocity(Math.clamp(v.x, -0.35, 0.35), Math.clamp(v.y, -0.35, 0.35),
@@ -92,6 +94,7 @@ public final class FantasyParticles {
 
         @Override
         public void render(BillboardParticleSubmittable batch, Camera camera, float tickProgress) {
+            try{updateSprite(frames);}catch(IllegalStateException | IndexOutOfBoundsException ignored){}
             float t = Math.clamp((age + tickProgress) / maxAge, 0, 1);
             // Smoothstep fade preserves the hard pixel silhouette while softening its disappearance.
             alpha = 0.9f * (1 - t * t * (3 - 2 * t));

@@ -2,15 +2,18 @@
 
 A Fabric mod for **Minecraft 1.21.10 / Java 21** with permanent classes, sword mastery, magic and a branching skill tree. The current tree contains **85 nodes: 54 active abilities and 31 passive nodes**. All player-facing mod text is English, including when Minecraft uses Danish; vanilla and other mods keep their selected language.
 
-Version **0.9.0** adds a cached/culling native skill-tree renderer, 1.7× radial spacing, permanent class selection at level 5 and independent automatic evolution at levels 10/20/30. See [TREE_PERFORMANCE.md](TREE_PERFORMANCE.md) for measured CPU results and [CLASS_EVOLUTION.md](CLASS_EVOLUTION.md) for exact derived bonuses. All 85 nodes and skill-based ranks remain.
+Version 0.10.0 blends verified CC0 upper-body motion into all 54 existing skill clips, adds 26 imported particle-atlas frames and bounded curved trails sampled from the actual held sword. Original volumetric spells, hand circles, personal aura hues and native Better Combat motion remain. [ASSET_CREDITS.md](ASSET_CREDITS.md) records exact sources and conversion limits. Future levels give three stat points; all 85 nodes cost one perk without learning gates, while historical points and ability-use rules remain.
+
+Version **0.9.0** added a cached/culling native skill-tree renderer, 1.7× radial spacing, permanent class selection at level 5 and independent automatic evolution at levels 10/20/30. See [TREE_PERFORMANCE.md](TREE_PERFORMANCE.md) for measured CPU results and [CLASS_EVOLUTION.md](CLASS_EVOLUTION.md) for exact derived bonuses. All 85 nodes and skill-based ranks remain.
 
 Version **0.8.0** added individually assembled closed 3D constructs and refined original PAL performances for all 54 active abilities. Existing hand circles, native sword auras, terrain formations and gameplay remain. [VFX_OVERHAUL.md](VFX_OVERHAUL.md) documents actual geometry, quality levels, presentation-only v3 networking and limits.
 
-The finishing pass uses charcoal, slate, aged iron, bronze and antique gold across the skill tree, character status and HUD. Existing original skill icons and the constellation artwork are retained beneath subdued panels. Learned, available, class-locked and unavailable nodes have distinct frames and small state marks; selected nodes have an outer gold frame. See [VALIDATION.md](VALIDATION.md) for the checks actually completed for the current build.
+The finishing pass uses charcoal, slate, aged iron, bronze and antique gold across the skill tree, character status and HUD. Existing original skill icons and the constellation artwork are retained beneath subdued panels. Learned, available and no-point nodes have distinct frames and small state marks; selected nodes have an outer gold frame. See [VALIDATION.md](VALIDATION.md) for the checks actually completed for the current build.
+
 
 ## Downloads and installation
 
-Download **0.9.0**: [mod JAR](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.9.0/star-swordmaster-0.9.0.jar) · [SHA-256](releases/0.9.0/SHA256SUMS.txt) · [validation](VALIDATION.md) · [changelog](CHANGELOG.md). Use 0.9.0 on the server and all clients. Historical release directories remain unchanged.
+Download **0.10.0**: [mod JAR](https://raw.githubusercontent.com/lilmigger63-hue/star-project/main/releases/0.10.0/star-swordmaster-0.10.0.jar) · [SHA-256](releases/0.10.0/SHA256SUMS.txt) · [validation](VALIDATION.md) · [changelog](CHANGELOG.md). Use 0.10.0 on the server and all clients. Historical release directories remain unchanged.
 
 1. Create a Minecraft **1.21.10** installation with **Fabric Loader 0.19.5** and **Java 21**.
 2. Install [Fabric API 0.138.4+1.21.10](https://modrinth.com/mod/fabric-api), [Better Combat 3.0.0+1.21.10](https://modrinth.com/mod/better-combat), [Cloth Config 20.0.149](https://modrinth.com/mod/cloth-config) and [Player Animation Library 1.1.3](https://modrinth.com/mod/player-animation-library). The PAL file is named `PlayerAnimationLibFabric-1.1.3+mc.1.21.9.jar`; its publisher also lists Minecraft 1.21.10 compatibility.
@@ -23,7 +26,7 @@ Back up the whole world before updating. A separate profile is useful for first-
 
 | Control | Action |
 | --- | --- |
-| **K** | Skill tree: select a node, inspect requirements, learn with a perk point, then assign an active ability to slot 1–5 |
+| **K** | Skill tree: select any node, learn with one perk point, then assign an active ability to slot 1–5 |
 | **H** | Character status: level/XP, class/rank/style, effective attributes, points, resources and learned skills |
 | **Z / X / C / V / B** | Activate skill slots 1–5 |
 | Drag / scroll in K | Pan / zoom the eight-arm tree |
@@ -31,11 +34,11 @@ Back up the whole world before updating. A separate profile is useful for first-
 
 The eight-arm constellation groups Sword, Fire, Frost, Lightning, Water, Earth, Dark and Support. **Fit tree** frames the full tree; the branch control focuses one arm. Narrow GUIs switch between tree and details. **RESET SKILLS** opens a confirmation, then refunds all purchased perk nodes while retaining class, XP, practice and allocated stats. See [SKILL_TREE.md](SKILL_TREE.md).
 
-All mod keys can be rebound in Minecraft's Controls settings. Hover nodes for complete descriptions, prerequisites, class/level requirements and effective resource costs/cooldowns. Selected combat styles appear in brackets. The H screen's **Low / Normal / Ultra** VFX selector is local to the client.
+All mod keys can be rebound in Minecraft's Controls settings. Hover nodes for complete descriptions and effective resource costs/cooldowns. Learning any node needs only one available perk point; using an ability still enforces its existing equipment, target and resource rules. Selected combat styles appear in brackets. The H screen's **Low / Normal / Ultra** VFX selector is local to the client.
 
-Start as **Uninitiated**. Hit existing hostile mobs with a sword to practice Sword; swinging at air grants no practice. Skills improve through use; practice alone grants no character XP by default. Killing a credited hostile mob grants `ceil(maximum health × 3)` character XP before the existing level-8 multiplier. Every character level after level 1 grants **5 stat points** for attributes in H and **1 perk point** for nodes in K. These are separate budgets and are separate from vanilla XP. Viewing either screen spends nothing. The server validates every purchase and updates the display through snapshots.
+Start as **Uninitiated**. Hit existing hostile mobs with a sword to practice Sword; swinging at air grants no practice. Skills improve through use; practice alone grants no character XP by default. Killing a credited hostile mob grants `ceil(maximum health × 3)` character XP before the existing level-8 multiplier. Every character level after level 1 grants **3 stat points** for attributes in H and **1 perk point** for nodes in K. These are separate budgets and are separate from vanilla XP. Viewing either screen spends nothing. The server validates every purchase and updates the display through snapshots.
 
-At **character level 5**, choose **Swordsman**, **Mage** or **Spellblade** in K. The confirmation warns that the choice is **permanent in that world**. All classes retain access to basic magic and basic sword techniques. Adept, Master and Rank 4 nodes extend the selected class; [RANKS.md](RANKS.md) lists requirements and bonuses.
+At **character level 5**, choose **Swordsman**, **Mage** or **Spellblade** in K. The confirmation warns that the choice is **permanent in that world**. All classes retain access to basic magic and basic sword techniques. All nodes can be purchased without class, level, proficiency or parent gates. Adept, Master and Rank 4 passives determine the highest owned rank of the selected class; [RANKS.md](RANKS.md) lists bonuses.
 
 Sword techniques require a sword in the main hand. Aim at a hostile target for targeted attacks. Magic spends mana; sword techniques also spend stamina. Rejected casts spend no resources. Mana and stamina regenerate automatically, more slowly in combat; combat lasts eight seconds after damage. Better Combat continues to control ordinary attacks.
 
@@ -56,7 +59,7 @@ H shows effective values, passive contributions and tooltips explaining formulas
 
 At 20 ticks per second, mana regeneration starts at **3/second out of combat** and **0.8/second in combat**; Spirit can at most double these to 6 and 1.6. Regeneration stops at maximum mana.
 
-Passive specializations are available to every class that meets their prerequisites: Flow Training gives Quick-style sword abilities 10% lower costs and cooldowns; Impact Training gives Heavy style +15% sword ability damage; Guard Training gives Defensive style −25% stamina cost; Fire Affinity gives −10% fire mana costs; Frost Affinity gives −20% frost cooldowns; Restorative Affinity gives +25% direct healing, excluding regeneration over time.
+Passive specializations are available to every class for one perk point each: Flow Training gives Quick-style sword abilities 10% lower costs and cooldowns; Impact Training gives Heavy style +15% sword ability damage; Guard Training gives Defensive style −25% stamina cost; Fire Affinity gives −10% fire mana costs; Frost Affinity gives −20% frost cooldowns; Restorative Affinity gives +25% direct healing, excluding regeneration over time.
 
 There are no new mobs, bosses, dimensions or story quests. Area damage targets hostile mobs and excludes co-op players and pets. Earth formations are cosmetic and leave terrain intact.
 
@@ -68,9 +71,9 @@ The resource group sits 6 units from the left and adapts below GUI width 630 to 
 
 ## Progress and saved data
 
-Character levels have no fixed maximum. Rewards received while already level 8+ grant **×1.5 mod XP**; each subsequent level still gives 5 stat points and 1 perk point. [LEVELING.md](LEVELING.md) explains the curve, fractional XP and legacy migration.
+Character levels have no fixed maximum. Rewards received while already level 8+ grant **×1.5 mod XP**; each subsequent level still gives 3 stat points and 1 perk point. [LEVELING.md](LEVELING.md) explains the curve, fractional XP and legacy migration.
 
-Progress is saved per player in `data/starswordmaster/<UUID>.properties` inside the world. Death, reload and reconnect preserve it. Existing registry IDs, classes and schema-1 data remain compatible. Available stat points are `5 × (level − 1) − allocated points`; available perk points are `level − 1 − learned nodes`. A level-10 character with 8 allocated stat points therefore has 37 unspent points. Reloading does not repeat rewards. Passive bonuses never overwrite allocated stats or grant spendable points. Fixed attribute modifier IDs prevent bonus stacking on repeated ticks or reconnects.
+Progress is saved per player in `data/starswordmaster/<UUID>.properties` inside the world. Death, reload and reconnect preserve it. Existing registry IDs, classes and schema-1 data remain compatible. Available stat points are `3 × (level − 1) + preserved legacy credit − allocated points`; available perk points are `level − 1 − learned nodes`. An existing level-10 character with 8 allocated stat points retains 37 unspent points; a fresh level-10 character with the same allocation has 19. Old five-point entitlement is captured once, and all future levels grant three. Reloading does not repeat rewards. Passive bonuses never overwrite allocated stats or grant spendable points. Fixed attribute modifier IDs prevent bonus stacking on repeated ticks or reconnects.
 
 ## Building and testing
 

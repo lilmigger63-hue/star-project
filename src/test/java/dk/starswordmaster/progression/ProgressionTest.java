@@ -12,8 +12,8 @@ public class ProgressionTest {
   p=veteran();check(p.level().intValueExact()>=10,"character XP raises level independently of practice");
   check(p.chooseClass(PlayerProgress.PlayerClass.SWORDSMAN),"choose after level 5");
   check(!p.chooseClass(PlayerProgress.PlayerClass.MAGE),"permanent class");
-  check(!p.unlock("sword_mastery"),"prerequisite needed");
-  check(!p.unlock("mana_control"),"class gate");
+  check(p.canUnlock("sword_mastery"),"mastery has no purchase prerequisite");
+  check(p.canUnlock("mana_control"),"cross-class purchases allowed");
   check(p.unlock("spark"),"swordsman learns simple magic");
   check(!p.unlock("spark"),"duplicate unlock rejected");
   check(p.unlock("quick_cut"),"basic sword skill");
@@ -41,7 +41,7 @@ public class ProgressionTest {
   var stats=veteran();double oldMax=stats.maxMana();
   check(stats.spendStat(PlayerProgress.Stat.SPIRIT),"spend statpoint");
   check(stats.maxMana()>oldMax,"spirit increases mana");
-  check(stats.statPoints().intValueExact()==5*(stats.level().intValueExact()-1)-1,"stat point accounting");
+  check(stats.statPoints().intValueExact()==3*(stats.level().intValueExact()-1)-1,"stat point accounting");
   check(PlayerProgress.fromProperties(stats.toProperties()).stat(PlayerProgress.Stat.SPIRIT)==1,"stats persist");
   check(!new PlayerProgress().spendStat(PlayerProgress.Stat.STRENGTH),"no free stats");
   var exhausted=veteran();exhausted.unlock("spark");exhausted.assign(0,"spark");

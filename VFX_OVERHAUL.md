@@ -1,6 +1,10 @@
-# Volumetric combat presentation — 0.8.0
+# Volumetric combat presentation — 0.10.0
 
 All 54 active abilities retain their IDs, costs, damage, ranges, authoritative activation and original clip durations. The 31 passive nodes have no cast animations. This release builds on the existing renderer and native PAL/Better Combat hooks; it does not add a competing gameplay or animation system.
+
+## 0.10.0 additions
+
+All 54 existing PAL performances now blend selected CC0 upper-body curves from five verified sources; 26 particle-atlas frames from seven verified sources provide ordered slash/parry accents. [ASSET_CREDITS.md](ASSET_CREDITS.md) lists exact files, authors, licenses and conversion limits. Native held-model sword transforms create bounded curved three-dimensional ribbons, with mirrored/first-person/remote handling and the same shared aura budget. Circle charge/release easing retains original art and counter-rotation. The geometry audit below remains current: original volumetric meshes, element identities, terrain formations, damage timing and all face limits are preserved.
 
 ## Original shapes and choreography
 
@@ -81,7 +85,7 @@ Each row also uses its dedicated `skill_<id>.json` PAL clip and existing distinc
 | `sovereign_judgment` | STAR | CRESCENT / IMPACT | 34 / 58 / 74 | fall, open, rise |
 | `heavenly_sword_domain` | STAR | RING / CASTER | 54 / 72 / 90 | rise |
 
-## CPU stress measurement
+## Historical 0.8.0 CPU stress measurement
 
 `tools/VfxChoreographyBenchmark.java` exercises cached profile selection, quality groups, finite timelines and shared quota requests for 64 candidate casters over 10,000 simulated frames. After 5,000 warm-up frames, this Java 21 cloud run measured **42.291 / 35.296 / 35.850 ms** for three complete runs, checksums identical (14982248.085): **4.229 / 3.530 / 3.585 microseconds per simulated frame**. This excludes native drawing, GPU work, packets and particles. It is neither an FPS measurement nor a before/after performance claim. Real multiplayer is verified separately with two clients; no claim of 64 real network clients is made.
 

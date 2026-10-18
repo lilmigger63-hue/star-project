@@ -15,8 +15,8 @@ public class PassiveTrainingTest {
   assertEquals(available,p.statPoints());assertEquals(3,p.effectiveStat(PlayerProgress.Stat.STRENGTH));assertEquals(3,p.effectiveStat(PlayerProgress.Stat.AGILITY));assertEquals(3,p.effectiveStat(PlayerProgress.Stat.ENDURANCE));assertEquals(6,p.effectiveStat(PlayerProgress.Stat.SPIRIT));
   for(var s:PlayerProgress.Stat.values())assertEquals(0,p.stat(s));var restored=PlayerProgress.fromProperties(p.toProperties());assertEquals(p.learned(),restored.learned());assertEquals(p.bonuses(),restored.bonuses());var before=restored.toProperties();for(int i=0;i<20;i++)restored=PlayerProgress.fromProperties(restored.toProperties());assertEquals(before,restored.toProperties());
  }
- @Test public void trainingRequiresItsParentAndActualPracticeLevel(){
+ @Test public void trainingCanBePurchasedWithoutParentsOrPractice(){
   var props=new Properties();props.setProperty("xp","200000");props.setProperty("practice.SWORD","1600");props.setProperty("learned","quick_cut,quick_dash,flow_training");var p=PlayerProgress.fromProperties(props);
-  assertFalse(p.unlock("agility_training_2"));assertTrue(p.unlock("agility_training_1"));assertFalse(p.unlock("agility_training_2"));assertFalse(p.unlock("strength_training_1"));
+  assertTrue(p.unlock("agility_training_2"));assertTrue(p.unlock("agility_training_1"));assertFalse(p.unlock("agility_training_2"));assertTrue(p.unlock("strength_training_1"));
  }
 }

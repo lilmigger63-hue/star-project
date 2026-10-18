@@ -27,17 +27,16 @@ public final class SwordAuraRenderer {
  private static boolean registered;
  private SwordAuraRenderer(){}
  public static void register(){
-  if(registered)return;registered=true;
+  if(registered)return;registered=true;NativeSwordTrails.register();
   ClientPlayConnectionEvents.DISCONNECT.register((handler,client)->BUDGET.reset());
  }
- public static void beginFrame(){BUDGET.reset();}
+ public static void beginFrame(){BUDGET.reset();NativeSwordTrails.beginFrame();}
 
  public static SwordAuraSnapshot capture(ItemStack stack,ItemDisplayContext context,HeldItemContext owner){
   if(!registered||!(owner instanceof PlayerEntity player)||!player.isAlive()||player.isSpectator()||!stack.isIn(ItemTags.SWORDS)||!held(context))return null;
   var client=MinecraftClient.getInstance();
   if(client.world==null||player.getEntityWorld()!=client.world)return null;
   var visual=ClientVisualState.get(player.getUuid());
-  if(!visual.auraUnlocked())return null;
   int hand=context.isLeftHand()==(player.getMainArm()==Arm.LEFT)?0:1;
   // Ignore equip-transition copies once that physical hand no longer holds a sword.
   if(!player.getStackInHand(hand==0?Hand.MAIN_HAND:Hand.OFF_HAND).isIn(ItemTags.SWORDS))return null;
@@ -49,6 +48,7 @@ public final class SwordAuraRenderer {
    }catch(RuntimeException ignored){}
   }
   float age=player.age+client.getRenderTickCounter().getTickProgress(false);
+  if(!visual.auraUnlocked()&&!swinging&&!NativeSwordTrails.recent(player,hand,age))return null;
   return new SwordAuraSnapshot(player.getUuid(),player.getId(),hand,context,client.world,visual,age,swinging);
  }
  private static boolean held(ItemDisplayContext context){
@@ -65,19 +65,24 @@ public final class SwordAuraRenderer {
   double distanceSquared=client.gameRenderer.getCamera().getPos().squaredDistanceTo(player.getEntityPos());
   if(!Double.isFinite(distanceSquared)||distanceSquared>4096)return;
   var state=snapshot.visual();
-  if(!state.auraUnlocked()||!ClientVisualState.get(snapshot.player()).auraUnlocked())return;
   int quality=VfxQuality.level();
   // Vanilla's minimal/decreased particle preferences also reduce native aura detail.
   quality=Math.min(quality,2-client.options.getParticles().getValue().getId());
   var profile=BladeAuraMesh.profile(state.rank(),state.power(),state.swordLevel(),state.playerClass()==PlayerProgress.PlayerClass.SWORDSMAN,quality,distanceSquared,snapshot.swinging());
   int base=state.auraColor();
   int accent=state.playerClass()==PlayerProgress.PlayerClass.SPELLBLADE?elementAccent(state.element().name()):-1;
-  int count=BUDGET.take(snapshot.entityId(),snapshot.hand(),BladeAuraMesh.quadCount(profile,accent>=0),distanceSquared);
+  if(BUDGET.remaining()<4)return;
+  var trail=NativeSwordTrails.capture(snapshot,player,matrices,quality);int trailCount=trail==null?0:trail.faces().size();
+  int auraCount=state.auraUnlocked()&&ClientVisualState.get(snapshot.player()).auraUnlocked()?BladeAuraMesh.quadCount(profile,accent>=0):0;
+  int requested=auraCount+trailCount;if(requested==0)return;
+  int count=BUDGET.take(snapshot.entityId(),snapshot.hand(),Math.max(4,requested),distanceSquared);
   if(count==0)return;
+  NativeSwordTrails.submit(trail,queue,Math.min(count,trailCount));
+  int auraLimit=Math.min(auraCount,count-trailCount);if(auraLimit<=0)return;
   var draw=BladeAuraMesh.build(profile,snapshot.age(),base,AuraColors.highlight(base,.9f),AuraColors.shade(base,.5f),accent);
   queue.submitCustom(matrices,AuraRenderLayer.get(),(entry,vertices)->{
-   for(var quad:draw){
-    boolean first=snapshot.context()==ItemDisplayContext.FIRST_PERSON_LEFT_HAND||snapshot.context()==ItemDisplayContext.FIRST_PERSON_RIGHT_HAND;
+   for(var quad:draw.subList(0,Math.min(auraLimit,draw.size()))){
+    boolean first=snapshot.context().isFirstPerson()||(player==client.getCameraEntity()&&!client.gameRenderer.getCamera().isThirdPerson());
     int alpha=first?Math.round(quad.alpha()*.65f):quad.alpha();
     int color=(alpha<<24)|(quad.rgb()&0xffffff);
     for(int i=0;i<4;i++){

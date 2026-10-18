@@ -18,13 +18,13 @@ public class UltimateRankTest {
   p.setProperty("class",CLASSES[c].name());for(var s:Skill.values())p.setProperty("practice."+s,Integer.toString(25*(skill-1)*(skill-1)));
   p.setProperty("learned",String.join(",",ROUTES[c]));return PlayerProgress.fromProperties(p);
  }
- @Test public void requiresExactClassLevelSkillParentAndOnePerkPoint(){
+ @Test public void preservesNodeMetadataButOnlyRequiresOnePerkPoint(){
   for(int c=0;c<3;c++){
    var a=Ability.ALL.get(IDS[c]);assertEquals(CLASSES[c],a.exclusiveClass());assertEquals(c==1?Skill.FIRE:Skill.SWORD,a.skill());assertEquals(20,a.requirement());assertEquals(25,a.characterRequirement());assertEquals(ROUTES[c][2],a.parent());assertFalse(a.active());
-   assertFalse(ready(c,24,20).unlock(IDS[c]));assertFalse(ready(c,25,19).unlock(IDS[c]));
-   var p=ready(c,25,20);var props=p.toProperties();props.setProperty("learned",ROUTES[c][0]+","+ROUTES[c][1]);assertFalse(PlayerProgress.fromProperties(props).unlock(IDS[c]));
-   for(int other=0;other<3;other++)if(other!=c)assertFalse(ready(other,25,20).unlock(IDS[c]));
-   var deficient=ready(c,25,20).toProperties();deficient.setProperty("practice."+a.skill(),"8100");assertFalse(PlayerProgress.fromProperties(deficient).unlock(IDS[c]));
+   assertTrue(ready(c,24,20).unlock(IDS[c]));assertTrue(ready(c,25,19).unlock(IDS[c]));
+   var p=ready(c,25,20);var props=p.toProperties();props.setProperty("learned",ROUTES[c][0]+","+ROUTES[c][1]);assertTrue(PlayerProgress.fromProperties(props).unlock(IDS[c]));
+   for(int other=0;other<3;other++)if(other!=c)assertTrue(ready(other,25,20).unlock(IDS[c]));
+   var deficient=ready(c,25,20).toProperties();deficient.setProperty("practice."+a.skill(),"8100");assertTrue(PlayerProgress.fromProperties(deficient).unlock(IDS[c]));
    assertEquals(3,p.rank());var points=p.points();var stats=p.statPoints();assertTrue(p.unlock(IDS[c]));assertEquals(4,p.rank());
    assertEquals(points.subtract(BigInteger.ONE),p.points());assertEquals(stats,p.statPoints());assertFalse(p.unlock(IDS[c]));assertFalse(p.assign(0,IDS[c]));
    var last=ready(c,25,100);for(var candidate:Ability.ALL.values())if(!candidate.id().equals(IDS[c])&&last.points().compareTo(BigInteger.ONE)>0)last.unlock(candidate.id());
@@ -72,11 +72,11 @@ public class UltimateRankTest {
    }
   }finally{try(var files=Files.list(dir)){for(var file:files.toList())Files.delete(file);}Files.delete(dir);}
  }
- @Test public void oldRanksAndSaveSchemaRemainUnchangedAndForgedRanksAreRejected(){
+ @Test public void oldRanksAndSaveSchemaRemainCompatibleAndDirectRanksAreAllowed(){
   for(int c=0;c<3;c++){
    var p=ready(c,25,20);var old=p.toProperties();assertEquals(3,p.rank());assertEquals(old,PlayerProgress.fromProperties(old).toProperties());assertEquals("1",old.getProperty("schema"));
    for(int n=0;n<3;n++){var props=oldCopy(old);props.setProperty("learned",String.join(",",Arrays.copyOf(ROUTES[c],n)));var q=PlayerProgress.fromProperties(props);assertEquals(n<2?1:2,q.rank());assertEquals(1,q.damageMultiplier(),1e-9);}
-   var forged=ready(c,24,20).toProperties();forged.setProperty("learned",forged.getProperty("learned")+","+IDS[c]);assertEquals(3,PlayerProgress.fromProperties(forged).rank());
+   var forged=ready(c,24,20).toProperties();forged.setProperty("learned",forged.getProperty("learned")+","+IDS[c]);assertEquals(4,PlayerProgress.fromProperties(forged).rank());
   }
  }
  private Properties oldCopy(Properties old){var p=new Properties();p.putAll(old);return p;}

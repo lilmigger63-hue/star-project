@@ -2,7 +2,7 @@ package dk.starswordmaster.progression;
 import java.util.*;
 import java.math.BigInteger;
 public final class PlayerProgress {
- public static final int STAT_POINTS_PER_LEVEL=5;
+ public static final int STAT_POINTS_PER_LEVEL=StatPointBudget.PER_LEVEL;
  public static final int CLASS_SELECTION_LEVEL=5;
  public enum PlayerClass { UNINITIATED, SWORDSMAN, MAGE, SPELLBLADE }
  public enum Stat { STRENGTH, AGILITY, ENDURANCE, SPIRIT }
@@ -12,11 +12,12 @@ public final class PlayerProgress {
  private final Map<String,Integer> cooldowns=new HashMap<>();
  private final Map<String,Integer> cooldownDurations=new HashMap<>();
  private final String[] slots={"","","","",""};
+ private StatPointBudget statBudget=StatPointBudget.FRESH;
  private CharacterExperience experience=new CharacterExperience();
  private final EnumMap<Stat,Integer> stats=new EnumMap<>(Stat.class);
  public int stat(Stat s){return stats.getOrDefault(s,0);}
  // Derived entitlement makes old saves and repeated snapshots idempotent: allocated stats are never re-awarded.
- public BigInteger statPoints(){return level().subtract(BigInteger.ONE).multiply(BigInteger.valueOf(STAT_POINTS_PER_LEVEL)).subtract(BigInteger.valueOf(stats.values().stream().mapToLong(Integer::longValue).sum())).max(BigInteger.ZERO);}
+ public BigInteger statPoints(){return statBudget.entitlement(level()).subtract(BigInteger.valueOf(stats.values().stream().mapToLong(Integer::longValue).sum())).max(BigInteger.ZERO);}
  public boolean spendStat(Stat s){if(s==null||statPoints().signum()==0||stat(s)==Integer.MAX_VALUE)return false;stats.put(s,stat(s)+1);return true;}
  public long effectiveStat(Stat s){
   long bonus=0;for(String id:learned){var a=Ability.ALL.get(id);if(a!=null&&a.statBonus()==s)bonus++;}
@@ -58,8 +59,7 @@ public final class PlayerProgress {
   if(c==null||c==PlayerClass.UNINITIATED||playerClass!=PlayerClass.UNINITIATED||level().compareTo(BigInteger.valueOf(CLASS_SELECTION_LEVEL))<0)return false;
   playerClass=c;return true;
  }
- private boolean eligible(Ability a){return a!=null&&a.classAllowed(playerClass)&&level().compareTo(BigInteger.valueOf(a.characterRequirement()))>=0&&skillLevel(a.skill())>=a.requirement()&&(a.parent().isEmpty()||learned.contains(a.parent()));}
- public boolean canUnlock(String id){return points().signum()>0&&!learned.contains(id)&&eligible(Ability.ALL.get(id));}
+ public boolean canUnlock(String id){return id!=null&&Ability.ALL.containsKey(id)&&points().signum()>0&&!learned.contains(id);}
  public boolean unlock(String id){
   if(!canUnlock(id))return false;
   learned.add(id);return true;
@@ -78,7 +78,7 @@ public final class PlayerProgress {
   if(playerClass==PlayerClass.UNINITIATED)return 0;
   String basic=switch(playerClass){case SWORDSMAN->"aura_awaken";case MAGE->"mana_control";case SPELLBLADE->"element_binding";default->"";};
   String master=switch(playerClass){case SWORDSMAN->"sword_mastery";case MAGE->"arcane_mastery";case SPELLBLADE->"spellblade_mastery";default->"";};
-  return learned.contains(master)?(learned.contains(ultimateRankId())?4:3):learned.contains(basic)?2:1;
+  return learned.contains(ultimateRankId())?4:learned.contains(master)?3:learned.contains(basic)?2:1;
  }
  private String ultimateRankId(){return switch(playerClass){case SWORDSMAN->"astral_sword_sovereign";case MAGE->"celestial_archon";case SPELLBLADE->"eclipse_sovereign";default->"";};}
  public String rankNodeId(){return rank()==4?ultimateRankId():"";}
@@ -143,7 +143,7 @@ public final class PlayerProgress {
   stamina=Math.min(maxStamina(),stamina+(combat?0.08:0.30));
  }
  public Properties toProperties(){
-  Properties p=new Properties();p.setProperty("schema","1");experience.write(p);p.setProperty("class",playerClass.name());p.setProperty("style",style.name());
+  Properties p=new Properties();p.setProperty("schema","1");experience.write(p);statBudget.write(p);p.setProperty("class",playerClass.name());p.setProperty("style",style.name());
   p.setProperty("mana",Double.toString(mana));p.setProperty("stamina",Double.toString(stamina));p.setProperty("learned",String.join(",",learned));
   for(Stat s:Stat.values())p.setProperty("stat."+s,Integer.toString(stat(s)));
   for(Skill s:Skill.values())p.setProperty("practice."+s,practice.getOrDefault(s,BigInteger.ZERO).toString());
@@ -153,18 +153,14 @@ public final class PlayerProgress {
  private static int integer(Properties p,String key,int max){try{return Math.max(0,Math.min(max,Integer.parseInt(p.getProperty(key,"0"))));}catch(RuntimeException e){return 0;}}
  private static double number(Properties p,String key,double max){try{double v=Double.parseDouble(p.getProperty(key,Double.toString(max)));return Double.isFinite(v)?Math.max(0,Math.min(max,v)):max;}catch(RuntimeException e){return max;}}
  public static PlayerProgress fromProperties(Properties p){
-  PlayerProgress q=new PlayerProgress();q.experience=CharacterExperience.read(p);
+  PlayerProgress q=new PlayerProgress();q.experience=CharacterExperience.read(p);q.statBudget=StatPointBudget.read(p,q.level());
   for(Skill s:Skill.values())q.practice.put(s,CharacterExperience.nonnegative(p,"practice."+s));
   try{q.playerClass=PlayerClass.valueOf(p.getProperty("class","UNINITIATED"));}catch(IllegalArgumentException ignored){}
   if(q.level().compareTo(BigInteger.valueOf(CLASS_SELECTION_LEVEL))<0)q.playerClass=PlayerClass.UNINITIATED;
   try{q.style=SwordStyle.valueOf(p.getProperty("style","QUICK"));}catch(IllegalArgumentException ignored){}
   for(Stat s:Stat.values()){int n=integer(p,"stat."+s,Integer.MAX_VALUE);q.stats.put(s,q.statPoints().min(BigInteger.valueOf(n)).intValueExact());}
     Set<String> requested=new LinkedHashSet<>(Arrays.asList(p.getProperty("learned","").split(",")));
-  for(int pass=0;pass<Ability.ALL.size();pass++){
-   int before=q.learned.size();
-   for(Ability a:Ability.ALL.values())if(requested.contains(a.id())&&!q.learned.contains(a.id()))q.unlock(a.id());
-   if(q.learned.size()==before)break;
-  }
+  for(String id:requested)q.unlock(id);
   q.mana=number(p,"mana",q.maxMana());q.stamina=number(p,"stamina",q.maxStamina());
   for(int i=0;i<5;i++)q.assign(i,p.getProperty("slot."+i,""));
   for(Ability a:Ability.ALL.values())if(a.active()){

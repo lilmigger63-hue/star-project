@@ -132,3 +132,12 @@ loom.runs {
  smokeEvolutionServer { server(); source sourceSets.smoke; runDir 'run/evolution-server'; vmArg '-Dstarsmoke.evolution=true' }
  smokeEvolutionClient { client(); source sourceSets.smoke; runDir 'run/evolution-client'; programArg '--username'; programArg 'EvolutionSmoke'; vmArg '-Dstarsmoke.evolution=true' }
 }
+
+loom.runs {
+ smokeBdoSingleplayer { client(); source sourceSets.smoke; runDir 'run/bdo-sp'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.singleplayer=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true'; vmArg '-Dstarsmoke.bdo=true' }
+ smokeBdoServer { server(); source sourceSets.smoke; runDir 'run/bdo-server'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true'; vmArg '-Dstarsmoke.bdo=true' }
+ smokeBdoA { client(); source sourceSets.smoke; runDir 'run/bdo-a'; programArg '--username'; programArg 'AnimationSmokeA'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true'; vmArg '-Dstarsmoke.bdo=true' }
+ smokeBdoB { client(); source sourceSets.smoke; runDir 'run/bdo-b'; programArg '--username'; programArg 'AnimationSmokeB'; vmArg '-Dstarsmoke.animations=true'; vmArg '-Dstarsmoke.animations.role=B'; vmArg '-Dstarsmoke.finishing=true'; vmArg '-Dstarsmoke.overhaul=true'; vmArg '-Dstarsmoke.bdo=true' }
+ smokeBdoProgressionServer { server(); source sourceSets.smoke; runDir 'run/evolution-server'; vmArg '-Dstarsmoke.evolution=true'; vmArg '-Dstarsmoke.bdo=true' }
+ smokeBdoProgressionClient { client(); source sourceSets.smoke; runDir 'run/evolution-client'; programArg '--username'; programArg 'EvolutionSmoke'; vmArg '-Dstarsmoke.evolution=true'; vmArg '-Dstarsmoke.bdo=true' }
+}

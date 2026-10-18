@@ -29,10 +29,10 @@ public class ExpansionProgressionTest {
   }
   assertTrue(exercised.containsAll(SPELLS));assertTrue(exercised.containsAll(SWORDS));
  }
- @Test public void basicElementsAreOpenToEveryClassButAdvancedBranchesAreGated(){
+ @Test public void allElementsAndUltimateBranchesAreOpenToEveryClass(){
   for(var cls:List.of(PlayerProgress.PlayerClass.SWORDSMAN,PlayerProgress.PlayerClass.MAGE,PlayerProgress.PlayerClass.SPELLBLADE)){
    var p=trained(cls);for(String id:List.of("static_spark","water_bolt","stone_spike","shadow_bolt")){var a=Ability.ALL.get(id);assertNotNull(a);assertTrue(p.unlock(a.parent()));assertTrue(p.unlock(id));}
-   assertFalse(p.unlock("heavenly_sword_domain"));assertFalse(p.unlock("heavens_wrath"));assertFalse(p.unlock("ocean_prison"));
+   assertTrue(p.unlock("heavenly_sword_domain"));assertTrue(p.unlock("heavens_wrath"));assertTrue(p.unlock("ocean_prison"));
   }
  }
  @Test public void everyNewNodeAndElementHasBothTranslations() throws Exception {

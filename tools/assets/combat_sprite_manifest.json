@@ -1,0 +1,131 @@
+[
+  {
+    "ink": "slash_light",
+    "author": "Cethiel",
+    "source": "https://opengameart.org/content/weapon-slash-effect",
+    "license": "CC0-1.0",
+    "download": "weapon_classic.zip",
+    "sha256": "605dff92b8a405a4810aa88b7f8544c6eb7b08b0668816f958abb44cc70cb620",
+    "selectedFiles": [
+      "Classic/1/Classic_01.png",
+      "Classic/1/Classic_02.png",
+      "Classic/1/Classic_03.png",
+      "Classic/1/Classic_04.png",
+      "Classic/1/Classic_05.png",
+      "Classic/1/Classic_06.png"
+    ],
+    "frames": 6,
+    "outputTextures": [
+      "starswordmaster:combat/slash_light_00",
+      "starswordmaster:combat/slash_light_01",
+      "starswordmaster:combat/slash_light_02",
+      "starswordmaster:combat/slash_light_03",
+      "starswordmaster:combat/slash_light_04",
+      "starswordmaster:combat/slash_light_05"
+    ]
+  },
+  {
+    "ink": "slash_curve",
+    "author": "MetaShinryu",
+    "source": "https://opengameart.org/content/slash-effect",
+    "license": "CC0-1.0",
+    "download": "slash.png",
+    "sha256": "c087fd043198d1d61c6fc2f508970614d2427f58503ec2b043921f035d8a6ec6",
+    "selectedFiles": [
+      "slash.png"
+    ],
+    "frames": 1,
+    "outputTextures": [
+      "starswordmaster:combat/slash_curve_00"
+    ]
+  },
+  {
+    "ink": "slash_finish",
+    "author": "MetaShinryu",
+    "source": "https://opengameart.org/content/slash-effect-collection",
+    "license": "CC0-1.0",
+    "download": "slash_collection.zip",
+    "sha256": "30e3b66ac57e9ac0ce557285d8b41da338489f1e5b2dce60f861ecbd9114e88e",
+    "selectedFiles": [
+      "Slash Effect Collection/Big/Circular.png"
+    ],
+    "frames": 1,
+    "outputTextures": [
+      "starswordmaster:combat/slash_finish_00"
+    ]
+  },
+  {
+    "ink": "slash_heavy",
+    "author": "MetaShinryu",
+    "source": "https://opengameart.org/content/high-resolution-slash-effects",
+    "license": "CC0-1.0",
+    "download": "highres.zip",
+    "sha256": "ea95fbf09f33c7b38edf34afc891b02541cb545fd69b493a248cc5cfecbdcb10",
+    "selectedFiles": [
+      "High res slashes/Leap/Leap big.png"
+    ],
+    "frames": 1,
+    "outputTextures": [
+      "starswordmaster:combat/slash_heavy_00"
+    ]
+  },
+  {
+    "ink": "slash_pixel",
+    "author": "tbbk",
+    "source": "https://opengameart.org/content/pixel-art-sword-slash-effect",
+    "license": "CC0-1.0",
+    "download": "pixel_slash.png",
+    "sha256": "7642aa4698828f6cc908b3fd2873c3b3d8555138bae188991c6b775ae0c96915",
+    "selectedFiles": [
+      "pixel_slash.png"
+    ],
+    "frames": 9,
+    "outputTextures": [
+      "starswordmaster:combat/slash_pixel_00",
+      "starswordmaster:combat/slash_pixel_01",
+      "starswordmaster:combat/slash_pixel_02",
+      "starswordmaster:combat/slash_pixel_03",
+      "starswordmaster:combat/slash_pixel_04",
+      "starswordmaster:combat/slash_pixel_05",
+      "starswordmaster:combat/slash_pixel_06",
+      "starswordmaster:combat/slash_pixel_07",
+      "starswordmaster:combat/slash_pixel_08"
+    ]
+  },
+  {
+    "ink": "impact_spark",
+    "author": "SpritePilot",
+    "source": "https://spritepilot.com/free-game-assets/combat",
+    "license": "CC0-1.0",
+    "download": "spritepilot.zip",
+    "sha256": "3aeb3a09c5e3898ad3634de33fc0c9f74924be1d5bec90eb1aaeaf5085b45a46",
+    "selectedFiles": [
+      "spritepilot-combat-pack/32px/parry-flash-32px_strip7.png"
+    ],
+    "frames": 7,
+    "outputTextures": [
+      "starswordmaster:combat/impact_spark_00",
+      "starswordmaster:combat/impact_spark_01",
+      "starswordmaster:combat/impact_spark_02",
+      "starswordmaster:combat/impact_spark_03",
+      "starswordmaster:combat/impact_spark_04",
+      "starswordmaster:combat/impact_spark_05",
+      "starswordmaster:combat/impact_spark_06"
+    ]
+  },
+  {
+    "ink": "magic_flare",
+    "author": "Kenney",
+    "source": "https://kenney.nl/assets/particle-pack",
+    "license": "CC0-1.0",
+    "download": "kenney.zip",
+    "sha256": "b631d4b07f7002549fdcf155f01141ad482f79f3440e4e301eed49ce5f1d8958",
+    "selectedFiles": [
+      "PNG (Transparent)/flare_01.png"
+    ],
+    "frames": 1,
+    "outputTextures": [
+      "starswordmaster:combat/magic_flare_00"
+    ]
+  }
+]

@@ -2,7 +2,7 @@
 
 Choose one permanent class manually in K at **character level 5**. Before level 5 the character is Uninitiated. The server and save loader use the same threshold. Class selection never changes through a skill reset.
 
-Evolution is derived from the selected class and exact character level. It is automatic at 10, 20 and 30, needs no learned skill and costs no perk points. Late class selection immediately uses the current level's stage. The existing skill-based ranks 1–4, Mastery and ultimate nodes remain separate, with their original requirements and costs.
+Evolution is derived from the selected class and exact character level. It is automatic at 10, 20 and 30, needs no learned skill and costs no perk points. Late class selection immediately uses the current level's stage. The existing skill-based ranks 1–4, Mastery and ultimate nodes remain separate, at one perk point each, without learning prerequisites.
 
 All values below are **total evolution bonuses**, not additional awards per transition.
 
@@ -27,4 +27,4 @@ Damage and cost multipliers combine with existing stat, style, rank and passive 
 
 H shows evolution separately from rank, its current total effects and effective stats. K's hub shows the evolution title when readable, with a full tooltip. Actual milestone transitions coalesce to one class-colored message and a single 12-particle vanilla dust ring; logging in with an evolved character is silent. The existing cosmetic power input gains 0.02 per stage, capped at 1, to refine sword/magic presentation without changing gameplay, particle budgets, rank or the player's stable UUID aura hue.
 
-No evolution reward or bonus is written into a save. Existing schema-1 Properties fields, character XP curve, level-8 reward multiplier, five stat points and one perk point per level are unchanged. Repeated loading, respawn, reconnect and reset therefore cannot accumulate evolution bonuses. Old valid class choices, learned IDs, allocated stats and skill proficiency are retained.
+No evolution reward or bonus is written into a save. Existing schema-1 Properties fields, character XP curve, level-8 reward multiplier and one perk point per level are unchanged. From 0.10.0 future levels grant three stat points; the separate one-time legacy stat credit preserves old budgets. Repeated loading, respawn, reconnect and reset therefore cannot accumulate evolution bonuses. Old valid class choices, learned IDs, allocated stats and skill proficiency are retained.

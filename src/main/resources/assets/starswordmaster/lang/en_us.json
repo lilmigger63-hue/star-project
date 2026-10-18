@@ -310,5 +310,6 @@
   "status.starswordmaster.evolution.effect.spellblade.1": "Enchanted damage +%s%% · Mana/stamina +%s",
   "status.starswordmaster.evolution.effect.spellblade.2": "Mana/stamina cost −%s%%",
   "message.starswordmaster.class_evolution": "CLASS EVOLUTION — %s",
-  "screen.starswordmaster.class_requirement": "Choose a permanent class at character level %s. Skill resets keep your class."
+  "screen.starswordmaster.class_requirement": "Choose a permanent class at character level %s. Skill resets keep your class.",
+  "screen.starswordmaster.state.no_points": "Needs 1 available perk point"
 }

@@ -17,9 +17,10 @@ public class PresentationParticleResourceTest {
 
     @Test
     public void everyRegisteredInkHasItsOwnBoundedPixelSprite() throws Exception {
-        assertEquals(12, ParticlePattern.Ink.values().length);
+        assertEquals(19, ParticlePattern.Ink.values().length);
         Set<Integer> silhouettes = new HashSet<>();
         for (var ink : ParticlePattern.Ink.values()) {
+            if(ink.ordinal()>=12)continue;
             String id = ink.name().toLowerCase(Locale.ROOT);
             var definition = JsonParser.parseString(Files.readString(ROOT.resolve("particles/" + id + ".json")))
                     .getAsJsonObject().getAsJsonArray("textures");
@@ -70,6 +71,14 @@ public class PresentationParticleResourceTest {
         for (int y = 0; y < 16; y++) {
             if (y >= 6 && y <= 9) continue;
             for (int x = 0; x < 16; x++) assertEquals(0, streak.getRGB(x, y) >>> 24);
+        }
+    }
+    @Test public void importedAnimatedFramesAreBoundedTransparentAndTintable() throws Exception {
+        for(var ink:ParticlePattern.Ink.values())if(ink.ordinal()>=12){
+            String id=ink.name().toLowerCase(Locale.ROOT);var frames=JsonParser.parseString(Files.readString(ROOT.resolve("particles/"+id+".json"))).getAsJsonObject().getAsJsonArray("textures");assertTrue(frames.size()>=1&&frames.size()<=9);
+            for(var frame:frames){String path=frame.getAsString().substring("starswordmaster:".length());var image=ImageIO.read(ROOT.resolve("textures/particle/"+path+".png").toFile());assertEquals(64,image.getWidth());assertEquals(64,image.getHeight());assertTrue(image.getColorModel().hasAlpha());boolean visible=false;
+                for(int y=0;y<64;y++)for(int x=0;x<64;x++){int rgba=image.getRGB(x,y);if(x==0||y==0||x==63||y==63)assertEquals(0,rgba>>>24);if((rgba>>>24)>0){visible=true;assertEquals((rgba>>>16)&255,(rgba>>>8)&255);assertEquals((rgba>>>8)&255,rgba&255);}}assertTrue(id,visible);
+            }
         }
     }
 }

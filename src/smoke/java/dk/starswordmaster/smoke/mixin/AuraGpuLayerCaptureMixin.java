@@ -12,6 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 abstract class AuraGpuLayerCaptureMixin {
  @Inject(method="draw",at=@At("HEAD"))
  private void starsmoke$actualLayerOrder(BuiltBuffer buffer,CallbackInfo ci){
-  AuraSmokeCapture.gpuLayer((RenderLayer)(Object)this);
+  AuraSmokeCapture.gpuLayer((RenderLayer)(Object)this);dk.starswordmaster.client.CombatSmokeCapture.gpu((RenderLayer)(Object)this);
  }
 }

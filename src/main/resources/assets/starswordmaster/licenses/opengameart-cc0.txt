@@ -1,0 +1,11 @@
+OpenGameArt selected source pages expressly dedicate the imported inputs to CC0 1.0 Universal.
+License: https://creativecommons.org/publicdomain/zero/1.0/
+Author/source/file credits: repository ASSET_CREDITS.md and tools/assets/combat_sprite_manifest.json.
+Gres — https://opengameart.org/content/humanoid-soulslike-animations
+zisongbr — https://opengameart.org/content/lowpoly-animated-sword-w12-animations-blend-rigged
+Robin Lamb — https://opengameart.org/content/animated-low-poly-hero-with-sword-and-shield
+Cethiel — https://opengameart.org/content/weapon-slash-effect
+MetaShinryu — https://opengameart.org/content/slash-effect
+MetaShinryu — https://opengameart.org/content/slash-effect-collection
+MetaShinryu — https://opengameart.org/content/high-resolution-slash-effects
+tbbk — https://opengameart.org/content/pixel-art-sword-slash-effect

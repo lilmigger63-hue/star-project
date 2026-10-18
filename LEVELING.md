@@ -10,17 +10,19 @@ The XP requirement from level L to L+1 remains **50 + 20 × L**. The cumulative 
 - A character already level 8+ receives **normal reward × 1.5**. The next-level requirement does not increase.
 - A reward that crosses level 8 from level 7 uses the original multiplier for the whole reward; the following reward uses ×1.5.
 - Half-XP persists between rewards/reloads without repeated rounding losses. An ordinary 100-XP reward becomes exactly 150.
-- Every gained level grants **5 stat points in H and 1 perk point in K**. Available points derive from level minus prior purchases, preventing duplicate rewards on multi-level gains, snapshots, death or reload.
+- Every gained level grants **3 stat points in H and 1 perk point in K**. Available points derive from level minus prior purchases, preventing duplicate rewards on multi-level gains, snapshots, death or reload.
 - Character XP comes primarily from credited hostile-mob deaths: `max(1, ceil(maximum health × 3))`. The maximum-health attribute is read at death, never remaining health. Player melee, arrows and existing caster-owned magic receive credit; PvP, owned pets/summons, environmental deaths and duplicate callbacks do not grant XP. Monster-interface or MONSTER-spawn-group modded mobs are included. Vanilla XP is unchanged.
-- Practice counters and skill requirements remain intact, with displayed skill levels 1–100. Practice alone gives zero character XP by default. An optional server multiplier restores milestone character XP when desired.
+- Practice counters remain intact; practice no longer gates learning, with displayed skill levels 1–100. Practice alone gives zero character XP by default. An optional server multiplier restores milestone character XP when desired.
 
 ## Existing saves
 
 The same atomic schema-1 properties remain in use. Optional fields are `xpCurveVersion=2`, `xpLegacyOffset` and `xpHalf`; `xp` retains the existing total. Stat/perk points are not stored as replayable rewards.
 
+Version 0.10.0 adds optional `statPointVersion=2` and `statPointLegacyCredit`. On the first load of an old save, the fixed credit is `2 × (loaded level − 1)`, captured before validating allocated stats. Available points become `3 × (level − 1) + credit − allocated`. This preserves every previously allocated and unspent five-point entitlement, including fully allocated level-100 characters, while future levels grant only three. Fresh characters start with zero credit. Snapshots/save/reload retain the same credit, so migration cannot repeat or grant bonus points. Learned advanced-only sets reload directly without requiring parents. All 85 nodes now need only one available perk point; class selection and ability-use rules are unchanged.
+
 Legacy characters below level 100 retain exactly their level and XP progress. A legacy level-100 character could have 200,000 XP although level 100 starts at 103,950; the previous mod still displayed level 100 and zero progress. Migration retains **level 100, all 200,000 XP, allocated attributes and point budgets**. Historical surplus becomes a fixed offset rather than retroactive levels/points. New rewards continue the curve from level 100.
 
-Example: legacy level 100 / 200,000 XP plus an ordinary reward of 1,400 yields 2,100 actual XP: level 101, 202,100 total XP and 50/2,070 XP toward the next level. Only 5 new stat points and 1 new perk point are granted. Reloading does not repeat migration.
+Example: legacy level 100 / 200,000 XP plus an ordinary reward of 1,400 yields 2,100 actual XP: level 101, 202,100 total XP and 50/2,070 XP toward the next level. Only 3 new stat points and 1 new perk point are granted. Reloading does not repeat migration.
 
 Mana, stamina, health, damage, class/rank/style bonuses and allocated stats remain intact. New levels use the existing resource formulas. Bonus arithmetic uses `long`; purchasing a stat cannot overflow its allocated integer or spend a point without increasing it. Very large resource numbers use compact notation within the same HUD fields. H exposes full XP/level/point values through existing overflow tooltips.
 

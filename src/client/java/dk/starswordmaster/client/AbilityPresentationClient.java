@@ -113,11 +113,11 @@ public final class AbilityPresentationClient {
   int color=ParticlePattern.color(style.element(),point.tone());var ability=dk.starswordmaster.progression.Ability.ALL.get(style.abilityId());
   if(visual.auraUnlocked()&&ability!=null&&ability.stamina()>0)color=point.tone()==0?AuraColors.shade(visual.auraColor(),.8f):AuraColors.highlight(visual.auraColor(),visual.rank()==4?.8f:.45f);
   float size=style.element()==AbilityPresentation.Element.EARTH&&point.ink()==ParticlePattern.Ink.ROCK?Math.min(.48f,point.size()*.3f):point.size();
-  if(FantasyParticles.emit(client,point.ink(),color,at,velocity,point.life(),size,point.angle()))return;
+  if(FantasyParticles.emit(client,CombatSpriteStyle.ink(style,point.ink()),color,at,velocity,point.life(),size,point.angle()))return;
   ParticleEffect fallback=switch(style.element()){case FIRE->ParticleTypes.SMALL_FLAME;case FROST->ParticleTypes.SNOWFLAKE;case STAR->ParticleTypes.END_ROD;case HEALING->ParticleTypes.HAPPY_VILLAGER;case STEEL->ParticleTypes.CRIT;case LIGHTNING->ParticleTypes.ELECTRIC_SPARK;case WATER->ParticleTypes.DRIPPING_WATER;case EARTH->ParticleTypes.CRIT;case DARK->ParticleTypes.PORTAL;};
   world.addParticleClient(fallback,at.x,at.y,at.z,velocity.x,velocity.y,velocity.z);
  }
  private static void stop(Running running){if(running.player!=null)PalAbilityAnimations.stop(running.player);}
- private static void cancel(UUID caster){EarthFormationRenderer.cancel(caster);CinematicVfxRenderer.cancel(caster);var running=active.remove(caster);if(running!=null)stop(running);}
- private static void clear(){active.values().forEach(AbilityPresentationClient::stop);active.clear();ledger.clear();EarthFormationRenderer.clear();CinematicVfxRenderer.clear();world=null;}
+ private static void cancel(UUID caster){NativeSwordTrails.cancel(caster);EarthFormationRenderer.cancel(caster);CinematicVfxRenderer.cancel(caster);var running=active.remove(caster);if(running!=null)stop(running);}
+ private static void clear(){active.values().forEach(AbilityPresentationClient::stop);active.clear();ledger.clear();NativeSwordTrails.clear();EarthFormationRenderer.clear();CinematicVfxRenderer.clear();world=null;}
 }

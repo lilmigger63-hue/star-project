@@ -2,7 +2,7 @@ package dk.starswordmaster.presentation;
 import java.util.*;
 /** Deterministic cosmetic choreography. One point is one particle, never a gameplay projectile. */
 public final class ParticlePattern {
- public enum Ink { STREAK,ARC,SIGIL,SHARD,FLASH,EMBER,BOLT,DROPLET,ROCK,SHADOW,RUNE,BLADE }
+ public enum Ink { STREAK,ARC,SIGIL,SHARD,FLASH,EMBER,BOLT,DROPLET,ROCK,SHADOW,RUNE,BLADE,SLASH_LIGHT,SLASH_CURVE,SLASH_FINISH,SLASH_HEAVY,SLASH_PIXEL,IMPACT_SPARK,MAGIC_FLARE }
  public enum Space { BODY,HAND,RAY,IMPACT,ORIGIN }
  public record Point(double x,double y,double z,Space space,Ink ink,float size,int life,float angle,int tone){
   public Point(double x,double y,double z){this(x,y,z,Space.BODY,Ink.STREAK,0.2f,6,0,0);}

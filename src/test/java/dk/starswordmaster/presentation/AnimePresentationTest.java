@@ -16,7 +16,7 @@ public class AnimePresentationTest {
  }
  @Test public void shortSparseAccentsCoverEveryInkAndCoordinateSpace(){
   var inks=EnumSet.noneOf(ParticlePattern.Ink.class);var spaces=EnumSet.noneOf(ParticlePattern.Space.class);
-  for(var p:AbilityPresentation.ALL.values())for(int t=0;t<p.ticks();t++)for(var v:ParticlePattern.points(p,t)){inks.add(v.ink());spaces.add(v.space());assertTrue(v.size()>0&&v.size()<=1.5);assertTrue(v.life()>=2&&v.life()<=12);assertTrue(Float.isFinite(v.angle()));if(v.space()==ParticlePattern.Space.RAY)assertTrue(v.z()>=0&&v.z()<=1);}
+  for(var p:AbilityPresentation.ALL.values())for(int t=0;t<p.ticks();t++)for(var v:ParticlePattern.points(p,t)){inks.add(v.ink());inks.add(CombatSpriteStyle.ink(p,v.ink()));spaces.add(v.space());assertTrue(v.size()>0&&v.size()<=1.5);assertTrue(v.life()>=2&&v.life()<=12);assertTrue(Float.isFinite(v.angle()));if(v.space()==ParticlePattern.Space.RAY)assertTrue(v.z()>=0&&v.z()<=1);}
   assertEquals(EnumSet.allOf(ParticlePattern.Ink.class),inks);assertEquals(EnumSet.allOf(ParticlePattern.Space.class),spaces);
  }
  @Test public void immediateImpactAccentsNeverExceedOldEightParticleLimit(){for(var p:AbilityPresentation.ALL.values()){var impact=ParticlePattern.impact(p);assertTrue(impact.size()<=8);for(var v:impact){assertEquals(ParticlePattern.Space.IMPACT,v.space());assertTrue(v.life()<=4&&v.size()<=0.55f);}}}

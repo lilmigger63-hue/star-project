@@ -14,7 +14,7 @@ import java.util.*;
 import org.lwjgl.glfw.GLFW;
 /** Exercises real C2S actions, snapshots, client UI, death and reconnect. */
 public final class EvolutionSmokeClient implements ClientModInitializer {
- private int ticks,stage,wait,checks;private boolean started,finished,reconnecting,sawDeath;private PlayerProgress stable;private Properties saved;
+ private int ticks,stage,wait,checks;private boolean started,finished,reconnecting,sawDeath;private PlayerProgress stable;private java.math.BigInteger initialPoints,initialStats,legacyLevel;private Properties saved;
  private void check(boolean ok,String message){if(!ok)throw new AssertionError("EVOLUTION_CLIENT FAIL stage="+stage+": "+message);checks++;System.out.println("EVOLUTION_CLIENT PASS: "+message);}
  private void spendStat(MinecraftClient c){try{var m=StatusScreen.class.getDeclaredMethod("spendStat",PlayerProgress.Stat.class);m.setAccessible(true);m.invoke(c.currentScreen,PlayerProgress.Stat.STRENGTH);}catch(ReflectiveOperationException e){throw new AssertionError(e);}}
  private boolean statButtonActive(MinecraftClient c){try{var f=StatusScreen.class.getDeclaredField("statButtons");f.setAccessible(true);return ((net.minecraft.client.gui.widget.ButtonWidget)((List<?>)f.get(c.currentScreen)).getFirst()).active;}catch(ReflectiveOperationException e){throw new AssertionError(e);}}
@@ -29,8 +29,8 @@ public final class EvolutionSmokeClient implements ClientModInitializer {
    if(c.currentScreen instanceof DeathScreen){sawDeath=true;c.player.requestRespawn();c.setScreen(null);return;}
    if(c.player==null||!c.player.isLoaded()||!StarSwordmasterClient.ready)return;GLFW.glfwSetCursorPos(c.getWindow().getHandle(),c.getWindow().getWidth()-2,c.getWindow().getHeight()-2);if(++wait<30)return;wait=0;var p=StarSwordmasterClient.data;
    switch(stage++){
-    case 0->{check(p.level().intValueExact()==4,"level-four fixture synchronized");StarSwordmasterClient.send("class","SWORDSMAN",0);}
-    case 1->{check(p.playerClass()==PlayerProgress.PlayerClass.UNINITIATED,"server rejects class selection below5");command(c,"five");}
+    case 0->{check(p.level().intValueExact()==4,"level-four fixture synchronized");initialPoints=p.points();initialStats=p.statPoints();if(Boolean.getBoolean("starsmoke.bdo")){StarSwordmasterClient.send("unlock","heavenly_sword_domain",0);StarSwordmasterClient.send("unlock","heavenly_sword_domain",0);StarSwordmasterClient.send("unlock","not_a_skill",0);}StarSwordmasterClient.send("class","SWORDSMAN",0);}
+    case 1->{check(p.playerClass()==PlayerProgress.PlayerClass.UNINITIATED,"server rejects class selection below5");if(Boolean.getBoolean("starsmoke.bdo")){check(p.learned().equals(Set.of("heavenly_sword_domain")),"actual server accepts ultimate without class, practice or parents");check(p.points().equals(initialPoints.subtract(java.math.BigInteger.ONE))&&p.statPoints().equals(initialStats),"duplicate and invalid purchases cost no extra point and preserve stats");}command(c,"five");}
     case 2->{check(p.level().intValueExact()==5,"level-five server fixture");c.setScreen(new SkillTreeScreen());check(c.currentScreen.children().stream().filter(b->b instanceof net.minecraft.client.gui.widget.ButtonWidget).map(b->(net.minecraft.client.gui.widget.ButtonWidget)b).anyMatch(b->b.getMessage().getString().equals("Swordsman")&&b.active),"K class-selection button enabled at5");shot(c,"class-five");StarSwordmasterClient.send("class","SWORDSMAN",0);}
     case 3->{check(p.playerClass()==PlayerProgress.PlayerClass.SWORDSMAN&&p.evolution().stage()==0,"server accepts permanent base class at5");StarSwordmasterClient.send("class","MAGE",0);}
     case 4->{check(p.playerClass()==PlayerProgress.PlayerClass.SWORDSMAN,"server rejects second permanent class");command(c,"nine");}
@@ -49,7 +49,9 @@ public final class EvolutionSmokeClient implements ClientModInitializer {
     case 17->{check(c.player.isSpectator(),"native spectator fixture rejects stat spending");stable=p;spendStat(c);check(!statButtonActive(c),"H debounces pending stat request");}
     case 18->{check(stable==p&&p.stat(PlayerProgress.Stat.STRENGTH)==0,"server-rejected stat request leaves snapshot and stats unchanged");check(statButtonActive(c),"H pending request expires without changed snapshot");command(c,"survival");}
     case 19->{check(!c.player.isSpectator(),"actual survival restored");spendStat(c);}
-    case 20->{check(p.stat(PlayerProgress.Stat.STRENGTH)==1&&p.statPoints().intValueExact()==144,"valid H purchase still spends exactly one statpoint");check(statButtonActive(c),"authoritative changed snapshot releases H purchase immediately");shot(c,"status-after-purchase");System.out.println("EVOLUTION_CLIENT COMPLETE checks="+checks);finished=true;}
+    case 20->{check(p.stat(PlayerProgress.Stat.STRENGTH)==1&&p.statPoints().intValueExact()==(Boolean.getBoolean("starsmoke.bdo")?86:144),"valid H purchase still spends exactly one statpoint");check(statButtonActive(c),"authoritative changed snapshot releases H purchase immediately");shot(c,"status-after-purchase");if(Boolean.getBoolean("starsmoke.bdo")){command(c,"legacy");}else{System.out.println("EVOLUTION_CLIENT COMPLETE checks="+checks);finished=true;}}
+    case 21->{check(p.level().intValueExact()==10&&p.stat(PlayerProgress.Stat.STRENGTH)==8&&p.statPoints().intValueExact()==37,"legacy allocated and unspent five-point balance survives actual snapshot");initialStats=p.statPoints();legacyLevel=p.level();command(c,"gain");}
+    case 22->{check(p.stat(PlayerProgress.Stat.STRENGTH)==8&&p.statPoints().equals(initialStats.add(p.level().subtract(legacyLevel).multiply(java.math.BigInteger.valueOf(3)))),"legacy character earns only three points for future real server levels");System.out.println("EVOLUTION_CLIENT COMPLETE checks="+checks);finished=true;}
    }
   });
  }

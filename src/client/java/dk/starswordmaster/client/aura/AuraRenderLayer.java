@@ -19,6 +19,8 @@ public final class AuraRenderLayer {
   .withBlend(BlendFunction.TRANSLUCENT).withCull(false).withDepthWrite(false).build();
  private static final RenderLayer LAYER=RenderLayer.of("starswordmaster_sword_aura",1536,false,true,PIPELINE,
   RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(TEXTURE,false)).build(false));
+ private static final RenderLayer TRAIL=RenderLayer.of("starswordmaster_sword_trail",1536,false,true,PIPELINE,RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(TEXTURE,false)).build(false));
+ public static RenderLayer trail(){return get()==LAYER?TRAIL:RenderLayer.getEntityTranslucentEmissive(Identifier.of("starswordmaster","textures/particle/combat/slash_curve_00.png"));}
  private static RenderLayer active;
  private AuraRenderLayer(){}
  public static boolean isAura(RenderLayer layer){return active!=null&&layer==active;}

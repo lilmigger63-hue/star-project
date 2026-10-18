@@ -1,8 +1,8 @@
 {
   "version": 3,
   "name": "skill_mend",
-  "author": "Star Swordmaster",
-  "description": "Original five-stage fantasy choreography. Cup a wound, gather both hands close and release a gentle healing pulse.",
+  "author": "Star Swordmaster / CC0 motion contributors (ASSET_CREDITS.md)",
+  "description": "Original six-phase choreography with bounded CC0 motion retargeting. Cup a wound, gather both hands close and release a gentle healing pulse.",
   "emote": {
     "isLoop": false,
     "returnTick": 0,
@@ -34,14 +34,14 @@
         "tick": 3,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -76.0,
-          "yaw": 38.0,
-          "roll": 31.0
+          "pitch": -79.295,
+          "yaw": 42.357,
+          "roll": 34.854
         },
         "leftArm": {
-          "pitch": -74.0,
-          "yaw": -36.0,
-          "roll": -31.0
+          "pitch": -80.723,
+          "yaw": -38.431,
+          "roll": -39.565
         },
         "torso": {
           "pitch": 7.0,
@@ -53,14 +53,14 @@
         "tick": 4,
         "easing": "EASEOUTCUBIC",
         "rightArm": {
-          "pitch": -88.0,
-          "yaw": 20.0,
-          "roll": 20.0
+          "pitch": -91.308,
+          "yaw": 24.349,
+          "roll": 23.796
         },
         "leftArm": {
-          "pitch": -86.0,
-          "yaw": -10.0,
-          "roll": -26.0
+          "pitch": -95.781,
+          "yaw": -11.735,
+          "roll": -37.311
         },
         "torso": {
           "pitch": 2.0,
@@ -72,14 +72,14 @@
         "tick": 6,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -77.0,
-          "yaw": 3.5,
-          "roll": 33.5
+          "pitch": -79.973,
+          "yaw": 7.23,
+          "roll": 36.968
         },
         "leftArm": {
-          "pitch": -78.0,
-          "yaw": -1.5,
-          "roll": -36.0
+          "pitch": -92.251,
+          "yaw": -2.223,
+          "roll": -52.065
         },
         "torso": {
           "pitch": 0.0,
@@ -91,14 +91,14 @@
         "tick": 8,
         "easing": "EASEOUTSINE",
         "rightArm": {
-          "pitch": -66.0,
-          "yaw": -5.0,
-          "roll": 28.0
+          "pitch": -69.051,
+          "yaw": -1.959,
+          "roll": 31.681
         },
         "leftArm": {
-          "pitch": -70.0,
-          "yaw": 12.0,
-          "roll": -38.0
+          "pitch": -83.787,
+          "yaw": 12.717,
+          "roll": -56.174
         },
         "torso": {
           "pitch": -2.0,
@@ -110,14 +110,14 @@
         "tick": 9,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -61.667,
-          "yaw": -4.444,
-          "roll": 32.444
+          "pitch": -64.743,
+          "yaw": -1.756,
+          "roll": 36.201
         },
         "leftArm": {
-          "pitch": -65.444,
-          "yaw": 6.222,
-          "roll": -35.333
+          "pitch": -79.843,
+          "yaw": 6.936,
+          "roll": -54.128
         },
         "torso": {
           "pitch": -1.778,
@@ -129,14 +129,14 @@
         "tick": 13,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -44.333,
-          "yaw": -2.222,
-          "roll": 22.222
+          "pitch": -47.154,
+          "yaw": 0.233,
+          "roll": 25.671
         },
         "leftArm": {
-          "pitch": -47.222,
-          "yaw": 3.111,
-          "roll": -24.667
+          "pitch": -65.412,
+          "yaw": -1.434,
+          "roll": -39.798
         },
         "torso": {
           "pitch": -0.889,
@@ -148,14 +148,14 @@
         "tick": 17,
         "easing": "EASEINOUTSINE",
         "rightArm": {
-          "pitch": -27.0,
-          "yaw": 0.0,
-          "roll": 12.0
+          "pitch": -29.71,
+          "yaw": 2.5,
+          "roll": 15.145
         },
         "leftArm": {
-          "pitch": -29.0,
-          "yaw": 0.0,
-          "roll": -14.0
+          "pitch": -34.884,
+          "yaw": -3.933,
+          "roll": -22.152
         },
         "torso": {
           "pitch": 0.0,
